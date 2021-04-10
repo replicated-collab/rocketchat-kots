@@ -1,16 +1,43 @@
 apiVersion: troubleshoot.replicated.com/v1beta1
 kind: Collector
 metadata:
-  name: collector-sample
+  name: rocketchat-collector
 spec:
   collectors:
     - clusterInfo: {}
     - clusterResources: {}
     - logs:
         selector:
-          - app=example
-          - component=nginx
-        namespace: '{{repl Namespace }}'
+          - app=rocketchat
+        namespace: default
         limits:
-          maxAge: 30d
-          maxLines: 10000
+          maxAge: 720h
+          maxLines: 1000
+    - http:
+        name: api-info
+        get:
+          url: http://rocketchat-rocketchat/api/info
+    - exec:
+        name: mongo-version
+        selector:
+          - service=mongo
+        namespace: default
+        command: ["mongo"]
+        args: ["--eval", "db.version()"]
+        timeout: 5s
+    - run:
+        name: ping
+        collectorName: "ping-google"
+        image: busybox:1
+        namespace: default
+        command: ["ping"]
+        args: ["-w", "5", "www.google.com"]
+        imagePullPolicy: IfNotPresent
+    - run:
+        name: ping
+        collectorName: "ping-google-dns-ip"
+        image: busybox:1
+        namespace: default
+        command: ["ping"]
+        args: ["-w", "5", "8.8.8.8"]
+        imagePullPolicy: IfNotPresent

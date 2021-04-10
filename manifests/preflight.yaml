@@ -1,66 +1,47 @@
 apiVersion: troubleshoot.replicated.com/v1beta1
 kind: Preflight
 metadata:
-  name: example-preflight-checks
+  name: rocketchat-preflight-checks
 spec:
   analyzers:
     - clusterVersion:
         outcomes:
           - fail:
-              when: "< 1.13.0"
-              message: The application requires at Kubernetes 1.13.0 or later, and recommends 1.15.0.
-              uri: https://www.kubernetes.io
-          - warn:
               when: "< 1.15.0"
-              message: Your cluster meets the minimum version of Kubernetes, but we recommend you update to 1.15.0 or later.
-              uri: https://kubernetes.io
+              message: The application requires at Kubernetes 1.15.0 or later.
+              uri: https://www.kubernetes.io
           - pass:
               message: Your cluster meets the recommended and required versions of Kubernetes.
-    - containerRuntime:
-        outcomes:
-          - pass:
-              when: "== docker"
-              message: Docker container runtime was found.
-          - fail:
-              message: Did not find Docker container runtime.
-    - distribution:
-        checkName: Check Kubernetes environment.
-        outcomes:
-          - fail:
-              when: "== docker-desktop"
-              message: The application does not support Docker Desktop Clusters
-          - fail:
-              when: "== microk8s"
-              message: The application does not support Microk8s Clusters
-          - fail:
-              when: "== minikube"
-              message: The application does not support Minikube Clusters
-          - pass:
-              when: "== eks"
-              message: EKS is a supported distribution
-          - pass:
-              when: "== gke"
-              message: GKE is a supported distribution
-          - pass:
-              when: "== aks"
-              message: AKS is a supported distribution
-          # Will be supported in the future
-          - pass:
-              when: "== kurl"
-              message: KURL is a supported distribution
-          - pass:
-              when: "== digitalocean"
-              message: DigitalOcean is a supported distribution
-          - warn:
-              message: Unable to determine the distribution of Kubernetes
     - nodeResources:
-        checkName: Total CPU Cores in the cluster is 2 or greater
+        checkName: Total CPU Cores in the cluster is 1 or greater
         outcomes:
           - fail:
+              when: "sum(cpuCapacity) < 1"
+              message: The cluster must contain at least 1 core
+          - warn:
               when: "sum(cpuCapacity) < 2"
-              message: The cluster must contain at least 2 cores
-          - fail:
-              when: "sum(cpuCapacity) < 4"
-              message: The cluster must contain at least 4 cores
+              message: It is recommended to have at least 2 cores available in the cluster
           - pass:
-              message: There are at least 2 cores in the cluster
+              message: There is at least 2 cores in the cluster
+    - nodeResources:
+        checkName: Every node in the cluster must have at least 1Gi of memory
+        outcomes:
+          - fail:
+              when: "min(memoryCapacity) < 1Gi"
+              message: All nodes must have at least 1GB of memory
+          - warn:
+              when: "min(memoryCapacity) < 2Gi"
+              message: It is recommended to have at least 2GB of RAM per node
+          - pass:
+              message: All nodes have at least 2GB of memory
+    - nodeResources:
+        checkName: Every node in the cluster must have at least 20GB of disk capacity
+        outcomes:
+          - fail:
+              when: 'min(ephemeralStorageCapacity) < 20Gi'
+              message: Every node in the cluster must have at least 20GB of disk capacity
+          - warn:
+              when: 'min(ephemeralStorageCapacity) < 40Gi'
+              message: It is recommended to have at least 40GB of disk capacity on each node in the cluster
+          - pass:
+              message: All nodes have at least 20GB of disk capacity

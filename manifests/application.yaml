@@ -1,0 +1,22 @@
+apiVersion: app.k8s.io/v1beta1
+kind: Application
+metadata:
+  name: "rocketchat"
+  labels:
+    app.kubernetes.io/name: "rocketchat"
+    app.kubernetes.io/version: "3.13.1"
+spec:
+  selector:
+    matchLabels:
+     app.kubernetes.io/name: "rocketchat"
+  componentKinds: []
+  descriptor:
+    version: "3.13.1"
+    description: "The open-source communication platform"
+    icons:
+      - src: "https://dashboard.snapcraft.io/site_media/appmedia/2018/12/icon-256_sDZsivC.png"
+        type: "image/png"
+    type: "rocketchat"
+    links:
+      - description: Launch Rocket.chat
+        url: "http://rocketchat"
