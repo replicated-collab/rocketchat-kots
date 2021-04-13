@@ -31,7 +31,7 @@ spec:
       #             ]
       containers:
         - name: ddp-streamer
-          image: rocketchat/ddp-streamer-service:latest
+          image: rocketchat/ddp-streamer-service:3.13.1
           env:
             - name: MONGO_URL
               value: mongodb://mongo:27017/rocketchat?replicaSet=rs0

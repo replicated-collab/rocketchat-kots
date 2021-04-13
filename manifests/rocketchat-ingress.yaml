@@ -4,7 +4,7 @@ metadata:
   name: ingress
   annotations:
     kots.io/when: '{{repl ConfigOptionEquals "use_ingress" "1" }}'
-    nginx.ingress.kubernetes.io/rewrite-target: /
+    projectcontour.io/websocket-routes: /sockjs
 spec:
   rules:
   - http:
@@ -16,7 +16,7 @@ spec:
             name: rocketchat
             port:
               number: 3000
-      - path: /(sockjs|websocket)
+      - path: /sockjs
         pathType: Prefix
         backend:
           service:
