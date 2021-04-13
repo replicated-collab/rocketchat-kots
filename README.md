@@ -25,6 +25,8 @@ Checks that must pass before the KOTS appliance can come online
 - 1GB of RAM required. 2GB of RAM recommended
 - 20GB of disk capacity for the root partition required. 40GB recommended
 
+NOTE: will need to check K8s cluster version must be higher than `1.19.0` to use Ingress v1
+
 ## Config Options
 - RocketChat DNS Hostname
 - MongoDB Root Password
