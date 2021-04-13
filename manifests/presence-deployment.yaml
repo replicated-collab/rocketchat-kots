@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: presence
+  name: presence-service
   labels:
-    app: presence
+    app: presence-service
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: presence
+      app: presence-service
   strategy: {}
   template:
     metadata:
       labels:
-        app: presence
+        app: presence-service
     spec:
       # initContainers:
       #   - name: init-mongo
@@ -30,7 +30,7 @@ spec:
       #       done; (exit $$s)"
       #             ]
       containers:
-        - name: presence
+        - name: presence-service
           image: rocketchat/presence-service:latest
           env:
             - name: TRANSPORTER
