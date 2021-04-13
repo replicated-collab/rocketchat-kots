@@ -19,6 +19,18 @@ spec:
           help_text: RocketChat DNS Hostname eg.(rocketchat.example.com)
           default: "rocketchat.example.com"
           required: true
+        - name: streamer_replicas
+          type: text
+          title: DDP Streamer replicas
+          description: Number of DDP Streamer replicas ( ~1 per 500 concurrent users ).
+          default: "1"
+          required: true
+        - name: use_presence
+          title: Run the User Presence service?
+          description: Choose whether to run the User Presence service.
+          help_text: With a huge amount of data/users, turning this service off will avoid processing bottlenecks. If this service is off, the user online/offline status and notifications will not work properly.
+          type: bool
+          default: "1"
     - name: mongo
       title: MongoDB Settings
       description: Configuration for MongoDB
