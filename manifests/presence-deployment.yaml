@@ -4,6 +4,8 @@ metadata:
   name: presence-service
   labels:
     app: presence-service
+  annotations:
+    kots.io/when: '{{repl ConfigOptionEquals "use_presence" "1" }}'
 spec:
   replicas: 1
   selector:
