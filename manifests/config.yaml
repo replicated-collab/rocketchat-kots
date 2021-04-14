@@ -35,7 +35,7 @@ spec:
           title: Enterprise License Token
           description: Please enter your Enterprise License.
           help_text: A valid license is needed to run RocketChat in enterprise mode.
-          type: text
+          type: textarea
           required: true
     - name: mongo
       title: MongoDB Settings
