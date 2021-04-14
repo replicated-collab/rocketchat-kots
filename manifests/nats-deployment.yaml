@@ -39,7 +39,7 @@ spec:
               value: mongodb://mongo:27017/rocketchat?replicaSet=rs0
           ports:
             - name: http
-              containerPort: 3000
+              containerPort: 4222
           resources: {}
       restartPolicy: Always
 status: {}
