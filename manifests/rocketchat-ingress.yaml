@@ -4,7 +4,7 @@ metadata:
   name: ingress
   annotations:
     kots.io/when: '{{repl ConfigOptionEquals "use_ingress" "1" }}'
-    projectcontour.io/websocket-routes: /sockjs
+    projectcontour.io/websocket-routes: /sockjs,/websocket
 spec:
   rules:
   - http:
@@ -17,6 +17,13 @@ spec:
             port:
               number: 3000
       - path: /sockjs
+        pathType: Prefix
+        backend:
+          service:
+            name: ddp-streamer
+            port:
+              number: 3000
+      - path: /websocket
         pathType: Prefix
         backend:
           service:
