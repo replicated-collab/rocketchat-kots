@@ -19,12 +19,6 @@ spec:
           help_text: RocketChat DNS Hostname eg.(rocketchat.example.com)
           default: "rocketchat.example.com"
           required: true
-        - name: streamer_replicas
-          type: text
-          title: DDP Streamer replicas
-          description: Number of DDP Streamer replicas ( ~1 per 500 concurrent users ).
-          default: "1"
-          required: true
         - name: use_presence
           title: Run the User Presence service?
           description: Choose whether to run the User Presence service.
