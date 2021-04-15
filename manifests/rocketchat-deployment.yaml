@@ -40,7 +40,7 @@ spec:
             - name: TRANSPORTER
               value: nats://nats:4222
             - name: ROCKETCHAT_LICENSE
-              value: repl{{ ConfigOption "rocketchat_enterprise_license" }}
+              value: '{{repl LicenseFieldValue "rocketchat_enterprise_license" }}'
             - name: DISABLE_DB_WATCH
               value: 'true'
             - name: DISABLE_PRESENCE_MONITOR
@@ -48,9 +48,9 @@ spec:
             - name: INTERNAL_SERVICES_ONLY
               value: 'true'
             - name: ROOT_URL
-              value: 'http://35.237.57.169'
+              value: '{{repl LicenseFieldValue "license_url" }}'
             - name: OVERWRITE_SETTING_Site_Url
-              value: 'http://35.237.57.169'
+              value: '{{repl LicenseFieldValue "license_url" }}'
           ports:
             - name: http
               containerPort: 3000

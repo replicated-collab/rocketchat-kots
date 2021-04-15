@@ -5,7 +5,7 @@ metadata:
   labels:
     app: ddp-streamer
 spec:
-  replicas: {{repl ConfigOption "streamer_replicas" | ParseInt }}
+  replicas: '{{repl ConfigOption "streamer_replicas" | ParseInt }}'
   selector:
     matchLabels:
       app: ddp-streamer
