@@ -1,14 +1,14 @@
 # RocketChat KOTS Appliance
 This repository houses all the config needed to deploy a RocketChat KOTS appliance.
 
-## Community Edition
+## Enterprise Edition
 
 ### Embedded Cluster Installation Steps
 
 1. Create a VM
 1. SSH into the VM and run the cluster installation script
 ```bash
-curl -sSL https://k8s.kurl.sh/rocket-community | sudo bash
+curl -sSL https://k8s.kurl.sh/rocket-enterprise | sudo bash
 ```
 1. Follow the instructions provided at the completion of the installation script
 1. Wait for the app to start successfully, then click `Launch Rocket.chat`
@@ -17,7 +17,7 @@ curl -sSL https://k8s.kurl.sh/rocket-community | sudo bash
 
 ```bash
 curl https://kots.io/install | bash
-kubectl kots install rocket-community
+kubectl kots install rocket-enterprise
 ```
 
 ## Preflight Checks
