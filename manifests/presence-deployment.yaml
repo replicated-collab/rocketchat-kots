@@ -18,20 +18,10 @@ spec:
         app: presence-service
         support: rocketchat
     spec:
-      # initContainers:
-      #   - name: init-mongo
-      #     image: cloudfive/mongo-oplog
-      #     command: ['sh', '-c',
-      #       "for i in `seq 1 30`; do
-      #         mongo mongo/rocketchat --eval \"
-      #           rs.initiate({
-      #             _id: 'rs0',
-      #             members: [ { _id: 0, host: 'mongo:27017' } ]})\" &&
-      #         s=$$? && break || s=$$?;
-      #         echo \"Tried $$i times. Waiting 5 secs...\";
-      #         sleep 5;
-      #       done; (exit $$s)"
-      #             ]
+      initContainers:
+        - name: check-nats-ready
+          image: busybox:latest
+          command: ['sh', '-c', 'until nc -vz nats 4222; do echo "Waiting for nats service"; sleep 2; done;']
       containers:
         - name: presence-service
           image: rocketchat/presence-service:latest
