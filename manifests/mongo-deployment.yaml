@@ -15,6 +15,7 @@ spec:
     metadata:
       labels:
         service: mongo
+        support: rocketchat
     spec:
       containers:
         - name: mongo

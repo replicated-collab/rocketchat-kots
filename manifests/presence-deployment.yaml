@@ -16,6 +16,7 @@ spec:
     metadata:
       labels:
         app: presence-service
+        support: rocketchat
     spec:
       # initContainers:
       #   - name: init-mongo
