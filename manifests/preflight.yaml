@@ -21,7 +21,7 @@ spec:
               message: The cluster must contain at least 2 core
           - pass:
               when: "sum(cpuCapacity) > 2"
-              message:           
+              message: The cluster meets the needed CPUs  
     - nodeResources:
         checkName: Total CPU cores based on expected usage
         exclude: '{{repl or (lt (atoi (LicenseFieldValue "number_of_user")) 500) (gt (atoi (LicenseFieldValue "number_of_user")) 1000) }}'
@@ -31,7 +31,7 @@ spec:
               message: The cluster must contain at least 4 core
           - pass:
               when: "sum(cpuCapacity) => 3"
-              message: 
+              message: The cluster meets the needed CPUs
     - nodeResources:
         checkName: Total CPU cores based on expected usage
         exclude: '{{repl lt (atoi (LicenseFieldValue "number_of_user")) 1000 }}'
@@ -41,7 +41,7 @@ spec:
               message: The cluster must contain at least 8 core
           - pass:
               when: "sum(cpuCapacity) => 8"
-              message: 
+              message: The cluster meets the needed CPUs
     - nodeResources:
         checkName: Every node in the cluster must have at least 1Gi of memory
         outcomes:
