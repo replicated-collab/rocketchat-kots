@@ -14,6 +14,7 @@ spec:
     metadata:
       labels:
         app: stream-hub
+        support: rocketchat
     spec:
       # initContainers:
       #   - name: init-mongo

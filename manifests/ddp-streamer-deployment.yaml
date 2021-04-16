@@ -14,6 +14,7 @@ spec:
     metadata:
       labels:
         app: ddp-streamer
+        support: rocketchat
     spec:
       # initContainers:
       #   - name: init-mongo
