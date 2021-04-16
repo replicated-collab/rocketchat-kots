@@ -17,6 +17,9 @@ spec:
         support: rocketchat
     spec:
       initContainers:
+        - name: check-nats-ready
+          image: busybox:latest
+          command: ['sh', '-c', 'until nc -vz nats 4222; do echo "Waiting for nats service"; sleep 2; done;']
         - name: init-mongo
           image: cloudfive/mongo-oplog
           command: ['sh', '-c',
