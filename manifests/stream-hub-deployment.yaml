@@ -22,7 +22,7 @@ spec:
           command: ['sh', '-c', 'until nc -vz nats 4222; do echo "Waiting for nats service"; sleep 2; done;']
       containers:
         - name: stream-hub
-          image: rocketchat/stream-hub-service:latest
+          image: rocketchat/stream-hub-service:{{repl ConfigOption "version_tag" }}
           env:
             - name: MONGO_URL
               value: mongodb://mongo:27017/rocketchat?replicaSet=rs0

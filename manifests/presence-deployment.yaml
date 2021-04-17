@@ -24,7 +24,7 @@ spec:
           command: ['sh', '-c', 'until nc -vz nats 4222; do echo "Waiting for nats service"; sleep 2; done;']
       containers:
         - name: presence-service
-          image: rocketchat/presence-service:latest
+          image: rocketchat/presence-service:{{repl ConfigOption "version_tag" }}
           env:
             - name: TRANSPORTER
               value: nats://nats:4222

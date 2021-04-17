@@ -19,6 +19,15 @@ spec:
           help_text: RocketChat DNS Hostname eg.(rocketchat.example.com)
           default: "rocketchat.example.com"
           required: true
+        - name: version_tag
+          type: select_one
+          title: Version
+          default: latest
+          items:
+            - name: latest
+              title: latest
+            - name: 3.13.2
+              title: 3.13.2
         - name: use_presence
           title: Run the User Presence service?
           description: Choose whether to run the User Presence service.
