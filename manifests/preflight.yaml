@@ -23,34 +23,34 @@ spec:
               message: Your cluster meets the recommended and required versions of Kubernetes.
     - nodeResources:
         checkName: Total CPU cores based on expected usage
-        exclude: '{{repl lt (atoi (LicenseFieldValue "number_of_user")) 500 }}'
+        exclude: '{{repl gt (atoi (LicenseFieldValue "number_of_user")) 500 }}'
         outcomes:
           - fail:
-              when: "sum(cpuCapacity) < 1"
+              when: "sum(cpuCapacity) < 2"
               message: The cluster must contain at least 2 core
           - pass:
-              when: "sum(cpuCapacity) > 2"
-              message: The cluster meets the needed CPUs  
+              when: "sum(cpuCapacity) > 1"
+              message: The cluster meets the needed CPUs (2+ cores) 
     - nodeResources:
         checkName: Total CPU cores based on expected usage
-        exclude: '{{repl or (lt (atoi (LicenseFieldValue "number_of_user")) 500) (gt (atoi (LicenseFieldValue "number_of_user")) 1000) }}'
+        exclude: '{{repl or (le (atoi (LicenseFieldValue "number_of_user")) 500) (gt (atoi (LicenseFieldValue "number_of_user")) 1000) }}'
         outcomes:
           - fail:
-              when: "sum(cpuCapacity) < 3"
+              when: "sum(cpuCapacity) < 4"
               message: The cluster must contain at least 4 core
           - pass:
-              when: "sum(cpuCapacity) => 3"
-              message: The cluster meets the needed CPUs
+              when: "sum(cpuCapacity) > 3"
+              message: The cluster meets the needed CPUs (4+ cores)
     - nodeResources:
         checkName: Total CPU cores based on expected usage
-        exclude: '{{repl lt (atoi (LicenseFieldValue "number_of_user")) 1000 }}'
+        exclude: '{{repl le (atoi (LicenseFieldValue "number_of_user")) 1000 }}'
         outcomes:
           - fail:
-              when: "sum(cpuCapacity) < 7"
+              when: "sum(cpuCapacity) < 8"
               message: The cluster must contain at least 8 core
           - pass:
-              when: "sum(cpuCapacity) => 8"
-              message: The cluster meets the needed CPUs
+              when: "sum(cpuCapacity) > 7"
+              message: The cluster meets the needed CPUs (8+ cores)
     - nodeResources:
         checkName: Every node in the cluster must have at least 1Gi of memory
         outcomes:
