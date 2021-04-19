@@ -22,7 +22,7 @@ spec:
           command: ['sh', '-c', 'until nc -vz nats 4222; do echo "Waiting for nats service"; sleep 2; done;']
       containers:
         - name: ddp-streamer
-          image: rocketchat/ddp-streamer-service:latest
+          image: rocketchat/ddp-streamer-service:{{repl ConfigOption "version_tag" }}
           env:
             - name: MONGO_URL
               value: mongodb://mongo:27017/rocketchat?replicaSet=rs0

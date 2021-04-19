@@ -3,6 +3,15 @@ kind: Preflight
 metadata:
   name: rocketchat-preflight-checks
 spec:
+  collectors:
+    - registryImages:
+        images:
+          - rocketchat/account-service:{{repl ConfigOption "version_tag" }}
+          - rocketchat/authorization-service:{{repl ConfigOption "version_tag" }}
+          - rocketchat/ddp-streamer-service:{{repl ConfigOption "version_tag" }}
+          - rocketchat/presence-service:{{repl ConfigOption "version_tag" }}
+          - rocketchat/rocket.chat:{{repl ConfigOption "version_tag" }}
+          - rocketchat/stream-hub-service:{{repl ConfigOption "version_tag" }}
   analyzers:
     - clusterVersion:
         outcomes:
@@ -45,3 +54,14 @@ spec:
               message: It is recommended to have at least 40GB of disk capacity on each node in the cluster
           - pass:
               message: All nodes have at least 20GB of disk capacity
+    - registryImages:
+        checkName: Registry Images
+        outcomes:
+          - fail:
+              when: "missing > 0"
+              message: Images are missing from registry
+          - warn:
+              when: "errors > 0"
+              message: Failed to check if images are present in registry
+          - pass:
+              message: All images are present in registry

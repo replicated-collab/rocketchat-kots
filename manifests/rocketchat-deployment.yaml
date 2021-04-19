@@ -35,7 +35,7 @@ spec:
                   ]
       containers:
         - name: rocketchat
-          image: rocketchat/rocket.chat:latest
+          image: rocketchat/rocket.chat:{{repl ConfigOption "version_tag" }}
           env:
             - name: MONGO_OPLOG_URL
               value: mongodb://mongo:27017/local
