@@ -5,6 +5,7 @@ metadata:
   labels:
     app: rocketchat
 spec:
+  type: 'repl{{ if IsKurl }}ClusterIPrepl{{else}}NodePortrepl{{end}}'
   ports:
     - name: "web"
       port: 3000
