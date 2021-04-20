@@ -4,6 +4,8 @@ metadata:
   name: ddp-streamer
   labels:
     app: ddp-streamer
+  annotations:
+    kots.io/exclude: '{{repl eq (LicenseFieldValue "licenseType") "community" }}'
 spec:
   type: 'repl{{ if IsKurl }}ClusterIPrepl{{else}}NodePortrepl{{end}}'
   ports:

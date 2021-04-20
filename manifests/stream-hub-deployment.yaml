@@ -4,6 +4,8 @@ metadata:
   name: stream-hub
   labels:
     app: stream-hub
+  annotations:
+    kots.io/exclude: '{{repl eq (LicenseFieldValue "licenseType") "community" }}'
 spec:
   replicas: 1
   selector:

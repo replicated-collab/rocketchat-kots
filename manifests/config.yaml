@@ -34,6 +34,7 @@ spec:
           help_text: With a huge amount of data/users, turning this service off will avoid processing bottlenecks. If this service is off, the user online/offline status and notifications will not work properly.
           type: bool
           default: "1"
+          when: '{{repl eq (LicenseFieldValue "licenseType") "community" | not }}'
     - name: mongo
       title: MongoDB Settings
       description: Configuration for MongoDB

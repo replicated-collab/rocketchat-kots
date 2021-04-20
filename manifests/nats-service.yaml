@@ -4,6 +4,8 @@ metadata:
   name: nats
   labels:
     app: nats
+  annotations:
+    kots.io/exclude: '{{repl eq (LicenseFieldValue "licenseType") "community" }}'
 spec:
   ports:
     - name: "4222"
