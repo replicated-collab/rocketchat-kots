@@ -4,6 +4,8 @@ metadata:
   name: ddp-streamer
   labels:
     app: ddp-streamer
+  annotations:
+    kots.io/exclude: '{{repl eq (LicenseFieldValue "licenseType") "community" }}'
 spec:
   replicas: repl{{ Div (LicenseFieldValue "number_of_user" | ParseInt) 500 }}
   selector:

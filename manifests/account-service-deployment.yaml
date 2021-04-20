@@ -4,6 +4,8 @@ metadata:
   name: account-service
   labels:
     app: account-service
+  annotations:
+    kots.io/exclude: '{{repl eq (LicenseFieldValue "licenseType") "community" }}'
 spec:
   replicas: 1
   selector:
