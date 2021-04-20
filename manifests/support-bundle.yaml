@@ -1,14 +1,14 @@
 apiVersion: troubleshoot.replicated.com/v1beta1
-kind: Collector
+kind: SupportBundle
 metadata:
-  name: rocketchat-collector
+  name: rocketchat-support-bundle
 spec:
   collectors:
     - clusterInfo: {}
     - clusterResources: {}
     - logs:
         selector:
-          - app=rocketchat
+          - support=rocketchat
         namespace: default
         limits:
           maxAge: 720h
@@ -16,7 +16,7 @@ spec:
     - http:
         name: api-info
         get:
-          url: http://rocketchat-rocketchat/api/info
+          url: http://rocketchat:3000/api/info
     - exec:
         name: mongo-version
         selector:
@@ -41,3 +41,18 @@ spec:
         command: ["ping"]
         args: ["-w", "5", "8.8.8.8"]
         imagePullPolicy: IfNotPresent
+  analyzers:
+    - textAnalyze:
+        checkName: API Info
+        fileName: api-info/result.json
+        regex: 'success\\":true'
+        outcomes:
+          - pass:
+              title: API Info
+              message: Api info is properly responding.
+          - fail:
+              title: API Info
+              message: Api info is not responding. RocketChat is probably not running as expected.
+
+
+

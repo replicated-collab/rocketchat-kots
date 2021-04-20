@@ -1,16 +1,16 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: rocketchat
+  name: ddp-streamer
   labels:
-    app: rocketchat
+    app: ddp-streamer
+  annotations:
+    kots.io/exclude: '{{repl eq (LicenseFieldValue "licenseType") "community" }}'
 spec:
   type: 'repl{{ if IsKurl }}ClusterIPrepl{{else}}NodePortrepl{{end}}'
   ports:
-    - name: "web"
+    - name: "3000"
       port: 3000
       targetPort: 3000
   selector:
-    app: rocketchat
-status:
-  loadBalancer: {}
+    app: ddp-streamer

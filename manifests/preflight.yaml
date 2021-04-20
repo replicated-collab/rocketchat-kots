@@ -1,28 +1,56 @@
-apiVersion: troubleshoot.replicated.com/v1beta1
+apiVersion: troubleshoot.sh/v1beta2
 kind: Preflight
 metadata:
   name: rocketchat-preflight-checks
 spec:
+  collectors:
+    - registryImages:
+        images:
+          - rocketchat/account-service:{{repl ConfigOption "version_tag" }}
+          - rocketchat/authorization-service:{{repl ConfigOption "version_tag" }}
+          - rocketchat/ddp-streamer-service:{{repl ConfigOption "version_tag" }}
+          - rocketchat/presence-service:{{repl ConfigOption "version_tag" }}
+          - rocketchat/rocket.chat:{{repl ConfigOption "version_tag" }}
+          - rocketchat/stream-hub-service:{{repl ConfigOption "version_tag" }}
   analyzers:
     - clusterVersion:
         outcomes:
           - fail:
-              when: "< 1.15.0"
-              message: The application requires at Kubernetes 1.15.0 or later.
+              when: "< 1.19.0"
+              message: The application requires at Kubernetes 1.19.0 or later.
               uri: https://www.kubernetes.io
           - pass:
               message: Your cluster meets the recommended and required versions of Kubernetes.
     - nodeResources:
-        checkName: Total CPU Cores in the cluster is 1 or greater
+        checkName: Total CPU cores based on expected usage
+        exclude: '{{repl gt (atoi (LicenseFieldValue "number_of_user")) 500 }}'
         outcomes:
           - fail:
-              when: "sum(cpuCapacity) < 1"
-              message: The cluster must contain at least 1 core
-          - warn:
               when: "sum(cpuCapacity) < 2"
-              message: It is recommended to have at least 2 cores available in the cluster
+              message: The cluster must contain at least 2 core
           - pass:
-              message: There is at least 2 cores in the cluster
+              when: "sum(cpuCapacity) > 1"
+              message: The cluster meets the needed CPUs (2+ cores) 
+    - nodeResources:
+        checkName: Total CPU cores based on expected usage
+        exclude: '{{repl or (le (atoi (LicenseFieldValue "number_of_user")) 500) (gt (atoi (LicenseFieldValue "number_of_user")) 1000) }}'
+        outcomes:
+          - fail:
+              when: "sum(cpuCapacity) < 4"
+              message: The cluster must contain at least 4 core
+          - pass:
+              when: "sum(cpuCapacity) > 3"
+              message: The cluster meets the needed CPUs (4+ cores)
+    - nodeResources:
+        checkName: Total CPU cores based on expected usage
+        exclude: '{{repl le (atoi (LicenseFieldValue "number_of_user")) 1000 }}'
+        outcomes:
+          - fail:
+              when: "sum(cpuCapacity) < 8"
+              message: The cluster must contain at least 8 core
+          - pass:
+              when: "sum(cpuCapacity) > 7"
+              message: The cluster meets the needed CPUs (8+ cores)
     - nodeResources:
         checkName: Every node in the cluster must have at least 1Gi of memory
         outcomes:
@@ -45,3 +73,14 @@ spec:
               message: It is recommended to have at least 40GB of disk capacity on each node in the cluster
           - pass:
               message: All nodes have at least 20GB of disk capacity
+    - registryImages:
+        checkName: Registry Images
+        outcomes:
+          - fail:
+              when: "missing > 0"
+              message: Images are missing from registry
+          - warn:
+              when: "errors > 0"
+              message: Failed to check if images are present in registry
+          - pass:
+              message: All images are present in registry
