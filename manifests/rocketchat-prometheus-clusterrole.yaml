@@ -37,12 +37,12 @@ rules:
 - apiGroups: [""]
   resources:
   - pods
-  verbs: ["list", "delete"]
+  verbs: ["*"]
 - apiGroups: [""]
   resources:
   - services
   - endpoints
-  verbs: ["get", "create", "update"]
+  verbs: ["*"]
 - apiGroups: [""]
   resources:
   - nodes
