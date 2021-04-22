@@ -10,7 +10,8 @@ spec:
     - name: "web"
       port: 3000
       targetPort: 3000
+    - name: prometheus
+      port: 9458
+      targetPort: 9458
   selector:
     app: rocketchat
-status:
-  loadBalancer: {}

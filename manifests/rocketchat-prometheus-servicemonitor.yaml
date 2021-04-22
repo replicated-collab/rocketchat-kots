@@ -1,0 +1,19 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: rocketchat
+  namespace: monitoring
+  labels:
+    app: rocketchat
+    release:  v0.46.0-14.9.0
+spec:
+  namespaceSelector:
+    matchNames:
+      - '{{repl Namespace }}'
+  selector:
+    matchLabels:
+      app: rocketchat
+  endpoints:
+    - port: prometheus
+      scheme: http
+      
