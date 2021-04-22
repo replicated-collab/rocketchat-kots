@@ -22,8 +22,14 @@ spec:
       servicePort: 3000
       localPort: 80
       applicationUrl: "http://rocketchat"
-    # - ingress/ingress
-    # - deployment/traefik-ingress-controller
-    # - ingress/ingress
-    # - statefulset/rocketchat-mongodb-primary
-    # - service/rocketchat-mongodb-headless
+  graphs:
+    - title: Number of Rocket Chat messages sent
+      query: 'rocketchat_message_sent'
+      legend: Total number of messages.
+    - title: "CPU Usage"
+      query: 'sum(rate(container_cpu_usage_seconds_total{namespace="default",container!="POD",pod!=""}[5m])) by (pod)'
+      legend: "{{ pod }}"
+    - title: "Memory Usage"
+      query: 'sum(container_memory_usage_bytes{namespace="default",container!="POD",pod!=""}) by (pod)'
+      legend: "{{ pod }}"
+      YAxisFormat: "bytes"

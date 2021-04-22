@@ -15,5 +15,3 @@ spec:
       targetPort: 9458
   selector:
     app: rocketchat
-status:
-  loadBalancer: {}

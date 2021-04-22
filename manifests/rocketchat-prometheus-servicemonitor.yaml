@@ -5,6 +5,7 @@ metadata:
   namespace: monitoring
   labels:
     app: rocketchat
+    release:  v0.46.0-14.9.0
 spec:
   namespaceSelector:
     matchNames:
@@ -13,4 +14,6 @@ spec:
     matchLabels:
       app: rocketchat
   endpoints:
-  - port: prometheus
+    - port: prometheus
+      scheme: http
+      
