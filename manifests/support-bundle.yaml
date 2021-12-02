@@ -9,7 +9,6 @@ spec:
     - logs:
         selector:
           - support=rocketchat
-        namespace: default
         limits:
           maxAge: 720h
           maxLines: 1000
