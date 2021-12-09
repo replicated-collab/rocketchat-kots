@@ -64,14 +64,3 @@ spec:
               message: It is recommended to have at least 40GB of disk capacity on each node in the cluster
           - pass:
               message: All nodes have at least 20GB of disk capacity
-    - registryImages:
-        checkName: Registry Images
-        outcomes:
-          - fail:
-              when: "missing > 0"
-              message: Images are missing from registry
-          - warn:
-              when: "errors > 0"
-              message: Failed to check if images are present in registry
-          - pass:
-              message: All images are present in registry
