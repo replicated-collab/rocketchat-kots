@@ -3,15 +3,6 @@ kind: Preflight
 metadata:
   name: rocketchat-preflight-checks
 spec:
-  collectors:
-    - registryImages:
-        images:
-          - rocketchat/account-service:{{repl ConfigOption "version_tag" }}
-          - rocketchat/authorization-service:{{repl ConfigOption "version_tag" }}
-          - rocketchat/ddp-streamer-service:{{repl ConfigOption "version_tag" }}
-          - rocketchat/presence-service:{{repl ConfigOption "version_tag" }}
-          - rocketchat/rocket.chat:{{repl ConfigOption "version_tag" }}
-          - rocketchat/stream-hub-service:{{repl ConfigOption "version_tag" }}
   analyzers:
     - clusterVersion:
         outcomes:
