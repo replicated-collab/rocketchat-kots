@@ -19,22 +19,6 @@ spec:
           help_text: RocketChat DNS Hostname eg.(rocketchat.example.com)
           default: "rocketchat.example.com"
           required: true
-        - name: version_tag
-          type: select_one
-          title: Version
-          default: latest
-          items:
-            - name: latest
-              title: latest
-            - name: 3.13.2
-              title: 3.13.2
-        - name: use_presence
-          title: Run the User Presence service?
-          description: Choose whether to run the User Presence service.
-          help_text: With a huge amount of data/users, turning this service off will avoid processing bottlenecks. If this service is off, the user online/offline status and notifications will not work properly.
-          type: bool
-          default: "1"
-          when: '{{repl eq (LicenseFieldValue "licenseType") "community" | not }}'
     - name: mongo
       title: MongoDB Settings
       description: Configuration for MongoDB
@@ -49,9 +33,4 @@ spec:
           title: MongoDB RocketChat Password
           default: "thisissapassword"
           required: true
-        - name: mongo_volume_size
-          type: text
-          title: MongoDB Volume Size
-          description: Size of the volume attached to the MongoDB pod. Unit is GB(eg. 100 = 100GB) 
-          default: "100"
-          required: true
+

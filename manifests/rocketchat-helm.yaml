@@ -1,0 +1,14 @@
+apiVersion: kots.io/v1beta1
+kind: HelmChart
+metadata:
+  name: rocketchat
+spec:
+  chart:
+    name: rocketchat
+    chartVersion: 3.1.0
+  values:
+    mongodb.auth.username: rocketchat
+    mongodb.auth.password: "repl{{ ConfigOption `mongo_rocketchat_password`}}"
+    mongodb.auth.database:  rocketchat
+    mongodb.auth.rootPassword: "repl{{ ConfigOption `mongo_root_password`}}"
+  useHelmInstall: true
