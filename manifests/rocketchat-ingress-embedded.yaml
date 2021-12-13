@@ -15,4 +15,4 @@ spec:
           service:
             name: rocketchat
             port:
-              number: 3000
+              number: 80
