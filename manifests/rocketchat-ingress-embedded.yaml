@@ -16,17 +16,3 @@ spec:
             name: rocketchat
             port:
               number: 3000
-      - path: /sockjs
-        pathType: Prefix
-        backend:
-          service:
-            name: ddp-streamer
-            port:
-              number: 3000
-      - path: /websocket
-        pathType: Prefix
-        backend:
-          service:
-            name: ddp-streamer
-            port:
-              number: 3000
