@@ -6,11 +6,17 @@ spec:
   chart:
     name: rocketchat
     chartVersion: 3.1.0
-  values:
-    mongodb:
-      auth:
-        username: rocketchat
-        password: "repl{{ ConfigOption `mongo_rocketchat_password`}}"
-        database:  rocketchat
-        rootPassword: "repl{{ ConfigOption `mongo_root_password`}}"
+  optionalValues:
+    - when: '{{repl ConfigOptionEquals "mongo_type" "external_mongodb"}}'
+      values: 
+        externalMongodbUrl: "repl{{ ConfigOption `mongo_external_url`}}"
+        externalMongodbOplogUrl: "repl{{ ConfigOption `mongo_external_oplog_url`}}"
+    - when: '{{repl ConfigOptionEquals "mongo_type" "embedded_mongodb"}}'
+      values: 
+        mongodb:
+          auth:
+            username: rocketchat
+            password: "repl{{ ConfigOption `mongo_rocketchat_password`}}"
+            database:  rocketchat
+            rootPassword: "repl{{ ConfigOption `mongo_root_password`}}"
   useHelmInstall: true

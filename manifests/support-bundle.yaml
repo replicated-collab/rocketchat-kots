@@ -8,15 +8,14 @@ spec:
     - clusterResources: {}
     - logs:
         selector:
-          - support=rocketchat
-        namespace: default
+          - app.kubernetes.io/name=rocketchat
         limits:
           maxAge: 720h
           maxLines: 1000
     - http:
         name: api-info
         get:
-          url: http://rocketchat:3000/api/info
+          url: http://rocketchat-rocketchat:80/api/info
     - exec:
         name: mongo-version
         selector:

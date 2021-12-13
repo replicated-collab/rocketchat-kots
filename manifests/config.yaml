@@ -23,14 +23,40 @@ spec:
       title: MongoDB Settings
       description: Configuration for MongoDB
       items:
+        - name: mongo_type
+          title: mongodb server
+          type: select_one
+          default: embedded_mongodb
+          items:
+            - name: embedded_mongodb
+              title: Use embedded mongodb server
+              help_text: Run a embedded mongodb server along with your rocketchat installation
+            - name: external_mongodb
+              title: Use external mongodb server
+              help_text: Use an existing mongodb server for your deployment
+
         - name: mongo_root_password
+          when: '{{repl ConfigOptionEquals "mongo_type" "embedded_mongodb"}}'
           type: password
           title: MongoDB Root Password
           default: "thisissapassword"
           required: true
         - name: mongo_rocketchat_password
+          when: '{{repl ConfigOptionEquals "mongo_type" "embedded_mongodb"}}'
           type: password
           title: MongoDB RocketChat Password
           default: "thisissapassword"
+          required: true
+        - name: mongo_external_url
+          when: '{{repl ConfigOptionEquals "mongo_type" "external_mongodb"}}'
+          type: password
+          title: MongoDB External URL
+          default: "mongodb://user:password@localhost:27017/rocketchat"
+          required: true
+        - name: mongo_external_oplog_url
+          when: '{{repl ConfigOptionEquals "mongo_type" "external_mongodb"}}'
+          type: password
+          title: MongoDB External Oplog URL
+          default: "mongodb://user:password@localhost:27017/local?replicaSet=rs0&authSource=admin"
           required: true
 
