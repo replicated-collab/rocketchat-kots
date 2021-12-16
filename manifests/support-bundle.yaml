@@ -20,7 +20,6 @@ spec:
         name: mongo-version
         selector:
           - service=mongo
-        namespace: default
         command: ["mongo"]
         args: ["--eval", "db.version()"]
         timeout: 5s

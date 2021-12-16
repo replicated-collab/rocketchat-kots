@@ -5,7 +5,7 @@ metadata:
 spec:
   chart:
     name: rocketchat
-    chartVersion: 3.1.0
+    chartVersion: 3.3.0
   values:
     mongodb:
       auth:
@@ -26,4 +26,5 @@ spec:
             password: "repl{{ ConfigOption `mongo_rocketchat_password`}}"
             database:  rocketchat
             rootPassword: "repl{{ ConfigOption `mongo_root_password`}}"
+
   useHelmInstall: true

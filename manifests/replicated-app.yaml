@@ -12,6 +12,7 @@ spec:
     - deployment/mongo
     - service/rocketchat
     - deployment/rocketchat
+  requireMinimalRBACPrivileges: true
   ports:
     - serviceName: "rocketchat"
       servicePort: 3000
