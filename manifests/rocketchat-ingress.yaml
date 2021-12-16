@@ -13,6 +13,6 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: rocketchat
+            name: rocketchat-rocketchat
             port:
               number: 80
