@@ -15,7 +15,7 @@ spec:
     - http:
         name: api-info
         get:
-          url: http://'repl{{ LicenseFieldValue `license_url`}}'/api/info
+          url: http://rocketchat-rocketchat:80/api/info
     - exec:
         name: mongo-version
         selector:

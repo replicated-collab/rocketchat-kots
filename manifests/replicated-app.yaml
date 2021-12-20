@@ -10,8 +10,8 @@ spec:
   statusInformers:
     - service/mongo
     - deployment/mongo
-    - service/rocketchat-rocketchat
-    - deployment/rocketchat-rocketchat
+    - service/rocketchat
+    - deployment/rocketchat
   ports:
     - serviceName: "rocketchat"
       servicePort: 3000
