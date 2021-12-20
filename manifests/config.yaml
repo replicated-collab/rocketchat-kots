@@ -13,12 +13,6 @@ spec:
           help_text: Include an Ingress object
           type: bool
           default: "1"
-        - name: rocketchat_dns_hostname
-          type: text
-          title: RocketChat DNS Hostname
-          help_text: RocketChat DNS Hostname eg.(rocketchat.example.com)
-          default: "rocketchat.example.com"
-          required: true
     - name: mongo
       title: MongoDB Settings
       description: Configuration for MongoDB
