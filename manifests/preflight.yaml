@@ -3,6 +3,15 @@ kind: Preflight
 metadata:
   name: rocketchat-preflight-checks
 spec:
+  collectors:
+    - run:
+        collectorName: "test-external-mongodb"
+        image: mongo:latest
+        namespace: default
+        name: mongodb
+        command: ["mongosh"]
+        args: ["repl{{ ConfigOption `mongo_external_url`}}", "--eval"]
+        imagePullPolicy: IfNotPresent
   analyzers:
     - clusterVersion:
         outcomes:
