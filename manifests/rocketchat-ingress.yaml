@@ -7,7 +7,8 @@ metadata:
     kubernetes.io/ingress.class: "gce"
 spec:
   rules:
-  - http:
+  - host: "repl{{ LicenseFieldValue `license_url`}}"
+    http:
       paths:
       - path: /
         pathType: Prefix
