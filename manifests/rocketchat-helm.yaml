@@ -18,6 +18,8 @@ spec:
       values: 
         externalMongodbUrl: "repl{{ ConfigOption `mongo_external_url`}}"
         externalMongodbOplogUrl: "repl{{ ConfigOption `mongo_external_oplog_url`}}"
+        mongodb: 
+          enabled: false
     - when: '{{repl ConfigOptionEquals "mongo_type" "embedded_mongodb"}}'
       values: 
         mongodb:
