@@ -3,6 +3,25 @@ kind: Preflight
 metadata:
   name: rocketchat-preflight-checks
 spec:
+  collectors: 
+    {{if ConfigOptionEquals "mongo_type" "external_mongodb" }}
+    - run:
+        collectorName: "test-external-mongo"
+        name: mongo
+        image: mongo:1
+        namespace: default
+        command: ["mongosh"]
+        args: [ "repl{{ ConfigOption `mongo_external_url`}}", "--eval", "printjson(db.serverStatus())" ]
+        imagePullPolicy: IfNotPresent
+    - run:
+        collectorName: "test-external-mongo-oplog"
+        name: mongo
+        image: mongo:1
+        namespace: default
+        command: ["mongosh"]
+        args: [ "repl{{ ConfigOption `mongo_external_oplog_url`}}", "--eval", "printjson(db.serverStatus())" ]
+        imagePullPolicy: IfNotPresent
+    {{end}}
   analyzers:
     - clusterVersion:
         outcomes:
@@ -64,3 +83,28 @@ spec:
               message: It is recommended to have at least 40GB of disk capacity on each node in the cluster
           - pass:
               message: All nodes have at least 20GB of disk capacity
+    {{if ConfigOptionEquals "mongo_type" "external_mongodb" }}
+    - textAnalyze:
+        checkName: Database Connection
+        fileName: mongo/test-external-mongo.log
+        regex: 'localTime'
+        outcomes:
+          - pass:
+              when: "true"
+              message: "Database is reachable"
+          - fail:
+              when: "false"
+              message: "Can't connect to the database. Check if the hostname is correct and if it's accepting connections. "
+    - textAnalyze:
+        checkName: Database Replicaset Connection
+        fileName: mongo/test-external-mongo-oplog.log
+        regex: 'localTime'
+        outcomes:
+          - pass:
+              when: "true"
+              message: "Replicaset is reachable"
+          - fail:
+              when: "true"
+              message: "Can't connect to the replicaset. Check if the hostname is correct and if it's accepting connections. "
+    {{end}}
+
