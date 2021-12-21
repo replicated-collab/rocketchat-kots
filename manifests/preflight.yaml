@@ -105,5 +105,5 @@ spec:
               when: "true"
               message: "Replicaset is reachable"
           - fail:
-              when: "true"
+              when: "false"
               message: "Can't connect to the replicaset. Check if connection settings are correct and the server is accepting connections. "
