@@ -89,7 +89,8 @@ spec:
         checkName: Database Connection
         fileName: mongo/test-external-mongo.log
         regex: 'localTime'
-        when: '{{repl ConfigOptionEquals "mongo_type" "external_mongodb"}}'
+        annotations:
+          kots.io/when: '{{repl ConfigOptionEquals "mongo_type" "external_mongodb"}}'
         outcomes:
           - pass:
               when: "true"
@@ -101,7 +102,8 @@ spec:
         checkName: Database Replicaset Connection
         fileName: mongo/test-external-mongo-oplog.log
         regex: 'localTime'
-        when: '{{repl ConfigOptionEquals "mongo_type" "external_mongodb"}}'
+        annotations:
+          kots.io/when: '{{repl ConfigOptionEquals "mongo_type" "external_mongodb"}}'
         outcomes:
           - pass:
               when: "true"
