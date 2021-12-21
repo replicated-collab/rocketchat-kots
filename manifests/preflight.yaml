@@ -7,7 +7,7 @@ spec:
     - run:
         collectorName: "test-external-mongo"
         name: mongo
-        image: mongo:1
+        image: mongo:latest
         namespace: default
         command: ["mongosh"]
         args: [ "repl{{ ConfigOption `mongo_external_url`}}", "--eval", "printjson(db.serverStatus())" ]
@@ -16,7 +16,7 @@ spec:
     - run:
         collectorName: "test-external-mongo-oplog"
         name: mongo
-        image: mongo:1
+        image: mongo:latest
         namespace: default
         command: ["mongosh"]
         args: [ "repl{{ ConfigOption `mongo_external_oplog_url`}}", "--eval", "printjson(db.serverStatus())" ]
