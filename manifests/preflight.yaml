@@ -12,8 +12,7 @@ spec:
         command: ["mongosh"]
         args: [ "repl{{ ConfigOption `mongo_external_url`}}", "--eval", "printjson(db.serverStatus())" ]
         imagePullPolicy: IfNotPresent
-        annotations:
-          kots.io/when: '{{repl ConfigOptionEquals "mongo_type" "external_mongodb"}}' 
+        exclude: '{{repl ConfigOptionNotEquals "mongo_type" "external_mongodb"}}' 
     - run:
         collectorName: "test-external-mongo-oplog"
         name: mongo
@@ -22,8 +21,7 @@ spec:
         command: ["mongosh"]
         args: [ "repl{{ ConfigOption `mongo_external_oplog_url`}}", "--eval", "printjson(db.serverStatus())" ]
         imagePullPolicy: IfNotPresent
-        annotations:
-          kots.io/when: '{{repl ConfigOptionEquals "mongo_type" "external_mongodb"}}' 
+        exclude: '{{repl ConfigOptionNotEquals "mongo_type" "external_mongodb"}}' 
   analyzers:
     - clusterVersion:
         outcomes:
@@ -89,8 +87,7 @@ spec:
         checkName: Database Connection
         fileName: mongo/test-external-mongo.log
         regex: 'localTime'
-        annotations:
-          kots.io/when: '{{repl ConfigOptionEquals "mongo_type" "external_mongodb"}}'
+        exclude: '{{repl ConfigOptionNotEquals "mongo_type" "external_mongodb"}}' 
         outcomes:
           - pass:
               when: "true"
@@ -102,8 +99,7 @@ spec:
         checkName: Database Replicaset Connection
         fileName: mongo/test-external-mongo-oplog.log
         regex: 'localTime'
-        annotations:
-          kots.io/when: '{{repl ConfigOptionEquals "mongo_type" "external_mongodb"}}'
+        exclude: '{{repl ConfigOptionNotEquals "mongo_type" "external_mongodb"}}' 
         outcomes:
           - pass:
               when: "true"
