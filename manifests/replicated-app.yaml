@@ -8,10 +8,9 @@ spec:
   additionalImages:
     - rocketchat/rocket.chat:latest
   statusInformers:
-    - service/mongo
-    - deployment/mongo
-    - service/rocketchat
-    - deployment/rocketchat
+    - '{{repl if ConfigOptionNotEquals "mongo_type" "external_mongodb"}}service/rocketchat-mongodb-headless{{repl end}}'
+    - service/rocketchat-rocketchat
+    - deployment/rocketchat-rocketchat
   ports:
     - serviceName: "rocketchat"
       servicePort: 3000
