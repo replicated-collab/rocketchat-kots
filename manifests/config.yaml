@@ -43,13 +43,13 @@ spec:
           required: true
         - name: mongo_external_url
           when: '{{repl ConfigOptionEquals "mongo_type" "external_mongodb"}}'
-          type: text
+          type: password
           title: MongoDB External URL
           default: "mongodb://user:password@localhost:27017/rocketchat"
           required: true
         - name: mongo_external_oplog_url
           when: '{{repl ConfigOptionEquals "mongo_type" "external_mongodb"}}'
-          type: text
+          type: password
           title: MongoDB External Oplog URL
           default: "mongodb://user:password@localhost:27017/local?replicaSet=rs0&authSource=admin"
           required: true
