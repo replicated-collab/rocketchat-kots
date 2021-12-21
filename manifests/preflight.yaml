@@ -4,7 +4,6 @@ metadata:
   name: rocketchat-preflight-checks
 spec:
   collectors: 
-    {{if repl ConfigOptionEquals "mongo_type" "external_mongodb"}} 
     - run:
         collectorName: "test-external-mongo"
         name: mongo
@@ -13,7 +12,8 @@ spec:
         command: ["mongosh"]
         args: [ "repl{{ ConfigOption `mongo_external_url`}}", "--eval", "printjson(db.serverStatus())" ]
         imagePullPolicy: IfNotPresent
-        when: '{{repl ConfigOptionEquals "mongo_type" "external_mongodb"}}' 
+        annotations:
+          kots.io/when: '{{repl ConfigOptionEquals "mongo_type" "external_mongodb"}}' 
     - run:
         collectorName: "test-external-mongo-oplog"
         name: mongo
@@ -22,8 +22,8 @@ spec:
         command: ["mongosh"]
         args: [ "repl{{ ConfigOption `mongo_external_oplog_url`}}", "--eval", "printjson(db.serverStatus())" ]
         imagePullPolicy: IfNotPresent
-        when: '{{repl ConfigOptionEquals "mongo_type" "external_mongodb"}}' 
-    {{end}}
+        annotations:
+          kots.io/when: '{{repl ConfigOptionEquals "mongo_type" "external_mongodb"}}' 
   analyzers:
     - clusterVersion:
         outcomes:
