@@ -4,7 +4,7 @@ metadata:
   name: ingress
   annotations:
     kots.io/when: '{{repl and (ConfigOptionEquals "use_ingress" "1") (not IsKurl) }}'
-    kubernetes.io/ingress.class: "gce"
+    kubernetes.io/ingress.class: "traefik"
 spec:
   rules:
   - host: "repl{{ LicenseFieldValue `license_url`}}"
