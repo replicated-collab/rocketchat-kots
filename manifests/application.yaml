@@ -18,5 +18,5 @@ spec:
         type: "image/png"
     type: "rocketchat"
     links:
-      - description: Launch Rocket.chat
+      - description: Launch Rocket.Chat
         url: 'http://{{repl LicenseFieldValue `license_url`}}'
