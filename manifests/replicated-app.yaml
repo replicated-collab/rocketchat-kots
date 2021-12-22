@@ -15,7 +15,7 @@ spec:
     - serviceName: "rocketchat"
       servicePort: 3000
       localPort: 80
-      applicationUrl: "http://rocketchat"
+      applicationUrl: 'http://{{repl LicenseFieldValue `license_url`}}'
   graphs:
     - title: Number of Rocket Chat messages sent
       query: 'rocketchat_message_sent'

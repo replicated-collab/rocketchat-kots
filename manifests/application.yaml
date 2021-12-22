@@ -19,4 +19,4 @@ spec:
     type: "rocketchat"
     links:
       - description: Launch Rocket.chat
-        url: "http://rocketchat"
+        url: 'http://{{repl LicenseFieldValue `license_url`}}'
