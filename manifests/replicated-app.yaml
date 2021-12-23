@@ -12,9 +12,9 @@ spec:
     - service/rocketchat-rocketchat
     - deployment/rocketchat-rocketchat
   ports:
-    - serviceName: "rocketchat"
-      servicePort: 3000
-      localPort: 80
+    - serviceName: "rocketchat-rocketchat"
+      servicePort: 80
+      localPort: 8085
       applicationUrl: 'http://{{repl LicenseFieldValue `license_url`}}'
   graphs:
     - title: Number of Rocket Chat messages sent
