@@ -5,7 +5,7 @@ metadata:
 spec:
   chart:
     name: rocketchat
-    chartVersion: 3.3.0
+    chartVersion: f3b947c
   values:
     host: "repl{{ LicenseFieldValue `license_url`}}"
     mongodb:
