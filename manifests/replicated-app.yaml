@@ -11,11 +11,6 @@ spec:
     - '{{repl if ConfigOptionNotEquals "mongo_type" "external_mongodb"}}service/rocketchat-mongodb-headless{{repl end}}'
     - service/rocketchat-rocketchat
     - deployment/rocketchat-rocketchat
-  ports:
-    - serviceName: "rocketchat"
-      servicePort: 3000
-      localPort: 80
-      applicationUrl: 'http://{{repl LicenseFieldValue `license_url`}}'
   graphs:
     - title: Number of Rocket Chat messages sent
       query: 'rocketchat_message_sent'
