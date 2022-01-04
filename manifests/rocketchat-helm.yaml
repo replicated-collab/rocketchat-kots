@@ -5,7 +5,7 @@ metadata:
 spec:
   chart:
     name: rocketchat
-    chartVersion: 3.3.0
+    chartVersion: 3.3.1-replicated
   values:
     host: "repl{{ LicenseFieldValue `license_url`}}"
     mongodb:
@@ -14,6 +14,7 @@ spec:
         password: "repl{{ ConfigOption `mongo_rocketchat_password`}}"
         database:  rocketchat
         rootPassword: "repl{{ ConfigOption `mongo_root_password`}}"
+    license: "repl{{ LicenseFieldValue `rocketchat_enterprise_license`}}"
   optionalValues:
     - when: '{{repl ConfigOptionEquals "mongo_type" "external_mongodb"}}'
       values: 
