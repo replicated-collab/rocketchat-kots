@@ -7,12 +7,13 @@ metadata:
     projectcontour.io/websocket-routes: /sockjs,/websocket
 spec:
   rules:
-  - http:
+  - host: "repl{{ LicenseFieldValue `license_url`}}"
+    http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: rocketchat
+            name: rocketchat-rocketchat
             port:
               number: 80
