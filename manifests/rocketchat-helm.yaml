@@ -37,6 +37,7 @@ spec:
     - when: '{{repl and (ConfigOptionEquals "use_tls" "1") (not IsKurl) }}'
       values: 
         ingress: 
+          enabled: true
           tls: 
             - secretName: rocketchat-tls
               hosts:
@@ -46,6 +47,7 @@ spec:
     - when: '{{repl and (ConfigOptionEquals "use_tls" "1") (IsKurl) }}'
       values: 
         ingress: 
+          enabled: true
           tls: 
             - secretName: kotsadm-tls
               hosts:
