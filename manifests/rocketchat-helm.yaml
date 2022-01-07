@@ -38,17 +38,17 @@ spec:
       values: 
         ingress: 
           tls: 
-            secretName: rocketchat-tls
-            hosts:
-              - "repl{{ LicenseFieldValue `license_url`}}"
+            - secretName: rocketchat-tls
+              hosts:
+                - "repl{{ LicenseFieldValue `license_url`}}"
     # kURL setups have a kotsadm-tls secret, cf.; 
     # https://kots.io/vendor/packaging/using-tls-certs/
     - when: '{{repl and (ConfigOptionEquals "use_tls" "1") (IsKurl) }}'
       values: 
         ingress: 
           tls: 
-            secretName: kotsadm-tls
-            hosts:
-              - "repl{{ LicenseFieldValue `license_url`}}" 
+            - secretName: kotsadm-tls
+              hosts:
+                - "repl{{ LicenseFieldValue `license_url`}}" 
 
   useHelmInstall: true
