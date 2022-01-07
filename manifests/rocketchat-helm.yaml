@@ -30,5 +30,25 @@ spec:
             password: "repl{{ ConfigOption `mongo_rocketchat_password`}}"
             database:  rocketchat
             rootPassword: "repl{{ ConfigOption `mongo_root_password`}}"
+    - when: '{{repl ConfigOptionEquals "use_ingress" "1"}}'
+      values: 
+        ingress: 
+          enabled: true
+    - when: '{{repl and (ConfigOptionEquals "use_tls" "1") (not IsKurl) }}'
+      values: 
+        ingress: 
+          tls: 
+            secretName: rocketchat-tls
+            hosts:
+              - "repl{{ LicenseFieldValue `license_url`}}"
+    # kURL setups have a kotsadm-tls secret, cf.; 
+    # https://kots.io/vendor/packaging/using-tls-certs/
+    - when: '{{repl and (ConfigOptionEquals "use_tls" "1") (IsKurl) }}'
+      values: 
+        ingress: 
+          tls: 
+            secretName: kotsadm-tls
+            hosts:
+              - "repl{{ LicenseFieldValue `license_url`}}" 
 
   useHelmInstall: true
