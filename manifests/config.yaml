@@ -15,20 +15,20 @@ spec:
           default: "1"
         - name: use_tls
           when: '{{repl and (ConfigOptionEquals "use_ingress" "1") (not IsKurl) }}' # kURL handles this
-          title: Use TLS certificates?
+          title: Use TLS?
           help_text: Include a Secret object containing Certificate and it's Private Key
           type: bool
           default: "1"
-        - name: certs
-          title: TLS Configuration
-          when: '{{repl ConfigOptionEquals "use_tls" "1"}}'
-          items:
-          - name: tls_private_key_file
-            title: Private Key
-            type: file
-          - name: tls_certificate_file
-            title: Certificate
-            type: file
+    - name: certs
+      title: TLS Configuration
+      when: '{{repl ConfigOptionEquals "use_tls" "1"}}'
+      items:
+      - name: tls_private_key_file
+        title: Private Key
+        type: file
+      - name: tls_certificate_file
+        title: Certificate
+        type: file
     - name: mongo
       title: MongoDB Settings
       description: Configuration for MongoDB
