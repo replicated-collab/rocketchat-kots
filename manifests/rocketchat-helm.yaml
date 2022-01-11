@@ -17,7 +17,6 @@ spec:
     license: "repl{{ LicenseFieldValue `rocketchat_enterprise_license`}}"
     registrationToken: "repl{{ LicenseFieldValue `rocketchat_registration_token`}}"
   optionalValues:
-    - when: 
     - when: '{{repl ConfigOptionEquals "mongo_type" "external_mongodb"}}'
       values: 
         externalMongodbUrl: "repl{{ ConfigOption `mongo_external_url`}}"
