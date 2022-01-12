@@ -21,13 +21,13 @@ spec:
           default: "1"
     - name: certs
       title: TLS Configuration
-      when: '{{repl ConfigOptionEquals "use_tls" "1"}}'
+      when: '{{repl and (ConfigOptionEquals "use_tls" "1") (ConfigOptionEquals "use_ingress" "1")}}'
       items:
-      - name: tls_private_key_file
-        title: Private Key
-        type: file
       - name: tls_certificate_file
         title: Certificate
+        type: file
+      - name: tls_private_key_file
+        title: Private Key
         type: file
     - name: mongo
       title: MongoDB Settings
