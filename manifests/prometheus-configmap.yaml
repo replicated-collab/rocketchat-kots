@@ -1,6 +1,8 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
+  annotations:
+    kots.io/exclude: '{{repl ConfigOptionEquals "prometheus_type" "external_prometheus"}}'
   name: rocketchat-prometheus-config
 data:
   prometheus.yml: |

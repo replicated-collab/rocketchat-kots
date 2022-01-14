@@ -1,6 +1,8 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
+  annotations:
+    kots.io/exclude: '{{repl ConfigOptionEquals "prometheus_type" "external_prometheus"}}'
   name: rocketchat-prometheus
 spec:
   serviceName: rocketchat-prometheus
