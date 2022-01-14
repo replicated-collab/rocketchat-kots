@@ -84,15 +84,9 @@ spec:
             - name: external_prometheus
               title: Use external prometheus server
               help_text: Use an existing prometheus server for your deployment
-        - name: mongo_external_url
-          when: '{{repl ConfigOptionEquals "mongo_type" "external_mongodb"}}'
-          type: password
-          title: MongoDB External URL
-          default: "mongodb://user:password@localhost:27017/rocketchat"
-          required: true
-        - name: mongo_external_oplog_url
-          when: '{{repl ConfigOptionEquals "mongo_type" "external_mongodb"}}'
-          type: password
-          title: MongoDB External Oplog URL
-          default: "mongodb://user:password@localhost:27017/local?replicaSet=rs0&authSource=admin"
+        - name: prometheus_external_url
+          when: '{{repl ConfigOptionEquals "prometheus_type" "external_prometheus"}}'
+          type: text
+          title: External Prometheus URL
+          default: ""
           required: true
