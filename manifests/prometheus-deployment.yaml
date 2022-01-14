@@ -3,6 +3,7 @@ kind: StatefulSet
 metadata:
   annotations:
     kots.io/exclude: '{{repl ConfigOptionEquals "prometheus_type" "external_prometheus"}}'
+  namespace: '{{repl Namespace}}'
   name: rocketchat-prometheus
 spec:
   serviceName: rocketchat-prometheus

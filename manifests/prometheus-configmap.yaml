@@ -3,6 +3,7 @@ kind: ConfigMap
 metadata:
   annotations:
     kots.io/exclude: '{{repl ConfigOptionEquals "prometheus_type" "external_prometheus"}}'
+  namespace: '{{repl Namespace}}'
   name: rocketchat-prometheus-config
 data:
   prometheus.yml: |
