@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: rocketchat-prometheus
+spec:
+  serviceName: rocketchat-prometheus
+  replicas: 1 
+  selector:
+    matchLabels:
+      app: rocketchat-prometheus
+  template: 
+    metadata:
+      labels: 
+        app: rocketchat-prometheus
+    spec:
+      serviceAccountName: rocketchat-prometheus
+      securityContext:
+        fsGroup: 65534
+      containers:
+        - name: prometheus
+          image: prom/prometheus:v2.3.2
+          command: ['/bin/prometheus']
+          args:
+            - '--config.file=/etc/prometheus/prometheus.yml'
+            - '--storage.tsdb.retention=1440h'
+            #- '--storage.local.target-heap-size=12147483648'
+            - '--web.enable-lifecycle'
+            - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+            - '--web.console.templates=/usr/share/prometheus/consoles/prometheus'
+          ports:
+            - containerPort: 9090
+          resources:
+            requests:
+              memory: 1Gi
+            limits:
+              memory: 7Gi
+          volumeMounts:
+            - name: rocketchat-prometheus-config
+              mountPath: /etc/prometheus/
+            - name: rocketchat-prometheus-data
+              mountPath: /prometheus/data/
+      volumes:
+        - name: rocketchat-prometheus-config
+          configMap:
+            name: rocketchat-prometheus-config
+  volumeClaimTemplates:
+  - metadata:
+      name: rocketchat-prometheus-data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage:  20Gi
+
+
+      
