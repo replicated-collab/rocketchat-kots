@@ -14,6 +14,15 @@ spec:
         imagePullPolicy: IfNotPresent
         exclude: '{{repl ConfigOptionNotEquals "mongo_type" "external_mongodb"}}' 
     - run:
+        collectorName: "test-external-prometheus"
+        name: prometheus
+        image: curlimages/curl
+        namespace: default
+        command: ["curl"]
+        args: [ "repl{{ ConfigOption `prometheus_external_url`}}"]
+        imagePullPolicy: IfNotPresent
+        exclude: '{{repl ConfigOptionNotEquals "prometheus_type" "external_prometheus"}}' 
+    - run:
         collectorName: "test-external-mongo-oplog"
         name: mongo
         image: mongo:latest
@@ -107,3 +116,15 @@ spec:
           - fail:
               when: "false"
               message: "Can't connect to the replicaset. Check if connection settings are correct and the server is accepting connections. "
+    - textAnalyze:
+        checkName: Prometheus Connection
+        fileName: prometheus/test-external-prometheus.log
+        regex: 'prometheus_build_info'
+        exclude: '{{repl ConfigOptionNotEquals "mongo_type" "external_mongodb"}}' 
+        outcomes:
+          - pass:
+              when: "true"
+              message: "Prometheus is reachable"
+          - fail:
+              when: "false"
+              message: "Can't connect to external prometheus. Check if endpoint settings are correct and the server is accepting connections. "
