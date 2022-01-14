@@ -120,7 +120,7 @@ spec:
         checkName: Prometheus Connection
         fileName: prometheus/test-external-prometheus.log
         regex: 'prometheus_build_info'
-        exclude: '{{repl ConfigOptionNotEquals "mongo_type" "external_mongodb"}}' 
+        exclude: '{{repl ConfigOptionNotEquals "prometheus_type" "external_prometheus"}}' 
         outcomes:
           - pass:
               when: "true"
