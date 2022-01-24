@@ -12,6 +12,12 @@ spec:
     - service/rocketchat-rocketchat
     - deployment/rocketchat-rocketchat
   graphs:
+    - title: Number of users online right now
+      query: max(rocketchat_users_online)
+    - title: Number of registered users
+      query: max(rocketchat_users_total)
+    - title: Number of push notifications sent
+      query: 'rocketchat_notification_sent'
     - title: Number of Rocket Chat messages sent
       query: 'rocketchat_message_sent'
       legend: Total number of messages.
