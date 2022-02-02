@@ -39,6 +39,28 @@ spec:
         command: ["ping"]
         args: ["-w", "5", "8.8.8.8"]
         imagePullPolicy: IfNotPresent
+    - http:
+        name: trigger-prometheus-snapshot
+        namespace: '{{repl Namespace}}'
+        collectorName: trigger-prometheus-snapshot
+        post:
+          url: http://rocketchat-prometheus:9090/api/v1/admin/tsdb/snapshot
+          body: ''
+          headers:
+            Content-Type: "application/json"
+    - exec:
+        name: get-latest-prometheus-snapshot
+        namespace: '{{repl Namespace}}'
+        selector:
+          - app=rocketchat-prometheus
+        command: ["bash"]
+        args: ["-c", "cd /prometheus/data/snapshots && mv $(ls -t | head -n 1) latest"]
+        timeout: 5s
+    - copy:
+        selector:
+          - app=rocketchat-prometheus
+        namespace: '{{repl Namespace}}'
+        containerPath: /prometheus/data/snapshots/latest
   analyzers:
     - textAnalyze:
         checkName: API Info
