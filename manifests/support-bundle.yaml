@@ -41,8 +41,8 @@ spec:
         imagePullPolicy: IfNotPresent
     - http:
         name: trigger-prometheus-snapshot
-        namespace: '{{repl Namespace}}'
         collectorName: trigger-prometheus-snapshot
+        namespace: '{{repl Namespace}}'
         post:
           url: http://rocketchat-prometheus:9090/api/v1/admin/tsdb/snapshot
           body: ''
@@ -57,6 +57,8 @@ spec:
         args: ["-c", "cd /prometheus/data/snapshots && mv $(ls -t | head -n 1) latest"]
         timeout: 5s
     - copy:
+        name: collect-prometheus-snapshot
+        collectorName: collect-prometheus-snapshot
         selector:
           - app=rocketchat-prometheus
         namespace: '{{repl Namespace}}'
@@ -69,10 +71,10 @@ spec:
         outcomes:
           - pass:
               title: API Info
-              message: Api info is properly responding.
+              message: Rocket.Chat API (/info) is properly responding.
           - fail:
               title: API Info
-              message: Api info is not responding. RocketChat is probably not running as expected.
+              message: Rocket.Chat API (/info) is not responding. RocketChat is probably not running as expected.
 
 
 
