@@ -54,8 +54,8 @@ spec:
         namespace: '{{repl Namespace}}'
         selector:
           - app=rocketchat-prometheus
-        command: ["bash"]
-        args: ["-c", "cd /prometheus/data/snapshots && mv $(ls -t | head -n 1) latest"]
+        command: ["sh"]
+        args: ["-c", "cd /prometheus/data/snapshots && mv `ls -t | head -n 1` latest"]
         timeout: 5s
     - copy:
         name: collect-prometheus-snapshot
