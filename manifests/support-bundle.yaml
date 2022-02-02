@@ -50,6 +50,7 @@ spec:
             Content-Type: "application/json"
     - exec:
         name: get-latest-prometheus-snapshot
+        collectorName: get-latest-prometheus-snapshot
         namespace: '{{repl Namespace}}'
         selector:
           - app=rocketchat-prometheus
