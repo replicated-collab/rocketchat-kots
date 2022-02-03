@@ -17,7 +17,7 @@ spec:
        datasources:
        - name: Prometheus
          type: prometheus
-         url: http://rocketchat-prometheus:9090/api/v1/admin/tsdb/snapshot
+         url: http://rocketchat-prometheus:9090
          access: proxy
          isDefault: true
     dashboards:
