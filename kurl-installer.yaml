@@ -20,8 +20,6 @@ spec:
     version: latest
   registry:
     version: latest
-  prometheus:
-    version: latest
   kotsadm:
     version: latest
 

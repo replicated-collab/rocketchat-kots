@@ -1,0 +1,4901 @@
+apiVersion: kots.io/v1beta1
+kind: HelmChart
+metadata:
+  name: grafana
+  annotations:
+    kots.io/exclude: '{{repl ConfigOptionEquals "deploy_grafana" "0"}}'
+spec:
+  chart:
+    name: grafana
+    chartVersion: 6.21.2
+  values:
+    datasources: 
+     datasources.yaml:
+       apiVersion: 1
+       datasources:
+       - name: Prometheus
+         type: prometheus
+         url: http://rocketchat-prometheus:9090/api/v1/admin/tsdb/snapshot
+         access: proxy
+         isDefault: true
+    dashboards:
+      default:
+        rocketchat-dashboard:
+          json: |
+            {
+              "annotations": {
+                "list": [
+                  {
+                    "builtIn": 1,
+                    "datasource": "-- Grafana --",
+                    "enable": true,
+                    "hide": true,
+                    "iconColor": "rgba(0, 211, 255, 1)",
+                    "limit": 100,
+                    "matchAny": true,
+                    "name": "Annotations & Alerts",
+                    "showIn": 0,
+                    "tags": [
+                      "metrics",
+                      "microservices"
+                    ],
+                    "target": {
+                      "limit": 100,
+                      "matchAny": true,
+                      "tags": [
+                        "metrics",
+                        "microservices"
+                      ],
+                      "type": "tags"
+                    },
+                    "type": "tags"
+                  }
+                ]
+              },
+              "editable": true,
+              "fiscalYearStartMonth": 0,
+              "graphTooltip": 0,
+              "id": 21,
+              "iteration": 1643922595784,
+              "links": [],
+              "liveNow": false,
+              "panels": [
+                {
+                  "collapsed": false,
+                  "gridPos": {
+                    "h": 1,
+                    "w": 24,
+                    "x": 0,
+                    "y": 0
+                  },
+                  "id": 43,
+                  "panels": [],
+                  "title": "Totals",
+                  "type": "row"
+                },
+                {
+                  "datasource": {
+                    "type": "prometheus",
+                    "uid": "000000001"
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "color": {
+                        "mode": "thresholds"
+                      },
+                      "mappings": [
+                        {
+                          "options": {
+                            "match": "null",
+                            "result": {
+                              "text": "N/A"
+                            }
+                          },
+                          "type": "special"
+                        }
+                      ],
+                      "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                          {
+                            "color": "#299c46",
+                            "value": null
+                          },
+                          {
+                            "color": "rgba(237, 129, 40, 0.89)",
+                            "value": 10000000
+                          },
+                          {
+                            "color": "#d44a3a"
+                          }
+                        ]
+                      },
+                      "unit": "locale"
+                    },
+                    "overrides": []
+                  },
+                  "gridPos": {
+                    "h": 3,
+                    "w": 8,
+                    "x": 0,
+                    "y": 1
+                  },
+                  "id": 30,
+                  "links": [],
+                  "maxDataPoints": 100,
+                  "options": {
+                    "colorMode": "background",
+                    "graphMode": "area",
+                    "justifyMode": "auto",
+                    "orientation": "horizontal",
+                    "reduceOptions": {
+                      "calcs": [
+                        "lastNotNull"
+                      ],
+                      "fields": "",
+                      "values": false
+                    },
+                    "textMode": "auto"
+                  },
+                  "pluginVersion": "8.3.4",
+                  "targets": [
+                    {
+                      "expr": "max(rocketchat_users_online{})",
+                      "format": "time_series",
+                      "intervalFactor": 1,
+                      "refId": "A"
+                    }
+                  ],
+                  "title": "Users Online",
+                  "type": "stat"
+                },
+                {
+                  "datasource": {
+                    "type": "prometheus",
+                    "uid": "000000001"
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "color": {
+                        "mode": "thresholds"
+                      },
+                      "mappings": [
+                        {
+                          "options": {
+                            "match": "null",
+                            "result": {
+                              "text": "N/A"
+                            }
+                          },
+                          "type": "special"
+                        }
+                      ],
+                      "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                          {
+                            "color": "green",
+                            "value": null
+                          },
+                          {
+                            "color": "red",
+                            "value": 80
+                          }
+                        ]
+                      },
+                      "unit": "locale"
+                    },
+                    "overrides": []
+                  },
+                  "gridPos": {
+                    "h": 3,
+                    "w": 8,
+                    "x": 8,
+                    "y": 1
+                  },
+                  "id": 31,
+                  "links": [],
+                  "maxDataPoints": 100,
+                  "options": {
+                    "colorMode": "background",
+                    "graphMode": "area",
+                    "justifyMode": "auto",
+                    "orientation": "horizontal",
+                    "reduceOptions": {
+                      "calcs": [
+                        "lastNotNull"
+                      ],
+                      "fields": "",
+                      "values": false
+                    },
+                    "textMode": "auto"
+                  },
+                  "pluginVersion": "8.3.4",
+                  "targets": [
+                    {
+                      "expr": "max(rocketchat_users_away{})",
+                      "format": "time_series",
+                      "intervalFactor": 1,
+                      "refId": "A"
+                    }
+                  ],
+                  "title": "Users Away",
+                  "type": "stat"
+                },
+                {
+                  "datasource": {
+                    "type": "prometheus",
+                    "uid": "000000001"
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "color": {
+                        "fixedColor": "rgb(31, 120, 193)",
+                        "mode": "fixed"
+                      },
+                      "mappings": [
+                        {
+                          "options": {
+                            "match": "null",
+                            "result": {
+                              "text": "N/A"
+                            }
+                          },
+                          "type": "special"
+                        }
+                      ],
+                      "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                          {
+                            "color": "green",
+                            "value": null
+                          },
+                          {
+                            "color": "red",
+                            "value": 80
+                          }
+                        ]
+                      },
+                      "unit": "locale"
+                    },
+                    "overrides": []
+                  },
+                  "gridPos": {
+                    "h": 3,
+                    "w": 8,
+                    "x": 16,
+                    "y": 1
+                  },
+                  "id": 32,
+                  "links": [],
+                  "maxDataPoints": 100,
+                  "options": {
+                    "colorMode": "none",
+                    "graphMode": "area",
+                    "justifyMode": "auto",
+                    "orientation": "horizontal",
+                    "reduceOptions": {
+                      "calcs": [
+                        "lastNotNull"
+                      ],
+                      "fields": "",
+                      "values": false
+                    },
+                    "textMode": "auto"
+                  },
+                  "pluginVersion": "8.3.4",
+                  "targets": [
+                    {
+                      "expr": "sum(rocketchat_ddp_connected_users{})",
+                      "format": "time_series",
+                      "intervalFactor": 1,
+                      "legendFormat": "",
+                      "refId": "A"
+                    }
+                  ],
+                  "title": "DDP Users",
+                  "type": "stat"
+                },
+                {
+                  "datasource": {
+                    "type": "prometheus",
+                    "uid": "000000001"
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "color": {
+                        "fixedColor": "rgb(31, 120, 193)",
+                        "mode": "fixed"
+                      },
+                      "mappings": [
+                        {
+                          "options": {
+                            "match": "null",
+                            "result": {
+                              "text": "N/A"
+                            }
+                          },
+                          "type": "special"
+                        }
+                      ],
+                      "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                          {
+                            "color": "green",
+                            "value": null
+                          },
+                          {
+                            "color": "red",
+                            "value": 80
+                          }
+                        ]
+                      },
+                      "unit": "locale"
+                    },
+                    "overrides": []
+                  },
+                  "gridPos": {
+                    "h": 3,
+                    "w": 8,
+                    "x": 0,
+                    "y": 4
+                  },
+                  "id": 26,
+                  "links": [],
+                  "maxDataPoints": 100,
+                  "options": {
+                    "colorMode": "none",
+                    "graphMode": "area",
+                    "justifyMode": "auto",
+                    "orientation": "horizontal",
+                    "reduceOptions": {
+                      "calcs": [
+                        "lastNotNull"
+                      ],
+                      "fields": "",
+                      "values": false
+                    },
+                    "textMode": "auto"
+                  },
+                  "pluginVersion": "8.3.4",
+                  "targets": [
+                    {
+                      "expr": "max(rocketchat_users_total{})",
+                      "format": "time_series",
+                      "intervalFactor": 1,
+                      "refId": "A"
+                    }
+                  ],
+                  "title": "Users",
+                  "type": "stat"
+                },
+                {
+                  "datasource": {
+                    "type": "prometheus",
+                    "uid": "000000001"
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "color": {
+                        "fixedColor": "rgb(31, 120, 193)",
+                        "mode": "fixed"
+                      },
+                      "mappings": [
+                        {
+                          "options": {
+                            "match": "null",
+                            "result": {
+                              "text": "N/A"
+                            }
+                          },
+                          "type": "special"
+                        }
+                      ],
+                      "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                          {
+                            "color": "green",
+                            "value": null
+                          },
+                          {
+                            "color": "red",
+                            "value": 80
+                          }
+                        ]
+                      },
+                      "unit": "locale"
+                    },
+                    "overrides": []
+                  },
+                  "gridPos": {
+                    "h": 3,
+                    "w": 8,
+                    "x": 8,
+                    "y": 4
+                  },
+                  "id": 27,
+                  "links": [],
+                  "maxDataPoints": 100,
+                  "options": {
+                    "colorMode": "none",
+                    "graphMode": "area",
+                    "justifyMode": "auto",
+                    "orientation": "horizontal",
+                    "reduceOptions": {
+                      "calcs": [
+                        "lastNotNull"
+                      ],
+                      "fields": "",
+                      "values": false
+                    },
+                    "textMode": "auto"
+                  },
+                  "pluginVersion": "8.3.4",
+                  "targets": [
+                    {
+                      "expr": "max(rocketchat_rooms_total{})",
+                      "format": "time_series",
+                      "intervalFactor": 1,
+                      "refId": "A"
+                    }
+                  ],
+                  "title": "Rooms",
+                  "type": "stat"
+                },
+                {
+                  "datasource": {
+                    "type": "prometheus",
+                    "uid": "000000001"
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "color": {
+                        "fixedColor": "rgb(31, 120, 193)",
+                        "mode": "fixed"
+                      },
+                      "mappings": [
+                        {
+                          "options": {
+                            "match": "null",
+                            "result": {
+                              "text": "N/A"
+                            }
+                          },
+                          "type": "special"
+                        }
+                      ],
+                      "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                          {
+                            "color": "green",
+                            "value": null
+                          },
+                          {
+                            "color": "red",
+                            "value": 80
+                          }
+                        ]
+                      },
+                      "unit": "locale"
+                    },
+                    "overrides": []
+                  },
+                  "gridPos": {
+                    "h": 3,
+                    "w": 8,
+                    "x": 16,
+                    "y": 4
+                  },
+                  "id": 29,
+                  "links": [],
+                  "maxDataPoints": 100,
+                  "options": {
+                    "colorMode": "none",
+                    "graphMode": "area",
+                    "justifyMode": "auto",
+                    "orientation": "horizontal",
+                    "reduceOptions": {
+                      "calcs": [
+                        "lastNotNull"
+                      ],
+                      "fields": "",
+                      "values": false
+                    },
+                    "textMode": "auto"
+                  },
+                  "pluginVersion": "8.3.4",
+                  "targets": [
+                    {
+                      "expr": "max(rocketchat_messages_total{})",
+                      "format": "time_series",
+                      "intervalFactor": 1,
+                      "refId": "A"
+                    }
+                  ],
+                  "title": "Messages",
+                  "type": "stat"
+                },
+                {
+                  "datasource": {
+                    "type": "prometheus",
+                    "uid": "000000001"
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "color": {
+                        "mode": "thresholds"
+                      },
+                      "mappings": [
+                        {
+                          "options": {
+                            "match": "null",
+                            "result": {
+                              "text": "N/A"
+                            }
+                          },
+                          "type": "special"
+                        }
+                      ],
+                      "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                          {
+                            "color": "green",
+                            "value": null
+                          },
+                          {
+                            "color": "red",
+                            "value": 80
+                          }
+                        ]
+                      },
+                      "unit": "locale"
+                    },
+                    "overrides": []
+                  },
+                  "gridPos": {
+                    "h": 3,
+                    "w": 8,
+                    "x": 0,
+                    "y": 7
+                  },
+                  "id": 36,
+                  "links": [],
+                  "maxDataPoints": 100,
+                  "options": {
+                    "colorMode": "none",
+                    "graphMode": "none",
+                    "justifyMode": "auto",
+                    "orientation": "horizontal",
+                    "reduceOptions": {
+                      "calcs": [
+                        "diff"
+                      ],
+                      "fields": "",
+                      "values": false
+                    },
+                    "textMode": "auto"
+                  },
+                  "pluginVersion": "8.3.4",
+                  "targets": [
+                    {
+                      "expr": "max(rocketchat_users_total{})",
+                      "format": "time_series",
+                      "intervalFactor": 1,
+                      "refId": "A"
+                    }
+                  ],
+                  "title": "Users Diff",
+                  "type": "stat"
+                },
+                {
+                  "datasource": {
+                    "type": "prometheus",
+                    "uid": "000000001"
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "color": {
+                        "mode": "thresholds"
+                      },
+                      "mappings": [
+                        {
+                          "options": {
+                            "match": "null",
+                            "result": {
+                              "text": "N/A"
+                            }
+                          },
+                          "type": "special"
+                        }
+                      ],
+                      "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                          {
+                            "color": "green",
+                            "value": null
+                          },
+                          {
+                            "color": "red",
+                            "value": 80
+                          }
+                        ]
+                      },
+                      "unit": "locale"
+                    },
+                    "overrides": []
+                  },
+                  "gridPos": {
+                    "h": 3,
+                    "w": 8,
+                    "x": 8,
+                    "y": 7
+                  },
+                  "id": 37,
+                  "links": [],
+                  "maxDataPoints": 100,
+                  "options": {
+                    "colorMode": "none",
+                    "graphMode": "none",
+                    "justifyMode": "auto",
+                    "orientation": "horizontal",
+                    "reduceOptions": {
+                      "calcs": [
+                        "diff"
+                      ],
+                      "fields": "",
+                      "values": false
+                    },
+                    "textMode": "auto"
+                  },
+                  "pluginVersion": "8.3.4",
+                  "targets": [
+                    {
+                      "expr": "max(rocketchat_rooms_total{})",
+                      "format": "time_series",
+                      "intervalFactor": 1,
+                      "refId": "A"
+                    }
+                  ],
+                  "title": "Rooms  Diff",
+                  "type": "stat"
+                },
+                {
+                  "datasource": {
+                    "type": "prometheus",
+                    "uid": "000000001"
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "color": {
+                        "mode": "thresholds"
+                      },
+                      "mappings": [
+                        {
+                          "options": {
+                            "match": "null",
+                            "result": {
+                              "text": "N/A"
+                            }
+                          },
+                          "type": "special"
+                        }
+                      ],
+                      "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                          {
+                            "color": "green",
+                            "value": null
+                          },
+                          {
+                            "color": "red",
+                            "value": 80
+                          }
+                        ]
+                      },
+                      "unit": "locale"
+                    },
+                    "overrides": []
+                  },
+                  "gridPos": {
+                    "h": 3,
+                    "w": 8,
+                    "x": 16,
+                    "y": 7
+                  },
+                  "id": 38,
+                  "links": [],
+                  "maxDataPoints": 100,
+                  "options": {
+                    "colorMode": "none",
+                    "graphMode": "none",
+                    "justifyMode": "auto",
+                    "orientation": "horizontal",
+                    "reduceOptions": {
+                      "calcs": [
+                        "diff"
+                      ],
+                      "fields": "",
+                      "values": false
+                    },
+                    "textMode": "auto"
+                  },
+                  "pluginVersion": "8.3.4",
+                  "targets": [
+                    {
+                      "expr": "max(rocketchat_messages_total{})",
+                      "format": "time_series",
+                      "intervalFactor": 1,
+                      "refId": "A"
+                    }
+                  ],
+                  "title": "Messages  Diff",
+                  "type": "stat"
+                },
+                {
+                  "collapsed": false,
+                  "gridPos": {
+                    "h": 1,
+                    "w": 24,
+                    "x": 0,
+                    "y": 10
+                  },
+                  "id": 69,
+                  "panels": [],
+                  "title": "Metrics",
+                  "type": "row"
+                },
+                {
+                  "aliasColors": {},
+                  "bars": false,
+                  "dashLength": 10,
+                  "dashes": false,
+                  "datasource": {
+                    "type": "prometheus",
+                    "uid": "000000001"
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "links": []
+                    },
+                    "overrides": []
+                  },
+                  "fill": 1,
+                  "fillGradient": 0,
+                  "gridPos": {
+                    "h": 7,
+                    "w": 12,
+                    "x": 0,
+                    "y": 11
+                  },
+                  "hiddenSeries": false,
+                  "id": 71,
+                  "legend": {
+                    "avg": false,
+                    "current": false,
+                    "max": false,
+                    "min": false,
+                    "show": true,
+                    "total": false,
+                    "values": false
+                  },
+                  "lines": true,
+                  "linewidth": 1,
+                  "links": [],
+                  "nullPointMode": "null as zero",
+                  "options": {
+                    "alertThreshold": true
+                  },
+                  "percentage": false,
+                  "pluginVersion": "8.3.4",
+                  "pointradius": 5,
+                  "points": false,
+                  "renderer": "flot",
+                  "seriesOverrides": [],
+                  "spaceLength": 10,
+                  "stack": true,
+                  "steppedLine": false,
+                  "targets": [
+                    {
+                      "expr": "increase(rocketchat_metrics_requests{}[5m])",
+                      "format": "time_series",
+                      "intervalFactor": 2,
+                      "legendFormat": "{{instance}}",
+                      "refId": "A"
+                    }
+                  ],
+                  "thresholds": [],
+                  "timeRegions": [],
+                  "title": "Metrics Requests",
+                  "tooltip": {
+                    "shared": true,
+                    "sort": 0,
+                    "value_type": "individual"
+                  },
+                  "type": "graph",
+                  "xaxis": {
+                    "mode": "time",
+                    "show": true,
+                    "values": []
+                  },
+                  "yaxes": [
+                    {
+                      "$$hashKey": "object:341",
+                      "format": "short",
+                      "logBase": 1,
+                      "show": true
+                    },
+                    {
+                      "$$hashKey": "object:342",
+                      "format": "short",
+                      "logBase": 1,
+                      "show": true
+                    }
+                  ],
+                  "yaxis": {
+                    "align": false
+                  }
+                },
+                {
+                  "aliasColors": {},
+                  "bars": false,
+                  "dashLength": 10,
+                  "dashes": false,
+                  "datasource": {
+                    "type": "prometheus",
+                    "uid": "000000001"
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "links": []
+                    },
+                    "overrides": []
+                  },
+                  "fill": 1,
+                  "fillGradient": 0,
+                  "gridPos": {
+                    "h": 7,
+                    "w": 12,
+                    "x": 12,
+                    "y": 11
+                  },
+                  "hiddenSeries": false,
+                  "id": 72,
+                  "legend": {
+                    "avg": false,
+                    "current": false,
+                    "max": false,
+                    "min": false,
+                    "show": true,
+                    "total": false,
+                    "values": false
+                  },
+                  "lines": true,
+                  "linewidth": 1,
+                  "links": [],
+                  "nullPointMode": "null",
+                  "options": {
+                    "alertThreshold": true
+                  },
+                  "percentage": false,
+                  "pluginVersion": "8.3.4",
+                  "pointradius": 5,
+                  "points": false,
+                  "renderer": "flot",
+                  "seriesOverrides": [],
+                  "spaceLength": 10,
+                  "stack": false,
+                  "steppedLine": false,
+                  "targets": [
+                    {
+                      "expr": "rocketchat_metrics_size{}",
+                      "format": "time_series",
+                      "intervalFactor": 2,
+                      "legendFormat": "{{instance}}",
+                      "refId": "A"
+                    }
+                  ],
+                  "thresholds": [],
+                  "timeRegions": [],
+                  "title": "Metrics Size",
+                  "tooltip": {
+                    "shared": true,
+                    "sort": 0,
+                    "value_type": "individual"
+                  },
+                  "type": "graph",
+                  "xaxis": {
+                    "mode": "time",
+                    "show": true,
+                    "values": []
+                  },
+                  "yaxes": [
+                    {
+                      "format": "decbytes",
+                      "logBase": 1,
+                      "show": true
+                    },
+                    {
+                      "format": "short",
+                      "logBase": 1,
+                      "show": true
+                    }
+                  ],
+                  "yaxis": {
+                    "align": false
+                  }
+                },
+                {
+                  "collapsed": false,
+                  "gridPos": {
+                    "h": 1,
+                    "w": 24,
+                    "x": 0,
+                    "y": 18
+                  },
+                  "id": 23,
+                  "panels": [],
+                  "title": "NodeJS",
+                  "type": "row"
+                },
+                {
+                  "aliasColors": {},
+                  "bars": false,
+                  "dashLength": 10,
+                  "dashes": false,
+                  "datasource": {
+                    "type": "prometheus",
+                    "uid": "000000001"
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "links": []
+                    },
+                    "overrides": []
+                  },
+                  "fill": 1,
+                  "fillGradient": 0,
+                  "gridPos": {
+                    "h": 7,
+                    "w": 12,
+                    "x": 0,
+                    "y": 19
+                  },
+                  "hiddenSeries": false,
+                  "id": 1,
+                  "legend": {
+                    "avg": false,
+                    "current": false,
+                    "max": false,
+                    "min": false,
+                    "show": true,
+                    "total": false,
+                    "values": false
+                  },
+                  "lines": true,
+                  "linewidth": 1,
+                  "links": [],
+                  "nullPointMode": "null",
+                  "options": {
+                    "alertThreshold": true
+                  },
+                  "percentage": false,
+                  "pluginVersion": "8.3.4",
+                  "pointradius": 5,
+                  "points": false,
+                  "renderer": "flot",
+                  "seriesOverrides": [],
+                  "spaceLength": 10,
+                  "stack": false,
+                  "steppedLine": false,
+                  "targets": [
+                    {
+                      "expr": "nodejs_active_handles_total{}",
+                      "format": "time_series",
+                      "intervalFactor": 2,
+                      "legendFormat": "{{instance}}",
+                      "refId": "A"
+                    }
+                  ],
+                  "thresholds": [],
+                  "timeRegions": [],
+                  "title": "Active Handles",
+                  "tooltip": {
+                    "shared": true,
+                    "sort": 0,
+                    "value_type": "individual"
+                  },
+                  "type": "graph",
+                  "xaxis": {
+                    "mode": "time",
+                    "show": true,
+                    "values": []
+                  },
+                  "yaxes": [
+                    {
+                      "format": "short",
+                      "logBase": 1,
+                      "show": true
+                    },
+                    {
+                      "format": "short",
+                      "logBase": 1,
+                      "show": true
+                    }
+                  ],
+                  "yaxis": {
+                    "align": false
+                  }
+                },
+                {
+                  "aliasColors": {},
+                  "bars": false,
+                  "dashLength": 10,
+                  "dashes": false,
+                  "datasource": {
+                    "type": "prometheus",
+                    "uid": "000000001"
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "links": []
+                    },
+                    "overrides": []
+                  },
+                  "fill": 1,
+                  "fillGradient": 0,
+                  "gridPos": {
+                    "h": 7,
+                    "w": 12,
+                    "x": 12,
+                    "y": 19
+                  },
+                  "hiddenSeries": false,
+                  "id": 3,
+                  "legend": {
+                    "avg": false,
+                    "current": false,
+                    "max": false,
+                    "min": false,
+                    "show": true,
+                    "total": false,
+                    "values": false
+                  },
+                  "lines": true,
+                  "linewidth": 1,
+                  "links": [],
+                  "nullPointMode": "null",
+                  "options": {
+                    "alertThreshold": true
+                  },
+                  "percentage": false,
+                  "pluginVersion": "8.3.4",
+                  "pointradius": 5,
+                  "points": false,
+                  "renderer": "flot",
+                  "seriesOverrides": [],
+                  "spaceLength": 10,
+                  "stack": false,
+                  "steppedLine": false,
+                  "targets": [
+                    {
+                      "expr": "nodejs_active_requests_total{}",
+                      "format": "time_series",
+                      "intervalFactor": 2,
+                      "legendFormat": "{{instance}}",
+                      "refId": "A"
+                    }
+                  ],
+                  "thresholds": [],
+                  "timeRegions": [],
+                  "title": "Active Requests",
+                  "tooltip": {
+                    "shared": true,
+                    "sort": 0,
+                    "value_type": "individual"
+                  },
+                  "type": "graph",
+                  "xaxis": {
+                    "mode": "time",
+                    "show": true,
+                    "values": []
+                  },
+                  "yaxes": [
+                    {
+                      "format": "short",
+                      "logBase": 1,
+                      "show": true
+                    },
+                    {
+                      "format": "short",
+                      "logBase": 1,
+                      "show": true
+                    }
+                  ],
+                  "yaxis": {
+                    "align": false
+                  }
+                },
+                {
+                  "aliasColors": {},
+                  "bars": false,
+                  "dashLength": 10,
+                  "dashes": false,
+                  "datasource": {
+                    "type": "prometheus",
+                    "uid": "000000001"
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "links": []
+                    },
+                    "overrides": []
+                  },
+                  "fill": 1,
+                  "fillGradient": 0,
+                  "gridPos": {
+                    "h": 7,
+                    "w": 12,
+                    "x": 0,
+                    "y": 26
+                  },
+                  "hiddenSeries": false,
+                  "id": 4,
+                  "legend": {
+                    "avg": false,
+                    "current": false,
+                    "max": false,
+                    "min": false,
+                    "show": true,
+                    "total": false,
+                    "values": false
+                  },
+                  "lines": true,
+                  "linewidth": 1,
+                  "links": [],
+                  "nullPointMode": "null",
+                  "options": {
+                    "alertThreshold": true
+                  },
+                  "percentage": false,
+                  "pluginVersion": "8.3.4",
+                  "pointradius": 5,
+                  "points": false,
+                  "renderer": "flot",
+                  "seriesOverrides": [],
+                  "spaceLength": 10,
+                  "stack": false,
+                  "steppedLine": false,
+                  "targets": [
+                    {
+                      "expr": "nodejs_eventloop_lag_seconds{}",
+                      "format": "time_series",
+                      "intervalFactor": 2,
+                      "legendFormat": "{{instance}}",
+                      "refId": "A"
+                    }
+                  ],
+                  "thresholds": [],
+                  "timeRegions": [],
+                  "title": "Event loop lag",
+                  "tooltip": {
+                    "shared": true,
+                    "sort": 0,
+                    "value_type": "individual"
+                  },
+                  "type": "graph",
+                  "xaxis": {
+                    "mode": "time",
+                    "show": true,
+                    "values": []
+                  },
+                  "yaxes": [
+                    {
+                      "format": "short",
+                      "logBase": 1,
+                      "show": true
+                    },
+                    {
+                      "format": "short",
+                      "logBase": 1,
+                      "show": true
+                    }
+                  ],
+                  "yaxis": {
+                    "align": false
+                  }
+                },
+                {
+                  "aliasColors": {},
+                  "bars": false,
+                  "dashLength": 10,
+                  "dashes": false,
+                  "datasource": {
+                    "type": "prometheus",
+                    "uid": "000000001"
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "links": []
+                    },
+                    "overrides": []
+                  },
+                  "fill": 1,
+                  "fillGradient": 0,
+                  "gridPos": {
+                    "h": 7,
+                    "w": 12,
+                    "x": 12,
+                    "y": 26
+                  },
+                  "hiddenSeries": false,
+                  "id": 5,
+                  "legend": {
+                    "avg": false,
+                    "current": false,
+                    "max": false,
+                    "min": false,
+                    "show": true,
+                    "total": false,
+                    "values": false
+                  },
+                  "lines": true,
+                  "linewidth": 1,
+                  "links": [],
+                  "nullPointMode": "null",
+                  "options": {
+                    "alertThreshold": true
+                  },
+                  "percentage": false,
+                  "pluginVersion": "8.3.4",
+                  "pointradius": 5,
+                  "points": false,
+                  "renderer": "flot",
+                  "seriesOverrides": [],
+                  "spaceLength": 10,
+                  "stack": false,
+                  "steppedLine": false,
+                  "targets": [
+                    {
+                      "expr": "sum by (space) (nodejs_heap_size_used_bytes{})",
+                      "format": "time_series",
+                      "intervalFactor": 2,
+                      "legendFormat": "{{space}}",
+                      "refId": "A"
+                    }
+                  ],
+                  "thresholds": [],
+                  "timeRegions": [],
+                  "title": "Heap used",
+                  "tooltip": {
+                    "shared": true,
+                    "sort": 0,
+                    "value_type": "individual"
+                  },
+                  "type": "graph",
+                  "xaxis": {
+                    "mode": "time",
+                    "show": true,
+                    "values": []
+                  },
+                  "yaxes": [
+                    {
+                      "format": "decbytes",
+                      "logBase": 1,
+                      "show": true
+                    },
+                    {
+                      "format": "short",
+                      "logBase": 1,
+                      "show": true
+                    }
+                  ],
+                  "yaxis": {
+                    "align": false
+                  }
+                },
+                {
+                  "aliasColors": {},
+                  "bars": false,
+                  "dashLength": 10,
+                  "dashes": false,
+                  "datasource": {
+                    "type": "prometheus",
+                    "uid": "000000001"
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "links": []
+                    },
+                    "overrides": []
+                  },
+                  "fill": 1,
+                  "fillGradient": 0,
+                  "gridPos": {
+                    "h": 7,
+                    "w": 24,
+                    "x": 0,
+                    "y": 33
+                  },
+                  "hiddenSeries": false,
+                  "id": 6,
+                  "legend": {
+                    "alignAsTable": true,
+                    "avg": false,
+                    "current": true,
+                    "max": false,
+                    "min": false,
+                    "rightSide": true,
+                    "show": true,
+                    "total": false,
+                    "values": true
+                  },
+                  "lines": true,
+                  "linewidth": 1,
+                  "links": [],
+                  "nullPointMode": "null",
+                  "percentage": false,
+                  "pluginVersion": "8.3.4",
+                  "pointradius": 5,
+                  "points": false,
+                  "renderer": "flot",
+                  "seriesOverrides": [],
+                  "spaceLength": 10,
+                  "stack": false,
+                  "steppedLine": false,
+                  "targets": [
+                    {
+                      "expr": "nodejs_heap_size_used_bytes{}",
+                      "format": "time_series",
+                      "hide": false,
+                      "intervalFactor": 2,
+                      "legendFormat": "{{instance}} [{{space}}]",
+                      "refId": "A"
+                    }
+                  ],
+                  "thresholds": [],
+                  "timeRegions": [],
+                  "title": "Per pod heap",
+                  "tooltip": {
+                    "shared": true,
+                    "sort": 0,
+                    "value_type": "individual"
+                  },
+                  "type": "graph",
+                  "xaxis": {
+                    "mode": "time",
+                    "show": true,
+                    "values": []
+                  },
+                  "yaxes": [
+                    {
+                      "format": "decbytes",
+                      "logBase": 1,
+                      "show": true
+                    },
+                    {
+                      "format": "short",
+                      "logBase": 1,
+                      "show": true
+                    }
+                  ],
+                  "yaxis": {
+                    "align": false
+                  }
+                },
+                {
+                  "aliasColors": {},
+                  "bars": false,
+                  "dashLength": 10,
+                  "dashes": false,
+                  "datasource": {
+                    "type": "prometheus",
+                    "uid": "000000001"
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "links": []
+                    },
+                    "overrides": []
+                  },
+                  "fill": 1,
+                  "fillGradient": 0,
+                  "gridPos": {
+                    "h": 7,
+                    "w": 12,
+                    "x": 0,
+                    "y": 40
+                  },
+                  "hiddenSeries": false,
+                  "id": 66,
+                  "legend": {
+                    "avg": false,
+                    "current": false,
+                    "max": false,
+                    "min": false,
+                    "show": true,
+                    "total": false,
+                    "values": false
+                  },
+                  "lines": true,
+                  "linewidth": 1,
+                  "links": [],
+                  "nullPointMode": "null",
+                  "percentage": false,
+                  "pluginVersion": "8.3.4",
+                  "pointradius": 5,
+                  "points": false,
+                  "renderer": "flot",
+                  "seriesOverrides": [],
+                  "spaceLength": 10,
+                  "stack": false,
+                  "steppedLine": false,
+                  "targets": [
+                    {
+                      "expr": "sum(increase(nodejs_gc_pause_seconds_total{}[5m])) by (gctype)",
+                      "format": "time_series",
+                      "hide": false,
+                      "intervalFactor": 2,
+                      "legendFormat": "{{gctype}}",
+                      "refId": "A"
+                    }
+                  ],
+                  "thresholds": [],
+                  "timeRegions": [],
+                  "title": "GC - Seconds Running",
+                  "tooltip": {
+                    "shared": true,
+                    "sort": 0,
+                    "value_type": "individual"
+                  },
+                  "type": "graph",
+                  "xaxis": {
+                    "mode": "time",
+                    "show": true,
+                    "values": []
+                  },
+                  "yaxes": [
+                    {
+                      "$$hashKey": "object:290",
+                      "format": "s",
+                      "logBase": 1,
+                      "show": true
+                    },
+                    {
+                      "$$hashKey": "object:291",
+                      "format": "short",
+                      "logBase": 1,
+                      "show": true
+                    }
+                  ],
+                  "yaxis": {
+                    "align": false
+                  }
+                },
+                {
+                  "aliasColors": {},
+                  "bars": true,
+                  "dashLength": 10,
+                  "dashes": false,
+                  "datasource": {
+                    "type": "prometheus",
+                    "uid": "000000001"
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "links": []
+                    },
+                    "overrides": []
+                  },
+                  "fill": 1,
+                  "fillGradient": 0,
+                  "gridPos": {
+                    "h": 7,
+                    "w": 12,
+                    "x": 12,
+                    "y": 40
+                  },
+                  "hiddenSeries": false,
+                  "id": 67,
+                  "legend": {
+                    "avg": false,
+                    "current": false,
+                    "max": false,
+                    "min": false,
+                    "show": true,
+                    "total": false,
+                    "values": false
+                  },
+                  "lines": false,
+                  "linewidth": 1,
+                  "links": [],
+                  "nullPointMode": "null as zero",
+                  "percentage": false,
+                  "pluginVersion": "8.3.4",
+                  "pointradius": 5,
+                  "points": false,
+                  "renderer": "flot",
+                  "seriesOverrides": [],
+                  "spaceLength": 10,
+                  "stack": true,
+                  "steppedLine": false,
+                  "targets": [
+                    {
+                      "expr": "sum(increase(nodejs_gc_reclaimed_bytes_total{}[5m])) by (instance)",
+                      "format": "time_series",
+                      "hide": false,
+                      "intervalFactor": 2,
+                      "legendFormat": "{{instance}}",
+                      "refId": "A"
+                    }
+                  ],
+                  "thresholds": [],
+                  "timeRegions": [],
+                  "title": "GC - Bytes Freed",
+                  "tooltip": {
+                    "shared": true,
+                    "sort": 0,
+                    "value_type": "individual"
+                  },
+                  "type": "graph",
+                  "xaxis": {
+                    "mode": "time",
+                    "show": true,
+                    "values": []
+                  },
+                  "yaxes": [
+                    {
+                      "$$hashKey": "object:239",
+                      "format": "decbytes",
+                      "logBase": 1,
+                      "show": true
+                    },
+                    {
+                      "$$hashKey": "object:240",
+                      "format": "short",
+                      "logBase": 1,
+                      "show": true
+                    }
+                  ],
+                  "yaxis": {
+                    "align": false
+                  }
+                },
+                {
+                  "collapsed": true,
+                  "gridPos": {
+                    "h": 1,
+                    "w": 24,
+                    "x": 0,
+                    "y": 47
+                  },
+                  "id": 63,
+                  "panels": [
+                    {
+                      "aliasColors": {},
+                      "bars": false,
+                      "dashLength": 10,
+                      "dashes": false,
+                      "datasource": {
+                        "type": "prometheus",
+                        "uid": "000000001"
+                      },
+                      "fill": 1,
+                      "fillGradient": 0,
+                      "gridPos": {
+                        "h": 6,
+                        "w": 12,
+                        "x": 0,
+                        "y": 48
+                      },
+                      "hiddenSeries": false,
+                      "id": 58,
+                      "legend": {
+                        "alignAsTable": true,
+                        "avg": true,
+                        "current": false,
+                        "max": true,
+                        "min": false,
+                        "rightSide": true,
+                        "show": true,
+                        "sort": "avg",
+                        "sortDesc": true,
+                        "total": true,
+                        "values": true
+                      },
+                      "lines": true,
+                      "linewidth": 1,
+                      "links": [],
+                      "nullPointMode": "null",
+                      "options": {
+                        "dataLinks": []
+                      },
+                      "percentage": false,
+                      "pointradius": 5,
+                      "points": false,
+                      "renderer": "flot",
+                      "seriesOverrides": [],
+                      "spaceLength": 10,
+                      "stack": false,
+                      "steppedLine": false,
+                      "targets": [
+                        {
+                          "expr": "sum(increase(rocketchat_ddp_rate_limit_exceeded{user_id!=\"null\"}[5m])) by (limit_name)",
+                          "format": "time_series",
+                          "intervalFactor": 1,
+                          "legendFormat": "{{limit_name}} (not null)",
+                          "refId": "A"
+                        },
+                        {
+                          "expr": "sum(increase(rocketchat_ddp_rate_limit_exceeded{user_id=\"null\"}[5m])) by (limit_name)",
+                          "format": "time_series",
+                          "intervalFactor": 1,
+                          "legendFormat": "{{limit_name}} (null)",
+                          "refId": "B"
+                        }
+                      ],
+                      "thresholds": [],
+                      "timeRegions": [],
+                      "title": "Limit by type",
+                      "tooltip": {
+                        "shared": true,
+                        "sort": 2,
+                        "value_type": "individual"
+                      },
+                      "type": "graph",
+                      "xaxis": {
+                        "mode": "time",
+                        "show": true,
+                        "values": []
+                      },
+                      "yaxes": [
+                        {
+                          "format": "short",
+                          "logBase": 1,
+                          "show": true
+                        },
+                        {
+                          "format": "short",
+                          "logBase": 1,
+                          "show": true
+                        }
+                      ],
+                      "yaxis": {
+                        "align": false
+                      }
+                    },
+                    {
+                      "aliasColors": {},
+                      "bars": false,
+                      "dashLength": 10,
+                      "dashes": false,
+                      "datasource": {
+                        "type": "prometheus",
+                        "uid": "000000001"
+                      },
+                      "fill": 1,
+                      "fillGradient": 0,
+                      "gridPos": {
+                        "h": 6,
+                        "w": 12,
+                        "x": 12,
+                        "y": 48
+                      },
+                      "hiddenSeries": false,
+                      "id": 59,
+                      "legend": {
+                        "alignAsTable": true,
+                        "avg": true,
+                        "current": false,
+                        "max": true,
+                        "min": false,
+                        "rightSide": true,
+                        "show": true,
+                        "sort": "avg",
+                        "sortDesc": true,
+                        "total": true,
+                        "values": true
+                      },
+                      "lines": true,
+                      "linewidth": 1,
+                      "links": [],
+                      "nullPointMode": "null",
+                      "options": {
+                        "dataLinks": []
+                      },
+                      "percentage": false,
+                      "pointradius": 5,
+                      "points": false,
+                      "renderer": "flot",
+                      "seriesOverrides": [],
+                      "spaceLength": 10,
+                      "stack": false,
+                      "steppedLine": false,
+                      "targets": [
+                        {
+                          "expr": "sum(increase(rocketchat_ddp_rate_limit_exceeded{user_id!=\"null\"}[5m])) by (type,name)",
+                          "format": "time_series",
+                          "intervalFactor": 1,
+                          "legendFormat": "{{type}}: {{name}} (not null)",
+                          "refId": "A"
+                        },
+                        {
+                          "expr": "sum(increase(rocketchat_ddp_rate_limit_exceeded{user_id=\"null\"}[5m])) by (type,name)",
+                          "format": "time_series",
+                          "intervalFactor": 1,
+                          "legendFormat": "{{type}}: {{name}} (null)",
+                          "refId": "B"
+                        }
+                      ],
+                      "thresholds": [],
+                      "timeRegions": [],
+                      "title": "Limit by method",
+                      "tooltip": {
+                        "shared": true,
+                        "sort": 2,
+                        "value_type": "individual"
+                      },
+                      "type": "graph",
+                      "xaxis": {
+                        "mode": "time",
+                        "show": true,
+                        "values": []
+                      },
+                      "yaxes": [
+                        {
+                          "format": "short",
+                          "logBase": 1,
+                          "show": true
+                        },
+                        {
+                          "format": "short",
+                          "logBase": 1,
+                          "show": true
+                        }
+                      ],
+                      "yaxis": {
+                        "align": false
+                      }
+                    },
+                    {
+                      "aliasColors": {},
+                      "bars": false,
+                      "dashLength": 10,
+                      "dashes": false,
+                      "datasource": {
+                        "type": "prometheus",
+                        "uid": "000000001"
+                      },
+                      "fill": 1,
+                      "fillGradient": 0,
+                      "gridPos": {
+                        "h": 8,
+                        "w": 12,
+                        "x": 0,
+                        "y": 54
+                      },
+                      "hiddenSeries": false,
+                      "id": 61,
+                      "legend": {
+                        "alignAsTable": true,
+                        "avg": true,
+                        "current": true,
+                        "max": true,
+                        "min": false,
+                        "rightSide": true,
+                        "show": true,
+                        "sort": "avg",
+                        "sortDesc": true,
+                        "total": true,
+                        "values": true
+                      },
+                      "lines": true,
+                      "linewidth": 1,
+                      "links": [],
+                      "nullPointMode": "null",
+                      "options": {
+                        "dataLinks": []
+                      },
+                      "percentage": false,
+                      "pointradius": 5,
+                      "points": false,
+                      "renderer": "flot",
+                      "seriesOverrides": [],
+                      "spaceLength": 10,
+                      "stack": false,
+                      "steppedLine": false,
+                      "targets": [
+                        {
+                          "expr": "sum(increase(rocketchat_ddp_rate_limit_exceeded{}[5m])) by (user_id)",
+                          "format": "time_series",
+                          "intervalFactor": 1,
+                          "legendFormat": "{{user_id}}",
+                          "refId": "A"
+                        }
+                      ],
+                      "thresholds": [],
+                      "timeRegions": [],
+                      "title": "Limit by userId",
+                      "tooltip": {
+                        "shared": true,
+                        "sort": 2,
+                        "value_type": "individual"
+                      },
+                      "type": "graph",
+                      "xaxis": {
+                        "mode": "time",
+                        "show": true,
+                        "values": []
+                      },
+                      "yaxes": [
+                        {
+                          "format": "short",
+                          "logBase": 1,
+                          "show": true
+                        },
+                        {
+                          "format": "short",
+                          "logBase": 1,
+                          "show": true
+                        }
+                      ],
+                      "yaxis": {
+                        "align": false
+                      }
+                    },
+                    {
+                      "aliasColors": {},
+                      "bars": false,
+                      "dashLength": 10,
+                      "dashes": false,
+                      "datasource": {
+                        "type": "prometheus",
+                        "uid": "000000001"
+                      },
+                      "fill": 1,
+                      "fillGradient": 0,
+                      "gridPos": {
+                        "h": 8,
+                        "w": 12,
+                        "x": 12,
+                        "y": 54
+                      },
+                      "hiddenSeries": false,
+                      "id": 60,
+                      "legend": {
+                        "alignAsTable": true,
+                        "avg": true,
+                        "current": true,
+                        "max": true,
+                        "min": false,
+                        "rightSide": true,
+                        "show": true,
+                        "sort": "avg",
+                        "sortDesc": true,
+                        "total": true,
+                        "values": true
+                      },
+                      "lines": true,
+                      "linewidth": 1,
+                      "links": [],
+                      "nullPointMode": "null",
+                      "options": {
+                        "dataLinks": []
+                      },
+                      "percentage": false,
+                      "pointradius": 5,
+                      "points": false,
+                      "renderer": "flot",
+                      "seriesOverrides": [],
+                      "spaceLength": 10,
+                      "stack": false,
+                      "steppedLine": false,
+                      "targets": [
+                        {
+                          "expr": "sum(increase(rocketchat_ddp_rate_limit_exceeded{user_id!=\"null\"}[5m])) by (connection_id)",
+                          "format": "time_series",
+                          "intervalFactor": 1,
+                          "legendFormat": "{{connection_id}} (not null)",
+                          "refId": "A"
+                        },
+                        {
+                          "expr": "sum(increase(rocketchat_ddp_rate_limit_exceeded{user_id=\"null\"}[5m])) by (connection_id)",
+                          "format": "time_series",
+                          "intervalFactor": 1,
+                          "legendFormat": "{{connection_id}} (null)",
+                          "refId": "B"
+                        }
+                      ],
+                      "thresholds": [],
+                      "timeRegions": [],
+                      "title": "Limit by connectionId",
+                      "tooltip": {
+                        "shared": true,
+                        "sort": 2,
+                        "value_type": "individual"
+                      },
+                      "type": "graph",
+                      "xaxis": {
+                        "mode": "time",
+                        "show": true,
+                        "values": []
+                      },
+                      "yaxes": [
+                        {
+                          "format": "short",
+                          "logBase": 1,
+                          "show": true
+                        },
+                        {
+                          "format": "short",
+                          "logBase": 1,
+                          "show": true
+                        }
+                      ],
+                      "yaxis": {
+                        "align": false
+                      }
+                    }
+                  ],
+                  "title": "DDP Rate Limiter",
+                  "type": "row"
+                },
+                {
+                  "collapsed": false,
+                  "gridPos": {
+                    "h": 1,
+                    "w": 24,
+                    "x": 0,
+                    "y": 48
+                  },
+                  "id": 21,
+                  "panels": [],
+                  "title": "RocketChat Data",
+                  "type": "row"
+                },
+                {
+                  "aliasColors": {},
+                  "bars": true,
+                  "dashLength": 10,
+                  "dashes": false,
+                  "datasource": {
+                    "type": "prometheus",
+                    "uid": "000000001"
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "links": []
+                    },
+                    "overrides": []
+                  },
+                  "fill": 1,
+                  "fillGradient": 0,
+                  "gridPos": {
+                    "h": 7,
+                    "w": 24,
+                    "x": 0,
+                    "y": 49
+                  },
+                  "hiddenSeries": false,
+                  "id": 2,
+                  "legend": {
+                    "avg": false,
+                    "current": false,
+                    "max": false,
+                    "min": false,
+                    "show": true,
+                    "total": false,
+                    "values": false
+                  },
+                  "lines": false,
+                  "linewidth": 1,
+                  "links": [],
+                  "nullPointMode": "null as zero",
+                  "percentage": false,
+                  "pluginVersion": "8.3.4",
+                  "pointradius": 5,
+                  "points": false,
+                  "renderer": "flot",
+                  "seriesOverrides": [],
+                  "spaceLength": 10,
+                  "stack": true,
+                  "steppedLine": false,
+                  "targets": [
+                    {
+                      "expr": "increase(rocketchat_message_sent{}[30m])",
+                      "format": "time_series",
+                      "interval": "",
+                      "intervalFactor": 10,
+                      "legendFormat": "{{instance}}",
+                      "refId": "A"
+                    }
+                  ],
+                  "thresholds": [],
+                  "timeRegions": [],
+                  "title": "Messages Sent (30m)",
+                  "tooltip": {
+                    "shared": true,
+                    "sort": 0,
+                    "value_type": "individual"
+                  },
+                  "type": "graph",
+                  "xaxis": {
+                    "mode": "time",
+                    "show": true,
+                    "values": []
+                  },
+                  "yaxes": [
+                    {
+                      "$$hashKey": "object:191",
+                      "format": "short",
+                      "logBase": 1,
+                      "show": true
+                    },
+                    {
+                      "$$hashKey": "object:192",
+                      "format": "short",
+                      "logBase": 1,
+                      "show": true
+                    }
+                  ],
+                  "yaxis": {
+                    "align": false
+                  }
+                },
+                {
+                  "aliasColors": {},
+                  "bars": false,
+                  "dashLength": 10,
+                  "dashes": false,
+                  "datasource": {
+                    "type": "prometheus",
+                    "uid": "000000001"
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "links": []
+                    },
+                    "overrides": []
+                  },
+                  "fill": 1,
+                  "fillGradient": 0,
+                  "gridPos": {
+                    "h": 7,
+                    "w": 24,
+                    "x": 0,
+                    "y": 56
+                  },
+                  "hiddenSeries": false,
+                  "id": 35,
+                  "legend": {
+                    "avg": false,
+                    "current": false,
+                    "max": false,
+                    "min": false,
+                    "show": true,
+                    "total": false,
+                    "values": false
+                  },
+                  "lines": true,
+                  "linewidth": 1,
+                  "links": [],
+                  "nullPointMode": "null",
+                  "percentage": false,
+                  "pluginVersion": "8.3.4",
+                  "pointradius": 5,
+                  "points": false,
+                  "renderer": "flot",
+                  "seriesOverrides": [],
+                  "spaceLength": 10,
+                  "stack": true,
+                  "steppedLine": false,
+                  "targets": [
+                    {
+                      "expr": "max(rocketchat_messages_total{})",
+                      "format": "time_series",
+                      "intervalFactor": 10,
+                      "legendFormat": "{{instance}}",
+                      "refId": "A"
+                    }
+                  ],
+                  "thresholds": [],
+                  "timeRegions": [],
+                  "title": "Messages Sent Total",
+                  "tooltip": {
+                    "shared": true,
+                    "sort": 0,
+                    "value_type": "individual"
+                  },
+                  "type": "graph",
+                  "xaxis": {
+                    "mode": "time",
+                    "show": true,
+                    "values": []
+                  },
+                  "yaxes": [
+                    {
+                      "decimals": 0,
+                      "format": "short",
+                      "logBase": 1,
+                      "show": true
+                    },
+                    {
+                      "format": "short",
+                      "logBase": 1,
+                      "show": true
+                    }
+                  ],
+                  "yaxis": {
+                    "align": false
+                  }
+                },
+                {
+                  "aliasColors": {},
+                  "bars": false,
+                  "dashLength": 10,
+                  "dashes": false,
+                  "datasource": {
+                    "type": "prometheus",
+                    "uid": "000000001"
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "links": []
+                    },
+                    "overrides": []
+                  },
+                  "fill": 0,
+                  "fillGradient": 0,
+                  "gridPos": {
+                    "h": 7,
+                    "w": 24,
+                    "x": 0,
+                    "y": 63
+                  },
+                  "hiddenSeries": false,
+                  "id": 78,
+                  "legend": {
+                    "avg": false,
+                    "current": false,
+                    "max": false,
+                    "min": false,
+                    "show": true,
+                    "total": false,
+                    "values": false
+                  },
+                  "lines": false,
+                  "linewidth": 1,
+                  "links": [],
+                  "nullPointMode": "null",
+                  "percentage": false,
+                  "pluginVersion": "8.3.4",
+                  "pointradius": 2,
+                  "points": true,
+                  "renderer": "flot",
+                  "seriesOverrides": [],
+                  "spaceLength": 10,
+                  "stack": false,
+                  "steppedLine": false,
+                  "targets": [
+                    {
+                      "expr": "rate(rocketchat_messages_roundtrip_time{}[5m])",
+                      "format": "time_series",
+                      "interval": "",
+                      "intervalFactor": 10,
+                      "legendFormat": "{{instance}}",
+                      "refId": "A"
+                    }
+                  ],
+                  "thresholds": [],
+                  "timeRegions": [],
+                  "title": "Messages Round Trip",
+                  "tooltip": {
+                    "shared": true,
+                    "sort": 0,
+                    "value_type": "individual"
+                  },
+                  "type": "graph",
+                  "xaxis": {
+                    "mode": "time",
+                    "show": true,
+                    "values": []
+                  },
+                  "yaxes": [
+                    {
+                      "$$hashKey": "object:323",
+                      "format": "ms",
+                      "logBase": 1,
+                      "min": "0",
+                      "show": true
+                    },
+                    {
+                      "$$hashKey": "object:324",
+                      "format": "short",
+                      "logBase": 1,
+                      "show": true
+                    }
+                  ],
+                  "yaxis": {
+                    "align": false
+                  }
+                },
+                {
+                  "aliasColors": {},
+                  "bars": false,
+                  "dashLength": 10,
+                  "dashes": false,
+                  "datasource": {
+                    "type": "prometheus",
+                    "uid": "000000001"
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "links": []
+                    },
+                    "overrides": []
+                  },
+                  "fill": 1,
+                  "fillGradient": 0,
+                  "gridPos": {
+                    "h": 9,
+                    "w": 24,
+                    "x": 0,
+                    "y": 70
+                  },
+                  "hiddenSeries": false,
+                  "id": 10,
+                  "legend": {
+                    "alignAsTable": true,
+                    "avg": true,
+                    "current": true,
+                    "max": true,
+                    "min": false,
+                    "rightSide": true,
+                    "show": true,
+                    "sort": "avg",
+                    "sortDesc": true,
+                    "total": false,
+                    "values": true
+                  },
+                  "lines": true,
+                  "linewidth": 1,
+                  "links": [],
+                  "nullPointMode": "null",
+                  "percentage": false,
+                  "pluginVersion": "8.3.4",
+                  "pointradius": 5,
+                  "points": false,
+                  "renderer": "flot",
+                  "seriesOverrides": [
+                    {
+                      "alias": "Sessions",
+                      "yaxis": 1
+                    }
+                  ],
+                  "spaceLength": 10,
+                  "stack": true,
+                  "steppedLine": false,
+                  "targets": [
+                    {
+                      "expr": "avg(rocketchat_users_online{})",
+                      "format": "time_series",
+                      "hide": false,
+                      "intervalFactor": 1,
+                      "legendFormat": "Online",
+                      "refId": "A"
+                    },
+                    {
+                      "expr": "avg(rocketchat_users_away{})",
+                      "format": "time_series",
+                      "hide": false,
+                      "intervalFactor": 1,
+                      "legendFormat": "Away",
+                      "refId": "B"
+                    }
+                  ],
+                  "thresholds": [],
+                  "timeRegions": [],
+                  "title": "Users Presence",
+                  "tooltip": {
+                    "shared": true,
+                    "sort": 2,
+                    "value_type": "individual"
+                  },
+                  "type": "graph",
+                  "xaxis": {
+                    "mode": "time",
+                    "show": true,
+                    "values": []
+                  },
+                  "yaxes": [
+                    {
+                      "$$hashKey": "object:163",
+                      "format": "short",
+                      "logBase": 1,
+                      "min": "0",
+                      "show": true
+                    },
+                    {
+                      "$$hashKey": "object:164",
+                      "format": "short",
+                      "logBase": 1,
+                      "min": "0",
+                      "show": true
+                    }
+                  ],
+                  "yaxis": {
+                    "align": false
+                  }
+                },
+                {
+                  "aliasColors": {},
+                  "bars": false,
+                  "dashLength": 10,
+                  "dashes": false,
+                  "datasource": {
+                    "type": "prometheus",
+                    "uid": "000000001"
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "links": []
+                    },
+                    "overrides": []
+                  },
+                  "fill": 1,
+                  "fillGradient": 0,
+                  "gridPos": {
+                    "h": 7,
+                    "w": 24,
+                    "x": 0,
+                    "y": 79
+                  },
+                  "hiddenSeries": false,
+                  "id": 64,
+                  "legend": {
+                    "alignAsTable": true,
+                    "avg": true,
+                    "current": true,
+                    "max": true,
+                    "min": false,
+                    "rightSide": true,
+                    "show": true,
+                    "sort": "avg",
+                    "sortDesc": true,
+                    "total": false,
+                    "values": true
+                  },
+                  "lines": true,
+                  "linewidth": 1,
+                  "links": [],
+                  "nullPointMode": "null",
+                  "percentage": false,
+                  "pluginVersion": "8.3.4",
+                  "pointradius": 5,
+                  "points": false,
+                  "renderer": "flot",
+                  "seriesOverrides": [
+                    {
+                      "alias": "Sessions",
+                      "yaxis": 1
+                    }
+                  ],
+                  "spaceLength": 10,
+                  "stack": false,
+                  "steppedLine": false,
+                  "targets": [
+                    {
+                      "expr": "sum(rocketchat_ddp_connected_users{})",
+                      "format": "time_series",
+                      "hide": false,
+                      "intervalFactor": 1,
+                      "legendFormat": "Connected Users",
+                      "refId": "A"
+                    },
+                    {
+                      "expr": "sum(rocketchat_ddp_sessions_count{})",
+                      "format": "time_series",
+                      "hide": false,
+                      "intervalFactor": 1,
+                      "legendFormat": "All Sessions",
+                      "refId": "B"
+                    },
+                    {
+                      "expr": "sum(rocketchat_ddp_sessions_auth{})",
+                      "format": "time_series",
+                      "intervalFactor": 1,
+                      "legendFormat": "Authenticated Sessions ",
+                      "refId": "C"
+                    }
+                  ],
+                  "thresholds": [],
+                  "timeRegions": [],
+                  "title": "Users & Sessions",
+                  "tooltip": {
+                    "shared": true,
+                    "sort": 2,
+                    "value_type": "individual"
+                  },
+                  "type": "graph",
+                  "xaxis": {
+                    "mode": "time",
+                    "show": true,
+                    "values": []
+                  },
+                  "yaxes": [
+                    {
+                      "format": "short",
+                      "logBase": 1,
+                      "min": "0",
+                      "show": true
+                    },
+                    {
+                      "format": "short",
+                      "logBase": 1,
+                      "min": "0",
+                      "show": true
+                    }
+                  ],
+                  "yaxis": {
+                    "align": false
+                  }
+                },
+                {
+                  "aliasColors": {},
+                  "bars": false,
+                  "dashLength": 10,
+                  "dashes": false,
+                  "datasource": {
+                    "type": "prometheus",
+                    "uid": "000000001"
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "links": []
+                    },
+                    "overrides": []
+                  },
+                  "fill": 2,
+                  "fillGradient": 0,
+                  "gridPos": {
+                    "h": 7,
+                    "w": 24,
+                    "x": 0,
+                    "y": 86
+                  },
+                  "hiddenSeries": false,
+                  "id": 75,
+                  "legend": {
+                    "alignAsTable": true,
+                    "avg": true,
+                    "current": true,
+                    "max": true,
+                    "min": false,
+                    "rightSide": true,
+                    "show": true,
+                    "sort": "avg",
+                    "sortDesc": true,
+                    "total": false,
+                    "values": true
+                  },
+                  "lines": true,
+                  "linewidth": 2,
+                  "links": [],
+                  "nullPointMode": "null",
+                  "percentage": false,
+                  "pluginVersion": "8.3.4",
+                  "pointradius": 5,
+                  "points": false,
+                  "renderer": "flot",
+                  "seriesOverrides": [
+                    {
+                      "alias": "Sessions",
+                      "yaxis": 1
+                    }
+                  ],
+                  "spaceLength": 10,
+                  "stack": true,
+                  "steppedLine": false,
+                  "targets": [
+                    {
+                      "expr": "rocketchat_ddp_connected_users{}",
+                      "format": "time_series",
+                      "hide": false,
+                      "interval": "",
+                      "intervalFactor": 1,
+                      "legendFormat": "{{instance}}",
+                      "refId": "A"
+                    }
+                  ],
+                  "thresholds": [],
+                  "timeRegions": [],
+                  "title": "Web Socket Connections per pod",
+                  "tooltip": {
+                    "shared": true,
+                    "sort": 2,
+                    "value_type": "individual"
+                  },
+                  "type": "graph",
+                  "xaxis": {
+                    "mode": "time",
+                    "show": true,
+                    "values": []
+                  },
+                  "yaxes": [
+                    {
+                      "$$hashKey": "object:443",
+                      "format": "short",
+                      "logBase": 1,
+                      "min": "0",
+                      "show": true
+                    },
+                    {
+                      "$$hashKey": "object:444",
+                      "format": "short",
+                      "logBase": 1,
+                      "min": "0",
+                      "show": true
+                    }
+                  ],
+                  "yaxis": {
+                    "align": false
+                  }
+                },
+                {
+                  "aliasColors": {},
+                  "bars": false,
+                  "dashLength": 10,
+                  "dashes": false,
+                  "datasource": {
+                    "type": "prometheus",
+                    "uid": "000000001"
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "links": []
+                    },
+                    "overrides": []
+                  },
+                  "fill": 2,
+                  "fillGradient": 0,
+                  "gridPos": {
+                    "h": 7,
+                    "w": 24,
+                    "x": 0,
+                    "y": 93
+                  },
+                  "hiddenSeries": false,
+                  "id": 76,
+                  "legend": {
+                    "alignAsTable": true,
+                    "avg": true,
+                    "current": true,
+                    "max": true,
+                    "min": false,
+                    "rightSide": true,
+                    "show": true,
+                    "sort": "avg",
+                    "sortDesc": true,
+                    "total": false,
+                    "values": true
+                  },
+                  "lines": true,
+                  "linewidth": 2,
+                  "links": [],
+                  "nullPointMode": "null",
+                  "percentage": false,
+                  "pluginVersion": "8.3.4",
+                  "pointradius": 5,
+                  "points": false,
+                  "renderer": "flot",
+                  "seriesOverrides": [
+                    {
+                      "alias": "Sessions",
+                      "yaxis": 1
+                    }
+                  ],
+                  "spaceLength": 10,
+                  "stack": false,
+                  "steppedLine": false,
+                  "targets": [
+                    {
+                      "expr": "rocketchat_apps_installed{}",
+                      "format": "time_series",
+                      "hide": false,
+                      "interval": "",
+                      "intervalFactor": 1,
+                      "legendFormat": "{{instance}} - installed",
+                      "refId": "A"
+                    },
+                    {
+                      "expr": "rocketchat_apps_enabled{}",
+                      "interval": "",
+                      "legendFormat": "{{instance}} - enabled",
+                      "refId": "B"
+                    },
+                    {
+                      "expr": "rocketchat_apps_failed{}",
+                      "interval": "",
+                      "legendFormat": "{{instance}} - failed",
+                      "refId": "C"
+                    }
+                  ],
+                  "thresholds": [],
+                  "timeRegions": [],
+                  "title": "Apps Installed / Disabled / Failed",
+                  "tooltip": {
+                    "shared": true,
+                    "sort": 2,
+                    "value_type": "individual"
+                  },
+                  "type": "graph",
+                  "xaxis": {
+                    "mode": "time",
+                    "show": true,
+                    "values": []
+                  },
+                  "yaxes": [
+                    {
+                      "$$hashKey": "object:443",
+                      "format": "short",
+                      "logBase": 1,
+                      "min": "0",
+                      "show": true
+                    },
+                    {
+                      "$$hashKey": "object:444",
+                      "format": "short",
+                      "logBase": 1,
+                      "min": "0",
+                      "show": true
+                    }
+                  ],
+                  "yaxis": {
+                    "align": false
+                  }
+                },
+                {
+                  "aliasColors": {},
+                  "bars": false,
+                  "dashLength": 10,
+                  "dashes": false,
+                  "datasource": {
+                    "type": "prometheus",
+                    "uid": "000000001"
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "links": []
+                    },
+                    "overrides": []
+                  },
+                  "fill": 1,
+                  "fillGradient": 0,
+                  "gridPos": {
+                    "h": 9,
+                    "w": 24,
+                    "x": 0,
+                    "y": 100
+                  },
+                  "hiddenSeries": false,
+                  "id": 56,
+                  "legend": {
+                    "alignAsTable": true,
+                    "avg": false,
+                    "current": true,
+                    "hideEmpty": true,
+                    "hideZero": true,
+                    "max": true,
+                    "min": false,
+                    "rightSide": true,
+                    "show": true,
+                    "sort": "current",
+                    "sortDesc": true,
+                    "total": false,
+                    "values": true
+                  },
+                  "lines": true,
+                  "linewidth": 1,
+                  "links": [],
+                  "nullPointMode": "null",
+                  "percentage": false,
+                  "pluginVersion": "8.3.4",
+                  "pointradius": 5,
+                  "points": false,
+                  "renderer": "flot",
+                  "seriesOverrides": [],
+                  "spaceLength": 10,
+                  "stack": true,
+                  "steppedLine": false,
+                  "targets": [
+                    {
+                      "expr": "sum(increase(rocketchat_meteor_stream{}[5m])) by (stream,eventName)",
+                      "format": "time_series",
+                      "hide": true,
+                      "intervalFactor": 1,
+                      "legendFormat": "{{stream}}/{{eventName}}",
+                      "refId": "A"
+                    },
+                    {
+                      "expr": "sum(increase(rocketchat_meteor_streamer_broadcast{}[5m])) by (stream,eventName)",
+                      "format": "time_series",
+                      "hide": true,
+                      "intervalFactor": 1,
+                      "legendFormat": "broadcast ({{stream}}/{{eventName}})",
+                      "refId": "B"
+                    },
+                    {
+                      "expr": "avg(increase(rocketchat_oplog{}[5m])) by (collection,op)",
+                      "format": "time_series",
+                      "hide": false,
+                      "intervalFactor": 1,
+                      "legendFormat": "{{collection}}/{{op}}",
+                      "refId": "C"
+                    }
+                  ],
+                  "thresholds": [],
+                  "timeRegions": [],
+                  "title": "Oplog",
+                  "tooltip": {
+                    "shared": true,
+                    "sort": 2,
+                    "value_type": "individual"
+                  },
+                  "type": "graph",
+                  "xaxis": {
+                    "mode": "time",
+                    "show": true,
+                    "values": []
+                  },
+                  "yaxes": [
+                    {
+                      "format": "short",
+                      "logBase": 1,
+                      "show": true
+                    },
+                    {
+                      "format": "short",
+                      "logBase": 1,
+                      "show": true
+                    }
+                  ],
+                  "yaxis": {
+                    "align": false
+                  }
+                },
+                {
+                  "aliasColors": {},
+                  "bars": false,
+                  "dashLength": 10,
+                  "dashes": false,
+                  "datasource": {
+                    "type": "prometheus",
+                    "uid": "000000001"
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "links": []
+                    },
+                    "overrides": []
+                  },
+                  "fill": 1,
+                  "fillGradient": 0,
+                  "gridPos": {
+                    "h": 9,
+                    "w": 24,
+                    "x": 0,
+                    "y": 109
+                  },
+                  "hiddenSeries": false,
+                  "id": 77,
+                  "legend": {
+                    "alignAsTable": true,
+                    "avg": false,
+                    "current": true,
+                    "hideEmpty": true,
+                    "hideZero": true,
+                    "max": true,
+                    "min": false,
+                    "rightSide": true,
+                    "show": true,
+                    "sort": "current",
+                    "sortDesc": true,
+                    "total": false,
+                    "values": true
+                  },
+                  "lines": true,
+                  "linewidth": 1,
+                  "links": [],
+                  "nullPointMode": "null",
+                  "percentage": false,
+                  "pluginVersion": "8.3.4",
+                  "pointradius": 5,
+                  "points": false,
+                  "renderer": "flot",
+                  "seriesOverrides": [],
+                  "spaceLength": 10,
+                  "stack": true,
+                  "steppedLine": false,
+                  "targets": [
+                    {
+                      "expr": "sum(increase(rocketchat_meteor_stream{}[5m])) by (stream,eventName)",
+                      "format": "time_series",
+                      "hide": true,
+                      "intervalFactor": 1,
+                      "legendFormat": "{{stream}}/{{eventName}}",
+                      "refId": "A"
+                    },
+                    {
+                      "expr": "sum(increase(rocketchat_meteor_streamer_broadcast{}[5m])) by (stream,eventName)",
+                      "format": "time_series",
+                      "hide": true,
+                      "intervalFactor": 1,
+                      "legendFormat": "broadcast ({{stream}}/{{eventName}})",
+                      "refId": "B"
+                    },
+                    {
+                      "expr": "avg(increase(rocketchat_oplog{}[5m])) by (instance)",
+                      "format": "time_series",
+                      "hide": false,
+                      "interval": "",
+                      "intervalFactor": 1,
+                      "legendFormat": "{{instance}}",
+                      "refId": "C"
+                    }
+                  ],
+                  "thresholds": [],
+                  "timeRegions": [],
+                  "title": "Oplog By instance",
+                  "tooltip": {
+                    "shared": true,
+                    "sort": 2,
+                    "value_type": "individual"
+                  },
+                  "type": "graph",
+                  "xaxis": {
+                    "mode": "time",
+                    "show": true,
+                    "values": []
+                  },
+                  "yaxes": [
+                    {
+                      "$$hashKey": "object:313",
+                      "format": "short",
+                      "logBase": 1,
+                      "show": true
+                    },
+                    {
+                      "$$hashKey": "object:314",
+                      "format": "short",
+                      "logBase": 1,
+                      "show": true
+                    }
+                  ],
+                  "yaxis": {
+                    "align": false
+                  }
+                },
+                {
+                  "aliasColors": {},
+                  "bars": false,
+                  "dashLength": 10,
+                  "dashes": false,
+                  "datasource": {
+                    "type": "prometheus",
+                    "uid": "000000001"
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "links": []
+                    },
+                    "overrides": []
+                  },
+                  "fill": 1,
+                  "fillGradient": 0,
+                  "gridPos": {
+                    "h": 9,
+                    "w": 24,
+                    "x": 0,
+                    "y": 118
+                  },
+                  "hiddenSeries": false,
+                  "id": 65,
+                  "legend": {
+                    "alignAsTable": true,
+                    "avg": false,
+                    "current": true,
+                    "hideEmpty": true,
+                    "hideZero": true,
+                    "max": true,
+                    "min": false,
+                    "rightSide": true,
+                    "show": true,
+                    "sort": "current",
+                    "sortDesc": true,
+                    "total": false,
+                    "values": true
+                  },
+                  "lines": true,
+                  "linewidth": 1,
+                  "links": [],
+                  "nullPointMode": "null",
+                  "percentage": false,
+                  "pluginVersion": "8.3.4",
+                  "pointradius": 1,
+                  "points": false,
+                  "renderer": "flot",
+                  "seriesOverrides": [],
+                  "spaceLength": 10,
+                  "stack": false,
+                  "steppedLine": false,
+                  "targets": [
+                    {
+                      "expr": "rocketchat_oplog_queue{}",
+                      "format": "time_series",
+                      "hide": false,
+                      "intervalFactor": 1,
+                      "legendFormat": "{{instance}}",
+                      "refId": "C"
+                    }
+                  ],
+                  "thresholds": [],
+                  "timeRegions": [],
+                  "title": "Oplog Queue",
+                  "tooltip": {
+                    "shared": true,
+                    "sort": 2,
+                    "value_type": "individual"
+                  },
+                  "type": "graph",
+                  "xaxis": {
+                    "mode": "time",
+                    "show": true,
+                    "values": []
+                  },
+                  "yaxes": [
+                    {
+                      "format": "short",
+                      "logBase": 1,
+                      "show": true
+                    },
+                    {
+                      "format": "short",
+                      "logBase": 1,
+                      "show": true
+                    }
+                  ],
+                  "yaxis": {
+                    "align": false
+                  }
+                },
+                {
+                  "aliasColors": {},
+                  "bars": false,
+                  "dashLength": 10,
+                  "dashes": false,
+                  "datasource": {
+                    "type": "prometheus",
+                    "uid": "000000001"
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "links": []
+                    },
+                    "overrides": []
+                  },
+                  "fill": 1,
+                  "fillGradient": 0,
+                  "gridPos": {
+                    "h": 9,
+                    "w": 24,
+                    "x": 0,
+                    "y": 127
+                  },
+                  "hiddenSeries": false,
+                  "id": 73,
+                  "legend": {
+                    "alignAsTable": true,
+                    "avg": false,
+                    "current": true,
+                    "hideEmpty": true,
+                    "hideZero": true,
+                    "max": true,
+                    "min": false,
+                    "rightSide": true,
+                    "show": true,
+                    "sort": "current",
+                    "sortDesc": true,
+                    "total": false,
+                    "values": true
+                  },
+                  "lines": true,
+                  "linewidth": 1,
+                  "links": [],
+                  "nullPointMode": "null",
+                  "percentage": false,
+                  "pluginVersion": "8.3.4",
+                  "pointradius": 1,
+                  "points": false,
+                  "renderer": "flot",
+                  "seriesOverrides": [],
+                  "spaceLength": 10,
+                  "stack": false,
+                  "steppedLine": false,
+                  "targets": [
+                    {
+                      "expr": "rocketchat_push_queue{}",
+                      "format": "time_series",
+                      "hide": false,
+                      "intervalFactor": 1,
+                      "legendFormat": "{{instance}}",
+                      "refId": "C"
+                    }
+                  ],
+                  "thresholds": [],
+                  "timeRegions": [],
+                  "title": "Push Queue",
+                  "tooltip": {
+                    "shared": true,
+                    "sort": 2,
+                    "value_type": "individual"
+                  },
+                  "type": "graph",
+                  "xaxis": {
+                    "mode": "time",
+                    "show": true,
+                    "values": []
+                  },
+                  "yaxes": [
+                    {
+                      "format": "short",
+                      "logBase": 1,
+                      "show": true
+                    },
+                    {
+                      "format": "short",
+                      "logBase": 1,
+                      "show": true
+                    }
+                  ],
+                  "yaxis": {
+                    "align": false
+                  }
+                },
+                {
+                  "aliasColors": {},
+                  "bars": false,
+                  "dashLength": 10,
+                  "dashes": false,
+                  "datasource": {
+                    "type": "prometheus",
+                    "uid": "000000001"
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "links": []
+                    },
+                    "overrides": []
+                  },
+                  "fill": 1,
+                  "fillGradient": 0,
+                  "gridPos": {
+                    "h": 9,
+                    "w": 24,
+                    "x": 0,
+                    "y": 136
+                  },
+                  "hiddenSeries": false,
+                  "id": 74,
+                  "legend": {
+                    "alignAsTable": true,
+                    "avg": false,
+                    "current": true,
+                    "hideEmpty": true,
+                    "hideZero": true,
+                    "max": true,
+                    "min": false,
+                    "rightSide": true,
+                    "show": true,
+                    "sort": "current",
+                    "sortDesc": true,
+                    "total": false,
+                    "values": true
+                  },
+                  "lines": true,
+                  "linewidth": 1,
+                  "links": [],
+                  "nullPointMode": "null",
+                  "percentage": false,
+                  "pluginVersion": "8.3.4",
+                  "pointradius": 1,
+                  "points": false,
+                  "renderer": "flot",
+                  "seriesOverrides": [],
+                  "spaceLength": 10,
+                  "stack": false,
+                  "steppedLine": false,
+                  "targets": [
+                    {
+                      "expr": "sum(rocketchat_meteor_facts{}) by (pkg, fact)",
+                      "format": "time_series",
+                      "hide": false,
+                      "intervalFactor": 1,
+                      "legendFormat": "{{pkg}} {{fact}}",
+                      "refId": "C"
+                    }
+                  ],
+                  "thresholds": [],
+                  "timeRegions": [],
+                  "title": "Meteor Facts",
+                  "tooltip": {
+                    "shared": true,
+                    "sort": 2,
+                    "value_type": "individual"
+                  },
+                  "type": "graph",
+                  "xaxis": {
+                    "mode": "time",
+                    "show": true,
+                    "values": []
+                  },
+                  "yaxes": [
+                    {
+                      "format": "short",
+                      "logBase": 1,
+                      "show": true
+                    },
+                    {
+                      "format": "short",
+                      "logBase": 1,
+                      "show": true
+                    }
+                  ],
+                  "yaxis": {
+                    "align": false
+                  }
+                },
+                {
+                  "aliasColors": {},
+                  "bars": false,
+                  "dashLength": 10,
+                  "dashes": false,
+                  "datasource": {
+                    "type": "prometheus",
+                    "uid": "000000001"
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "links": []
+                    },
+                    "overrides": []
+                  },
+                  "fill": 1,
+                  "fillGradient": 0,
+                  "gridPos": {
+                    "h": 8,
+                    "w": 12,
+                    "x": 0,
+                    "y": 145
+                  },
+                  "hiddenSeries": false,
+                  "id": 11,
+                  "legend": {
+                    "alignAsTable": true,
+                    "avg": true,
+                    "current": true,
+                    "max": true,
+                    "min": false,
+                    "rightSide": true,
+                    "show": true,
+                    "sort": "avg",
+                    "sortDesc": true,
+                    "total": false,
+                    "values": true
+                  },
+                  "lines": true,
+                  "linewidth": 1,
+                  "links": [],
+                  "nullPointMode": "null",
+                  "percentage": false,
+                  "pluginVersion": "8.3.4",
+                  "pointradius": 5,
+                  "points": false,
+                  "renderer": "flot",
+                  "seriesOverrides": [
+                    {
+                      "alias": "Sessions",
+                      "yaxis": 1
+                    }
+                  ],
+                  "spaceLength": 10,
+                  "stack": false,
+                  "steppedLine": false,
+                  "targets": [
+                    {
+                      "expr": "max(rocketchat_users_total{})",
+                      "format": "time_series",
+                      "intervalFactor": 1,
+                      "legendFormat": "Users",
+                      "refId": "A"
+                    }
+                  ],
+                  "thresholds": [],
+                  "timeRegions": [],
+                  "title": "Total of Users",
+                  "tooltip": {
+                    "shared": true,
+                    "sort": 0,
+                    "value_type": "individual"
+                  },
+                  "type": "graph",
+                  "xaxis": {
+                    "mode": "time",
+                    "show": true,
+                    "values": []
+                  },
+                  "yaxes": [
+                    {
+                      "decimals": 0,
+                      "format": "locale",
+                      "label": "",
+                      "logBase": 1,
+                      "show": true
+                    },
+                    {
+                      "format": "short",
+                      "logBase": 1,
+                      "show": true
+                    }
+                  ],
+                  "yaxis": {
+                    "align": false
+                  }
+                },
+                {
+                  "aliasColors": {},
+                  "bars": false,
+                  "dashLength": 10,
+                  "dashes": false,
+                  "datasource": {
+                    "type": "prometheus",
+                    "uid": "000000001"
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "links": []
+                    },
+                    "overrides": []
+                  },
+                  "fill": 1,
+                  "fillGradient": 0,
+                  "gridPos": {
+                    "h": 8,
+                    "w": 12,
+                    "x": 12,
+                    "y": 145
+                  },
+                  "hiddenSeries": false,
+                  "id": 12,
+                  "legend": {
+                    "alignAsTable": true,
+                    "avg": true,
+                    "current": true,
+                    "max": true,
+                    "min": false,
+                    "rightSide": true,
+                    "show": true,
+                    "sort": "avg",
+                    "sortDesc": true,
+                    "total": false,
+                    "values": true
+                  },
+                  "lines": true,
+                  "linewidth": 1,
+                  "links": [],
+                  "nullPointMode": "null",
+                  "percentage": false,
+                  "pluginVersion": "8.3.4",
+                  "pointradius": 5,
+                  "points": false,
+                  "renderer": "flot",
+                  "seriesOverrides": [
+                    {
+                      "alias": "Sessions",
+                      "yaxis": 1
+                    }
+                  ],
+                  "spaceLength": 10,
+                  "stack": false,
+                  "steppedLine": false,
+                  "targets": [
+                    {
+                      "expr": "max(rocketchat_rooms_total{})",
+                      "format": "time_series",
+                      "intervalFactor": 1,
+                      "legendFormat": "Rooms",
+                      "refId": "A"
+                    }
+                  ],
+                  "thresholds": [],
+                  "timeRegions": [],
+                  "title": "Total of Rooms",
+                  "tooltip": {
+                    "shared": true,
+                    "sort": 0,
+                    "value_type": "individual"
+                  },
+                  "type": "graph",
+                  "xaxis": {
+                    "mode": "time",
+                    "show": true,
+                    "values": []
+                  },
+                  "yaxes": [
+                    {
+                      "decimals": 0,
+                      "format": "locale",
+                      "label": "",
+                      "logBase": 1,
+                      "show": true
+                    },
+                    {
+                      "format": "short",
+                      "logBase": 1,
+                      "show": true
+                    }
+                  ],
+                  "yaxis": {
+                    "align": false
+                  }
+                },
+                {
+                  "aliasColors": {},
+                  "bars": false,
+                  "dashLength": 10,
+                  "dashes": false,
+                  "datasource": {
+                    "type": "prometheus",
+                    "uid": "000000001"
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "links": []
+                    },
+                    "overrides": []
+                  },
+                  "fill": 1,
+                  "fillGradient": 0,
+                  "gridPos": {
+                    "h": 9,
+                    "w": 24,
+                    "x": 0,
+                    "y": 153
+                  },
+                  "hiddenSeries": false,
+                  "id": 39,
+                  "legend": {
+                    "alignAsTable": true,
+                    "avg": true,
+                    "current": true,
+                    "max": true,
+                    "min": false,
+                    "rightSide": true,
+                    "show": true,
+                    "sort": "avg",
+                    "sortDesc": true,
+                    "total": false,
+                    "values": true
+                  },
+                  "lines": true,
+                  "linewidth": 1,
+                  "links": [],
+                  "nullPointMode": "null",
+                  "percentage": false,
+                  "pluginVersion": "8.3.4",
+                  "pointradius": 5,
+                  "points": false,
+                  "renderer": "flot",
+                  "seriesOverrides": [
+                    {
+                      "alias": "Sessions",
+                      "yaxis": 1
+                    }
+                  ],
+                  "spaceLength": 10,
+                  "stack": false,
+                  "steppedLine": false,
+                  "targets": [
+                    {
+                      "expr": "sum(increase(rocketchat_notification_sent{}[5m])) by (notification_type)",
+                      "format": "time_series",
+                      "intervalFactor": 1,
+                      "legendFormat": "{{notification_type}}",
+                      "refId": "A"
+                    }
+                  ],
+                  "thresholds": [],
+                  "timeRegions": [],
+                  "title": "Notifications / Minute",
+                  "tooltip": {
+                    "shared": true,
+                    "sort": 0,
+                    "value_type": "individual"
+                  },
+                  "type": "graph",
+                  "xaxis": {
+                    "mode": "time",
+                    "show": true,
+                    "values": []
+                  },
+                  "yaxes": [
+                    {
+                      "decimals": 0,
+                      "format": "locale",
+                      "label": "",
+                      "logBase": 1,
+                      "show": true
+                    },
+                    {
+                      "format": "short",
+                      "logBase": 1,
+                      "show": true
+                    }
+                  ],
+                  "yaxis": {
+                    "align": false
+                  }
+                },
+                {
+                  "collapsed": true,
+                  "gridPos": {
+                    "h": 1,
+                    "w": 24,
+                    "x": 0,
+                    "y": 162
+                  },
+                  "id": 45,
+                  "panels": [
+                    {
+                      "aliasColors": {},
+                      "bars": false,
+                      "dashLength": 10,
+                      "dashes": false,
+                      "datasource": {
+                        "type": "prometheus",
+                        "uid": "000000001"
+                      },
+                      "fill": 1,
+                      "fillGradient": 0,
+                      "gridPos": {
+                        "h": 7,
+                        "w": 24,
+                        "x": 0,
+                        "y": 50
+                      },
+                      "hiddenSeries": false,
+                      "id": 40,
+                      "legend": {
+                        "alignAsTable": true,
+                        "avg": true,
+                        "current": true,
+                        "hideEmpty": true,
+                        "hideZero": true,
+                        "max": true,
+                        "min": false,
+                        "rightSide": true,
+                        "show": true,
+                        "sort": "avg",
+                        "sortDesc": true,
+                        "total": false,
+                        "values": true
+                      },
+                      "lines": true,
+                      "linewidth": 1,
+                      "links": [],
+                      "nullPointMode": "null",
+                      "options": {
+                        "dataLinks": []
+                      },
+                      "percentage": false,
+                      "pointradius": 5,
+                      "points": false,
+                      "renderer": "flot",
+                      "seriesOverrides": [],
+                      "spaceLength": 10,
+                      "stack": false,
+                      "steppedLine": false,
+                      "targets": [
+                        {
+                          "expr": "sum(rocketchat_meteor_methods{}) by (method) * sum(increase(rocketchat_meteor_methods_count{}[5m])) by (method)",
+                          "format": "time_series",
+                          "intervalFactor": 1,
+                          "legendFormat": "{{method}}",
+                          "refId": "A"
+                        }
+                      ],
+                      "thresholds": [],
+                      "timeRegions": [],
+                      "title": "Meteor Methods Total Time",
+                      "tooltip": {
+                        "shared": true,
+                        "sort": 2,
+                        "value_type": "individual"
+                      },
+                      "type": "graph",
+                      "xaxis": {
+                        "mode": "time",
+                        "show": true,
+                        "values": []
+                      },
+                      "yaxes": [
+                        {
+                          "format": "ms",
+                          "logBase": 1,
+                          "show": true
+                        },
+                        {
+                          "format": "short",
+                          "logBase": 1,
+                          "show": true
+                        }
+                      ],
+                      "yaxis": {
+                        "align": false
+                      }
+                    },
+                    {
+                      "aliasColors": {},
+                      "bars": false,
+                      "dashLength": 10,
+                      "dashes": false,
+                      "datasource": {
+                        "type": "prometheus",
+                        "uid": "000000001"
+                      },
+                      "fill": 1,
+                      "fillGradient": 0,
+                      "gridPos": {
+                        "h": 8,
+                        "w": 12,
+                        "x": 0,
+                        "y": 57
+                      },
+                      "hiddenSeries": false,
+                      "id": 8,
+                      "legend": {
+                        "alignAsTable": true,
+                        "avg": true,
+                        "current": true,
+                        "max": true,
+                        "min": false,
+                        "rightSide": true,
+                        "show": true,
+                        "sort": "avg",
+                        "sortDesc": true,
+                        "total": false,
+                        "values": true
+                      },
+                      "lines": true,
+                      "linewidth": 1,
+                      "links": [],
+                      "nullPointMode": "null",
+                      "options": {
+                        "dataLinks": []
+                      },
+                      "percentage": false,
+                      "pointradius": 5,
+                      "points": false,
+                      "renderer": "flot",
+                      "seriesOverrides": [],
+                      "spaceLength": 10,
+                      "stack": false,
+                      "steppedLine": false,
+                      "targets": [
+                        {
+                          "expr": "sum(rocketchat_meteor_methods{}) by (method)",
+                          "format": "time_series",
+                          "intervalFactor": 1,
+                          "legendFormat": "{{method}}",
+                          "refId": "A"
+                        }
+                      ],
+                      "thresholds": [],
+                      "timeRegions": [],
+                      "title": "Meteor Methods Time",
+                      "tooltip": {
+                        "shared": true,
+                        "sort": 2,
+                        "value_type": "individual"
+                      },
+                      "type": "graph",
+                      "xaxis": {
+                        "mode": "time",
+                        "show": true,
+                        "values": []
+                      },
+                      "yaxes": [
+                        {
+                          "format": "ms",
+                          "logBase": 1,
+                          "show": true
+                        },
+                        {
+                          "format": "short",
+                          "logBase": 1,
+                          "show": true
+                        }
+                      ],
+                      "yaxis": {
+                        "align": false
+                      }
+                    },
+                    {
+                      "aliasColors": {},
+                      "bars": false,
+                      "dashLength": 10,
+                      "dashes": false,
+                      "datasource": {
+                        "type": "prometheus",
+                        "uid": "000000001"
+                      },
+                      "fill": 1,
+                      "fillGradient": 0,
+                      "gridPos": {
+                        "h": 8,
+                        "w": 12,
+                        "x": 12,
+                        "y": 57
+                      },
+                      "hiddenSeries": false,
+                      "id": 14,
+                      "legend": {
+                        "alignAsTable": true,
+                        "avg": true,
+                        "current": true,
+                        "max": true,
+                        "min": false,
+                        "rightSide": true,
+                        "show": true,
+                        "sort": "avg",
+                        "sortDesc": true,
+                        "total": false,
+                        "values": true
+                      },
+                      "lines": true,
+                      "linewidth": 1,
+                      "links": [],
+                      "nullPointMode": "null",
+                      "options": {
+                        "dataLinks": []
+                      },
+                      "percentage": false,
+                      "pointradius": 5,
+                      "points": false,
+                      "renderer": "flot",
+                      "seriesOverrides": [],
+                      "spaceLength": 10,
+                      "stack": false,
+                      "steppedLine": false,
+                      "targets": [
+                        {
+                          "expr": "sum(increase(rocketchat_meteor_methods_count{}[5m])) by (method)",
+                          "format": "time_series",
+                          "intervalFactor": 1,
+                          "legendFormat": "{{method}}",
+                          "refId": "A"
+                        }
+                      ],
+                      "thresholds": [],
+                      "timeRegions": [],
+                      "title": "Meteor Methods Calls / Minute",
+                      "tooltip": {
+                        "shared": true,
+                        "sort": 2,
+                        "value_type": "individual"
+                      },
+                      "type": "graph",
+                      "xaxis": {
+                        "mode": "time",
+                        "show": true,
+                        "values": []
+                      },
+                      "yaxes": [
+                        {
+                          "format": "short",
+                          "logBase": 1,
+                          "show": true
+                        },
+                        {
+                          "format": "short",
+                          "logBase": 1,
+                          "show": true
+                        }
+                      ],
+                      "yaxis": {
+                        "align": false
+                      }
+                    }
+                  ],
+                  "title": "Methods",
+                  "type": "row"
+                },
+                {
+                  "collapsed": true,
+                  "gridPos": {
+                    "h": 1,
+                    "w": 24,
+                    "x": 0,
+                    "y": 163
+                  },
+                  "id": 47,
+                  "panels": [
+                    {
+                      "aliasColors": {},
+                      "bars": false,
+                      "dashLength": 10,
+                      "dashes": false,
+                      "datasource": {
+                        "type": "prometheus",
+                        "uid": "000000001"
+                      },
+                      "fill": 1,
+                      "fillGradient": 0,
+                      "gridPos": {
+                        "h": 8,
+                        "w": 24,
+                        "x": 0,
+                        "y": 51
+                      },
+                      "hiddenSeries": false,
+                      "id": 41,
+                      "legend": {
+                        "alignAsTable": true,
+                        "avg": true,
+                        "current": true,
+                        "hideEmpty": true,
+                        "hideZero": true,
+                        "max": true,
+                        "min": false,
+                        "rightSide": true,
+                        "show": true,
+                        "sort": "avg",
+                        "sortDesc": true,
+                        "total": false,
+                        "values": true
+                      },
+                      "lines": true,
+                      "linewidth": 1,
+                      "links": [],
+                      "nullPointMode": "null",
+                      "options": {
+                        "dataLinks": []
+                      },
+                      "percentage": false,
+                      "pointradius": 5,
+                      "points": false,
+                      "renderer": "flot",
+                      "seriesOverrides": [],
+                      "spaceLength": 10,
+                      "stack": false,
+                      "steppedLine": false,
+                      "targets": [
+                        {
+                          "expr": "sum(rocketchat_meteor_subscriptions{}) by (subscription) * sum(increase(rocketchat_meteor_subscriptions_count{}[5m])) by (subscription)",
+                          "format": "time_series",
+                          "intervalFactor": 1,
+                          "legendFormat": "{{subscription}}",
+                          "refId": "A"
+                        }
+                      ],
+                      "thresholds": [],
+                      "timeRegions": [],
+                      "title": "Meteor Subscription Total Time",
+                      "tooltip": {
+                        "shared": true,
+                        "sort": 0,
+                        "value_type": "individual"
+                      },
+                      "type": "graph",
+                      "xaxis": {
+                        "mode": "time",
+                        "show": true,
+                        "values": []
+                      },
+                      "yaxes": [
+                        {
+                          "format": "ms",
+                          "logBase": 1,
+                          "show": true
+                        },
+                        {
+                          "format": "short",
+                          "logBase": 1,
+                          "show": true
+                        }
+                      ],
+                      "yaxis": {
+                        "align": false
+                      }
+                    },
+                    {
+                      "aliasColors": {},
+                      "bars": false,
+                      "dashLength": 10,
+                      "dashes": false,
+                      "datasource": {
+                        "type": "prometheus",
+                        "uid": "000000001"
+                      },
+                      "fill": 1,
+                      "fillGradient": 0,
+                      "gridPos": {
+                        "h": 8,
+                        "w": 12,
+                        "x": 0,
+                        "y": 59
+                      },
+                      "hiddenSeries": false,
+                      "id": 9,
+                      "legend": {
+                        "alignAsTable": true,
+                        "avg": true,
+                        "current": true,
+                        "max": true,
+                        "min": false,
+                        "rightSide": true,
+                        "show": true,
+                        "sort": "avg",
+                        "sortDesc": true,
+                        "total": false,
+                        "values": true
+                      },
+                      "lines": true,
+                      "linewidth": 1,
+                      "links": [],
+                      "nullPointMode": "null",
+                      "options": {
+                        "dataLinks": []
+                      },
+                      "percentage": false,
+                      "pointradius": 5,
+                      "points": false,
+                      "renderer": "flot",
+                      "seriesOverrides": [],
+                      "spaceLength": 10,
+                      "stack": false,
+                      "steppedLine": false,
+                      "targets": [
+                        {
+                          "expr": "sum(rocketchat_meteor_subscriptions{}) by (subscription)",
+                          "format": "time_series",
+                          "intervalFactor": 1,
+                          "legendFormat": "{{subscription}}",
+                          "refId": "A"
+                        }
+                      ],
+                      "thresholds": [],
+                      "timeRegions": [],
+                      "title": "Meteor Subscription Times",
+                      "tooltip": {
+                        "shared": true,
+                        "sort": 2,
+                        "value_type": "individual"
+                      },
+                      "type": "graph",
+                      "xaxis": {
+                        "mode": "time",
+                        "show": true,
+                        "values": []
+                      },
+                      "yaxes": [
+                        {
+                          "format": "ms",
+                          "logBase": 1,
+                          "show": true
+                        },
+                        {
+                          "format": "short",
+                          "logBase": 1,
+                          "show": true
+                        }
+                      ],
+                      "yaxis": {
+                        "align": false
+                      }
+                    },
+                    {
+                      "aliasColors": {},
+                      "bars": false,
+                      "dashLength": 10,
+                      "dashes": false,
+                      "datasource": {
+                        "type": "prometheus",
+                        "uid": "000000001"
+                      },
+                      "fill": 1,
+                      "fillGradient": 0,
+                      "gridPos": {
+                        "h": 8,
+                        "w": 12,
+                        "x": 12,
+                        "y": 59
+                      },
+                      "hiddenSeries": false,
+                      "id": 15,
+                      "legend": {
+                        "alignAsTable": true,
+                        "avg": true,
+                        "current": true,
+                        "max": true,
+                        "min": false,
+                        "rightSide": true,
+                        "show": true,
+                        "sort": "avg",
+                        "sortDesc": true,
+                        "total": false,
+                        "values": true
+                      },
+                      "lines": true,
+                      "linewidth": 1,
+                      "links": [],
+                      "nullPointMode": "null",
+                      "options": {
+                        "dataLinks": []
+                      },
+                      "percentage": false,
+                      "pointradius": 5,
+                      "points": false,
+                      "renderer": "flot",
+                      "seriesOverrides": [],
+                      "spaceLength": 10,
+                      "stack": false,
+                      "steppedLine": false,
+                      "targets": [
+                        {
+                          "expr": "sum(increase(rocketchat_meteor_subscriptions_count{}[5m])) by (subscription)",
+                          "format": "time_series",
+                          "intervalFactor": 1,
+                          "legendFormat": "{{subscription}}",
+                          "refId": "A"
+                        }
+                      ],
+                      "thresholds": [],
+                      "timeRegions": [],
+                      "title": "Meteor Subscription Calls / Minute",
+                      "tooltip": {
+                        "shared": true,
+                        "sort": 0,
+                        "value_type": "individual"
+                      },
+                      "type": "graph",
+                      "xaxis": {
+                        "mode": "time",
+                        "show": true,
+                        "values": []
+                      },
+                      "yaxes": [
+                        {
+                          "format": "short",
+                          "logBase": 1,
+                          "show": true
+                        },
+                        {
+                          "format": "short",
+                          "logBase": 1,
+                          "show": true
+                        }
+                      ],
+                      "yaxis": {
+                        "align": false
+                      }
+                    }
+                  ],
+                  "title": "Subscriptions",
+                  "type": "row"
+                },
+                {
+                  "collapsed": true,
+                  "gridPos": {
+                    "h": 1,
+                    "w": 24,
+                    "x": 0,
+                    "y": 164
+                  },
+                  "id": 49,
+                  "panels": [
+                    {
+                      "aliasColors": {},
+                      "bars": false,
+                      "dashLength": 10,
+                      "dashes": false,
+                      "datasource": {
+                        "type": "prometheus",
+                        "uid": "000000001"
+                      },
+                      "fill": 1,
+                      "fillGradient": 0,
+                      "gridPos": {
+                        "h": 8,
+                        "w": 24,
+                        "x": 0,
+                        "y": 52
+                      },
+                      "hiddenSeries": false,
+                      "id": 53,
+                      "legend": {
+                        "alignAsTable": true,
+                        "avg": true,
+                        "current": true,
+                        "hideEmpty": true,
+                        "hideZero": true,
+                        "max": true,
+                        "min": false,
+                        "rightSide": true,
+                        "show": true,
+                        "sort": "avg",
+                        "sortDesc": true,
+                        "total": false,
+                        "values": true
+                      },
+                      "lines": true,
+                      "linewidth": 1,
+                      "links": [],
+                      "nullPointMode": "null",
+                      "options": {
+                        "dataLinks": []
+                      },
+                      "percentage": false,
+                      "pointradius": 5,
+                      "points": false,
+                      "renderer": "flot",
+                      "seriesOverrides": [],
+                      "spaceLength": 10,
+                      "stack": false,
+                      "steppedLine": false,
+                      "targets": [
+                        {
+                          "expr": "sum(rocketchat_callbacks{}) by (callback) * sum(increase(rocketchat_callbacks_count{}[5m])) by (callback)",
+                          "format": "time_series",
+                          "intervalFactor": 1,
+                          "legendFormat": "{{callback}}",
+                          "refId": "A"
+                        }
+                      ],
+                      "thresholds": [],
+                      "timeRegions": [],
+                      "title": "Callbacks Total Times",
+                      "tooltip": {
+                        "shared": true,
+                        "sort": 2,
+                        "value_type": "individual"
+                      },
+                      "type": "graph",
+                      "xaxis": {
+                        "mode": "time",
+                        "show": true,
+                        "values": []
+                      },
+                      "yaxes": [
+                        {
+                          "format": "ms",
+                          "logBase": 1,
+                          "show": true
+                        },
+                        {
+                          "format": "short",
+                          "logBase": 1,
+                          "show": true
+                        }
+                      ],
+                      "yaxis": {
+                        "align": false
+                      }
+                    },
+                    {
+                      "aliasColors": {},
+                      "bars": false,
+                      "dashLength": 10,
+                      "dashes": false,
+                      "datasource": {
+                        "type": "prometheus",
+                        "uid": "000000001"
+                      },
+                      "fill": 1,
+                      "fillGradient": 0,
+                      "gridPos": {
+                        "h": 8,
+                        "w": 12,
+                        "x": 0,
+                        "y": 60
+                      },
+                      "hiddenSeries": false,
+                      "id": 16,
+                      "legend": {
+                        "alignAsTable": true,
+                        "avg": true,
+                        "current": true,
+                        "max": true,
+                        "min": false,
+                        "rightSide": true,
+                        "show": true,
+                        "sort": "avg",
+                        "sortDesc": true,
+                        "total": false,
+                        "values": true
+                      },
+                      "lines": true,
+                      "linewidth": 1,
+                      "links": [],
+                      "nullPointMode": "null",
+                      "options": {
+                        "dataLinks": []
+                      },
+                      "percentage": false,
+                      "pointradius": 5,
+                      "points": false,
+                      "renderer": "flot",
+                      "seriesOverrides": [],
+                      "spaceLength": 10,
+                      "stack": false,
+                      "steppedLine": false,
+                      "targets": [
+                        {
+                          "expr": "sum(irate(rocketchat_callbacks{}[5m])) by (callback)",
+                          "format": "time_series",
+                          "intervalFactor": 1,
+                          "legendFormat": "{{callback}}",
+                          "refId": "A"
+                        }
+                      ],
+                      "thresholds": [],
+                      "timeRegions": [],
+                      "title": "Callbacks Times",
+                      "tooltip": {
+                        "shared": true,
+                        "sort": 2,
+                        "value_type": "individual"
+                      },
+                      "type": "graph",
+                      "xaxis": {
+                        "mode": "time",
+                        "show": true,
+                        "values": []
+                      },
+                      "yaxes": [
+                        {
+                          "format": "ms",
+                          "logBase": 1,
+                          "show": true
+                        },
+                        {
+                          "format": "short",
+                          "logBase": 1,
+                          "show": true
+                        }
+                      ],
+                      "yaxis": {
+                        "align": false
+                      }
+                    },
+                    {
+                      "aliasColors": {},
+                      "bars": false,
+                      "dashLength": 10,
+                      "dashes": false,
+                      "datasource": {
+                        "type": "prometheus",
+                        "uid": "000000001"
+                      },
+                      "fill": 1,
+                      "fillGradient": 0,
+                      "gridPos": {
+                        "h": 8,
+                        "w": 12,
+                        "x": 12,
+                        "y": 60
+                      },
+                      "hiddenSeries": false,
+                      "id": 17,
+                      "legend": {
+                        "alignAsTable": true,
+                        "avg": true,
+                        "current": true,
+                        "max": true,
+                        "min": false,
+                        "rightSide": true,
+                        "show": true,
+                        "sort": "avg",
+                        "sortDesc": true,
+                        "total": false,
+                        "values": true
+                      },
+                      "lines": true,
+                      "linewidth": 1,
+                      "links": [],
+                      "nullPointMode": "null",
+                      "options": {
+                        "dataLinks": []
+                      },
+                      "percentage": false,
+                      "pointradius": 5,
+                      "points": false,
+                      "renderer": "flot",
+                      "seriesOverrides": [],
+                      "spaceLength": 10,
+                      "stack": false,
+                      "steppedLine": false,
+                      "targets": [
+                        {
+                          "expr": "sum(increase(rocketchat_callbacks_count{}[5m])) by (callback)",
+                          "format": "time_series",
+                          "hide": false,
+                          "intervalFactor": 1,
+                          "legendFormat": "{{callback}}",
+                          "refId": "A"
+                        },
+                        {
+                          "expr": "sum(rocketchat_callbacks_count{}) by (hook)",
+                          "format": "time_series",
+                          "hide": true,
+                          "intervalFactor": 1,
+                          "legendFormat": "{{hook}}",
+                          "refId": "B"
+                        }
+                      ],
+                      "thresholds": [],
+                      "timeRegions": [],
+                      "title": "Callbacks Calls / Minute",
+                      "tooltip": {
+                        "shared": true,
+                        "sort": 2,
+                        "value_type": "individual"
+                      },
+                      "type": "graph",
+                      "xaxis": {
+                        "mode": "time",
+                        "show": true,
+                        "values": []
+                      },
+                      "yaxes": [
+                        {
+                          "format": "none",
+                          "logBase": 1,
+                          "show": true
+                        },
+                        {
+                          "format": "short",
+                          "logBase": 1,
+                          "show": true
+                        }
+                      ],
+                      "yaxis": {
+                        "align": false
+                      }
+                    },
+                    {
+                      "aliasColors": {},
+                      "bars": false,
+                      "dashLength": 10,
+                      "dashes": false,
+                      "datasource": {
+                        "type": "prometheus",
+                        "uid": "000000001"
+                      },
+                      "fill": 1,
+                      "fillGradient": 0,
+                      "gridPos": {
+                        "h": 8,
+                        "w": 24,
+                        "x": 0,
+                        "y": 68
+                      },
+                      "hiddenSeries": false,
+                      "id": 54,
+                      "legend": {
+                        "alignAsTable": true,
+                        "avg": true,
+                        "current": true,
+                        "hideEmpty": false,
+                        "hideZero": false,
+                        "max": true,
+                        "min": false,
+                        "rightSide": true,
+                        "show": true,
+                        "sort": "avg",
+                        "sortDesc": true,
+                        "total": false,
+                        "values": true
+                      },
+                      "lines": true,
+                      "linewidth": 1,
+                      "links": [],
+                      "nullPointMode": "null",
+                      "options": {
+                        "dataLinks": []
+                      },
+                      "percentage": false,
+                      "pointradius": 5,
+                      "points": false,
+                      "renderer": "flot",
+                      "seriesOverrides": [],
+                      "spaceLength": 10,
+                      "stack": false,
+                      "steppedLine": false,
+                      "targets": [
+                        {
+                          "expr": "sum(rocketchat_hooks{}) by (hook) * sum(increase(rocketchat_hooks_count{}[5m])) by (hook)",
+                          "format": "time_series",
+                          "intervalFactor": 1,
+                          "legendFormat": "{{hook}}",
+                          "refId": "A"
+                        }
+                      ],
+                      "thresholds": [],
+                      "timeRegions": [],
+                      "title": "Hooks Total Times",
+                      "tooltip": {
+                        "shared": true,
+                        "sort": 2,
+                        "value_type": "individual"
+                      },
+                      "type": "graph",
+                      "xaxis": {
+                        "mode": "time",
+                        "show": true,
+                        "values": []
+                      },
+                      "yaxes": [
+                        {
+                          "format": "ms",
+                          "logBase": 1,
+                          "show": true
+                        },
+                        {
+                          "format": "short",
+                          "logBase": 1,
+                          "show": true
+                        }
+                      ],
+                      "yaxis": {
+                        "align": false
+                      }
+                    },
+                    {
+                      "aliasColors": {},
+                      "bars": false,
+                      "dashLength": 10,
+                      "dashes": false,
+                      "datasource": {
+                        "type": "prometheus",
+                        "uid": "000000001"
+                      },
+                      "fill": 1,
+                      "fillGradient": 0,
+                      "gridPos": {
+                        "h": 8,
+                        "w": 12,
+                        "x": 0,
+                        "y": 76
+                      },
+                      "hiddenSeries": false,
+                      "id": 34,
+                      "legend": {
+                        "alignAsTable": true,
+                        "avg": true,
+                        "current": true,
+                        "max": true,
+                        "min": false,
+                        "rightSide": true,
+                        "show": true,
+                        "sort": "avg",
+                        "sortDesc": true,
+                        "total": false,
+                        "values": true
+                      },
+                      "lines": true,
+                      "linewidth": 1,
+                      "links": [],
+                      "nullPointMode": "null",
+                      "options": {
+                        "dataLinks": []
+                      },
+                      "percentage": false,
+                      "pointradius": 5,
+                      "points": false,
+                      "renderer": "flot",
+                      "seriesOverrides": [],
+                      "spaceLength": 10,
+                      "stack": false,
+                      "steppedLine": false,
+                      "targets": [
+                        {
+                          "expr": "sum(irate(rocketchat_hooks{}[5m])) by (hook)",
+                          "format": "time_series",
+                          "intervalFactor": 1,
+                          "legendFormat": "{{hook}}",
+                          "refId": "A"
+                        }
+                      ],
+                      "thresholds": [],
+                      "timeRegions": [],
+                      "title": "Hooks Times",
+                      "tooltip": {
+                        "shared": true,
+                        "sort": 2,
+                        "value_type": "individual"
+                      },
+                      "type": "graph",
+                      "xaxis": {
+                        "mode": "time",
+                        "show": true,
+                        "values": []
+                      },
+                      "yaxes": [
+                        {
+                          "format": "ms",
+                          "logBase": 1,
+                          "show": true
+                        },
+                        {
+                          "format": "short",
+                          "logBase": 1,
+                          "show": true
+                        }
+                      ],
+                      "yaxis": {
+                        "align": false
+                      }
+                    },
+                    {
+                      "aliasColors": {},
+                      "bars": false,
+                      "dashLength": 10,
+                      "dashes": false,
+                      "datasource": {
+                        "type": "prometheus",
+                        "uid": "000000001"
+                      },
+                      "fill": 1,
+                      "fillGradient": 0,
+                      "gridPos": {
+                        "h": 8,
+                        "w": 12,
+                        "x": 12,
+                        "y": 76
+                      },
+                      "hiddenSeries": false,
+                      "id": 33,
+                      "legend": {
+                        "alignAsTable": true,
+                        "avg": true,
+                        "current": true,
+                        "max": true,
+                        "min": false,
+                        "rightSide": true,
+                        "show": true,
+                        "sort": "avg",
+                        "sortDesc": true,
+                        "total": false,
+                        "values": true
+                      },
+                      "lines": true,
+                      "linewidth": 1,
+                      "links": [],
+                      "nullPointMode": "null",
+                      "options": {
+                        "dataLinks": []
+                      },
+                      "percentage": false,
+                      "pointradius": 5,
+                      "points": false,
+                      "renderer": "flot",
+                      "seriesOverrides": [],
+                      "spaceLength": 10,
+                      "stack": false,
+                      "steppedLine": false,
+                      "targets": [
+                        {
+                          "expr": "sum(increase(rocketchat_hooks_count{}[5m])) by (hook)",
+                          "format": "time_series",
+                          "hide": false,
+                          "intervalFactor": 1,
+                          "legendFormat": "{{hook}}",
+                          "refId": "A"
+                        },
+                        {
+                          "expr": "sum(rocketchat_callbacks_count{}) by (hook)",
+                          "format": "time_series",
+                          "hide": true,
+                          "intervalFactor": 1,
+                          "legendFormat": "{{hook}}",
+                          "refId": "B"
+                        }
+                      ],
+                      "thresholds": [],
+                      "timeRegions": [],
+                      "title": "Hooks Calls / Minute",
+                      "tooltip": {
+                        "shared": true,
+                        "sort": 2,
+                        "value_type": "individual"
+                      },
+                      "type": "graph",
+                      "xaxis": {
+                        "mode": "time",
+                        "show": true,
+                        "values": []
+                      },
+                      "yaxes": [
+                        {
+                          "format": "none",
+                          "logBase": 1,
+                          "show": true
+                        },
+                        {
+                          "format": "short",
+                          "logBase": 1,
+                          "show": true
+                        }
+                      ],
+                      "yaxis": {
+                        "align": false
+                      }
+                    }
+                  ],
+                  "title": "Callbacks & Hooks",
+                  "type": "row"
+                },
+                {
+                  "collapsed": true,
+                  "gridPos": {
+                    "h": 1,
+                    "w": 24,
+                    "x": 0,
+                    "y": 165
+                  },
+                  "id": 51,
+                  "panels": [
+                    {
+                      "aliasColors": {},
+                      "bars": false,
+                      "dashLength": 10,
+                      "dashes": false,
+                      "datasource": {
+                        "type": "prometheus",
+                        "uid": "000000001"
+                      },
+                      "fill": 1,
+                      "fillGradient": 0,
+                      "gridPos": {
+                        "h": 7,
+                        "w": 24,
+                        "x": 0,
+                        "y": 25
+                      },
+                      "hiddenSeries": false,
+                      "id": 52,
+                      "legend": {
+                        "alignAsTable": true,
+                        "avg": true,
+                        "current": true,
+                        "hideEmpty": true,
+                        "hideZero": true,
+                        "max": true,
+                        "min": false,
+                        "rightSide": true,
+                        "show": true,
+                        "sort": "avg",
+                        "sortDesc": true,
+                        "total": false,
+                        "values": true
+                      },
+                      "lines": true,
+                      "linewidth": 1,
+                      "links": [],
+                      "nullPointMode": "null",
+                      "options": {
+                        "dataLinks": []
+                      },
+                      "percentage": false,
+                      "pointradius": 5,
+                      "points": false,
+                      "renderer": "flot",
+                      "seriesOverrides": [],
+                      "spaceLength": 10,
+                      "stack": false,
+                      "steppedLine": false,
+                      "targets": [
+                        {
+                          "expr": "sum(rocketchat_rest_api{}) by (entrypoint) * sum(increase(rocketchat_rest_api_count{}[5m])) by (entrypoint)",
+                          "format": "time_series",
+                          "intervalFactor": 1,
+                          "legendFormat": "{{entrypoint}}",
+                          "refId": "A"
+                        }
+                      ],
+                      "thresholds": [],
+                      "timeRegions": [],
+                      "title": "REST API Total Times",
+                      "tooltip": {
+                        "shared": true,
+                        "sort": 2,
+                        "value_type": "individual"
+                      },
+                      "type": "graph",
+                      "xaxis": {
+                        "mode": "time",
+                        "show": true,
+                        "values": []
+                      },
+                      "yaxes": [
+                        {
+                          "format": "ms",
+                          "logBase": 1,
+                          "show": true
+                        },
+                        {
+                          "format": "short",
+                          "logBase": 1,
+                          "show": true
+                        }
+                      ],
+                      "yaxis": {
+                        "align": false
+                      }
+                    },
+                    {
+                      "aliasColors": {},
+                      "bars": false,
+                      "dashLength": 10,
+                      "dashes": false,
+                      "datasource": {
+                        "type": "prometheus",
+                        "uid": "000000001"
+                      },
+                      "fill": 1,
+                      "fillGradient": 0,
+                      "gridPos": {
+                        "h": 8,
+                        "w": 12,
+                        "x": 0,
+                        "y": 32
+                      },
+                      "hiddenSeries": false,
+                      "id": 18,
+                      "legend": {
+                        "alignAsTable": true,
+                        "avg": true,
+                        "current": true,
+                        "max": true,
+                        "min": false,
+                        "rightSide": false,
+                        "show": true,
+                        "sort": "max",
+                        "sortDesc": true,
+                        "total": false,
+                        "values": true
+                      },
+                      "lines": true,
+                      "linewidth": 1,
+                      "links": [],
+                      "nullPointMode": "null",
+                      "options": {
+                        "dataLinks": []
+                      },
+                      "percentage": false,
+                      "pointradius": 5,
+                      "points": false,
+                      "renderer": "flot",
+                      "seriesOverrides": [],
+                      "spaceLength": 10,
+                      "stack": false,
+                      "steppedLine": false,
+                      "targets": [
+                        {
+                          "expr": "sum(irate(rocketchat_rest_api{}[5m])) by (entrypoint)",
+                          "format": "time_series",
+                          "intervalFactor": 1,
+                          "legendFormat": "{{entrypoint}}",
+                          "refId": "A"
+                        }
+                      ],
+                      "thresholds": [],
+                      "timeRegions": [],
+                      "title": "REST API Times",
+                      "tooltip": {
+                        "shared": true,
+                        "sort": 2,
+                        "value_type": "individual"
+                      },
+                      "type": "graph",
+                      "xaxis": {
+                        "mode": "time",
+                        "show": true,
+                        "values": []
+                      },
+                      "yaxes": [
+                        {
+                          "format": "s",
+                          "logBase": 1,
+                          "show": true
+                        },
+                        {
+                          "format": "short",
+                          "logBase": 1,
+                          "show": true
+                        }
+                      ],
+                      "yaxis": {
+                        "align": false
+                      }
+                    },
+                    {
+                      "aliasColors": {},
+                      "bars": false,
+                      "dashLength": 10,
+                      "dashes": false,
+                      "datasource": {
+                        "type": "prometheus",
+                        "uid": "000000001"
+                      },
+                      "fill": 1,
+                      "fillGradient": 0,
+                      "gridPos": {
+                        "h": 8,
+                        "w": 12,
+                        "x": 12,
+                        "y": 32
+                      },
+                      "hiddenSeries": false,
+                      "id": 19,
+                      "legend": {
+                        "alignAsTable": true,
+                        "avg": true,
+                        "current": true,
+                        "max": true,
+                        "min": false,
+                        "rightSide": false,
+                        "show": true,
+                        "sort": "avg",
+                        "sortDesc": true,
+                        "total": false,
+                        "values": true
+                      },
+                      "lines": true,
+                      "linewidth": 1,
+                      "links": [],
+                      "nullPointMode": "null",
+                      "options": {
+                        "dataLinks": []
+                      },
+                      "percentage": false,
+                      "pointradius": 5,
+                      "points": false,
+                      "renderer": "flot",
+                      "seriesOverrides": [],
+                      "spaceLength": 10,
+                      "stack": false,
+                      "steppedLine": false,
+                      "targets": [
+                        {
+                          "expr": "sum(increase(rocketchat_rest_api_count{}[5m])) by (entrypoint)",
+                          "format": "time_series",
+                          "intervalFactor": 1,
+                          "legendFormat": "{{entrypoint}}",
+                          "refId": "A"
+                        }
+                      ],
+                      "thresholds": [],
+                      "timeRegions": [],
+                      "title": "REST API Calls / Minute",
+                      "tooltip": {
+                        "shared": true,
+                        "sort": 2,
+                        "value_type": "individual"
+                      },
+                      "type": "graph",
+                      "xaxis": {
+                        "mode": "time",
+                        "show": true,
+                        "values": []
+                      },
+                      "yaxes": [
+                        {
+                          "format": "short",
+                          "logBase": 1,
+                          "show": true
+                        },
+                        {
+                          "format": "short",
+                          "logBase": 1,
+                          "show": true
+                        }
+                      ],
+                      "yaxis": {
+                        "align": false
+                      }
+                    }
+                  ],
+                  "title": "REST API",
+                  "type": "row"
+                }
+              ],
+              "refresh": "1m",
+              "schemaVersion": 34,
+              "style": "dark",
+              "tags": [],
+              "templating": {
+                "list": [
+                  {
+                    "current": {
+                      "selected": false,
+                      "text": "open",
+                      "value": "open"
+                    },
+                    "datasource": {
+                      "type": "prometheus",
+                      "uid": "000000001"
+                    },
+                    "definition": "",
+                    "hide": 0,
+                    "includeAll": false,
+                    "multi": false,
+                    "name": "deployment",
+                    "options": [],
+                    "query": {
+                      "query": "label_values(nodejs_active_handles_total, "prom-use1-wkspc-deployment-Variable-Query"
+                    },
+                    "refresh": 1,
+                    "regex": "",
+                    "skipUrlSync": false,
+                    "sort": 0,
+                    "tagValuesQuery": "",
+                    "tagsQuery": "",
+                    "type": "query",
+                    "useTags": false
+                  }
+                ]
+              },
+              "time": {
+                "from": "now-3h",
+                "to": "now"
+              },
+              "timepicker": {
+                "refresh_intervals": [
+                  "5s",
+                  "10s",
+                  "30s",
+                  "1m",
+                  "5m",
+                  "15m",
+                  "30m",
+                  "1h",
+                  "2h",
+                  "1d"
+                ],
+                "time_options": [
+                  "5m",
+                  "15m",
+                  "1h",
+                  "6h",
+                  "12h",
+                  "24h",
+                  "2d",
+                  "7d",
+                  "30d"
+                ]
+              },
+              "timezone": "",
+              "title": "Rocket.Chat Metrics",
+              "uid": "Ee8-FY7ml",
+              "version": 15,
+              "weekStart": ""
+            }
+
+  useHelmInstall: true

@@ -49,13 +49,11 @@ spec:
           when: '{{repl ConfigOptionEquals "mongo_type" "embedded_mongodb"}}'
           type: password
           title: MongoDB Root Password
-          default: "thisissapassword"
           required: true
         - name: mongo_rocketchat_password
           when: '{{repl ConfigOptionEquals "mongo_type" "embedded_mongodb"}}'
           type: password
           title: MongoDB RocketChat Password
-          default: "thisissapassword"
           required: true
         - name: mongo_external_url
           when: '{{repl ConfigOptionEquals "mongo_type" "external_mongodb"}}'
@@ -69,9 +67,9 @@ spec:
           title: MongoDB External Oplog URL
           default: "mongodb://user:password@localhost:27017/local?replicaSet=rs0&authSource=admin"
           required: true
-    - name: prometheus
-      title: Prometheus Configuration
-      description: Configuration for MongoDB
+    - name: monitoring
+      title: Monitoring Configuration
+      description: Configuration for Prometheus and Grafana
       items:
         - name: prometheus_type
           title: prometheus server
@@ -91,3 +89,22 @@ spec:
           title: External Prometheus URL
           default: ""
           required: true
+        - name: deploy_grafana
+          title: Deploy grafana?
+          help_text: Include a Grafana instance for metrics visualization
+          type: bool
+          default: "1"
+        - name: grafana_user
+          when: '{{repl ConfigOptionEquals "deploy_grafana" "1"}}'
+          type: text
+          title: Grafana username
+          default: "admin"
+          required: true
+        - name: grafana_password
+          when: '{{repl ConfigOptionEquals "deploy_grafana" "1"}}'
+          type: password
+          title: Grafana password
+          default: "admin"
+          required: true
+        
+
