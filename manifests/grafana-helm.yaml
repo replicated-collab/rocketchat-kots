@@ -87,10 +87,7 @@ spec:
                   "type": "row"
                 },
                 {
-                  "datasource": {
-                    "type": "prometheus",
-                    "uid": "000000001"
-                  },
+                  "datasource": {},
                   "fieldConfig": {
                     "defaults": {
                       "color": {
@@ -163,10 +160,7 @@ spec:
                   "type": "stat"
                 },
                 {
-                  "datasource": {
-                    "type": "prometheus",
-                    "uid": "000000001"
-                  },
+                  "datasource": {},
                   "fieldConfig": {
                     "defaults": {
                       "color": {
@@ -236,10 +230,7 @@ spec:
                   "type": "stat"
                 },
                 {
-                  "datasource": {
-                    "type": "prometheus",
-                    "uid": "000000001"
-                  },
+                  "datasource": {},
                   "fieldConfig": {
                     "defaults": {
                       "color": {
@@ -311,10 +302,7 @@ spec:
                   "type": "stat"
                 },
                 {
-                  "datasource": {
-                    "type": "prometheus",
-                    "uid": "000000001"
-                  },
+                  "datasource": {},
                   "fieldConfig": {
                     "defaults": {
                       "color": {
@@ -385,10 +373,7 @@ spec:
                   "type": "stat"
                 },
                 {
-                  "datasource": {
-                    "type": "prometheus",
-                    "uid": "000000001"
-                  },
+                  "datasource": {},
                   "fieldConfig": {
                     "defaults": {
                       "color": {
@@ -459,10 +444,7 @@ spec:
                   "type": "stat"
                 },
                 {
-                  "datasource": {
-                    "type": "prometheus",
-                    "uid": "000000001"
-                  },
+                  "datasource": {},
                   "fieldConfig": {
                     "defaults": {
                       "color": {
@@ -533,10 +515,7 @@ spec:
                   "type": "stat"
                 },
                 {
-                  "datasource": {
-                    "type": "prometheus",
-                    "uid": "000000001"
-                  },
+                  "datasource": {},
                   "fieldConfig": {
                     "defaults": {
                       "color": {
@@ -606,10 +585,7 @@ spec:
                   "type": "stat"
                 },
                 {
-                  "datasource": {
-                    "type": "prometheus",
-                    "uid": "000000001"
-                  },
+                  "datasource": {},
                   "fieldConfig": {
                     "defaults": {
                       "color": {
@@ -679,10 +655,7 @@ spec:
                   "type": "stat"
                 },
                 {
-                  "datasource": {
-                    "type": "prometheus",
-                    "uid": "000000001"
-                  },
+                  "datasource": {},
                   "fieldConfig": {
                     "defaults": {
                       "color": {
@@ -769,10 +742,7 @@ spec:
                   "bars": false,
                   "dashLength": 10,
                   "dashes": false,
-                  "datasource": {
-                    "type": "prometheus",
-                    "uid": "000000001"
-                  },
+                  "datasource": {},
                   "fieldConfig": {
                     "defaults": {
                       "links": []
@@ -860,10 +830,7 @@ spec:
                   "bars": false,
                   "dashLength": 10,
                   "dashes": false,
-                  "datasource": {
-                    "type": "prometheus",
-                    "uid": "000000001"
-                  },
+                  "datasource": {},
                   "fieldConfig": {
                     "defaults": {
                       "links": []
@@ -962,10 +929,7 @@ spec:
                   "bars": false,
                   "dashLength": 10,
                   "dashes": false,
-                  "datasource": {
-                    "type": "prometheus",
-                    "uid": "000000001"
-                  },
+                  "datasource": {},
                   "fieldConfig": {
                     "defaults": {
                       "links": []
@@ -1051,10 +1015,7 @@ spec:
                   "bars": false,
                   "dashLength": 10,
                   "dashes": false,
-                  "datasource": {
-                    "type": "prometheus",
-                    "uid": "000000001"
-                  },
+                  "datasource": {},
                   "fieldConfig": {
                     "defaults": {
                       "links": []
@@ -1140,10 +1101,7 @@ spec:
                   "bars": false,
                   "dashLength": 10,
                   "dashes": false,
-                  "datasource": {
-                    "type": "prometheus",
-                    "uid": "000000001"
-                  },
+                  "datasource": {},
                   "fieldConfig": {
                     "defaults": {
                       "links": []
@@ -1229,10 +1187,7 @@ spec:
                   "bars": false,
                   "dashLength": 10,
                   "dashes": false,
-                  "datasource": {
-                    "type": "prometheus",
-                    "uid": "000000001"
-                  },
+                  "datasource": {},
                   "fieldConfig": {
                     "defaults": {
                       "links": []
@@ -1318,10 +1273,7 @@ spec:
                   "bars": false,
                   "dashLength": 10,
                   "dashes": false,
-                  "datasource": {
-                    "type": "prometheus",
-                    "uid": "000000001"
-                  },
+                  "datasource": {},
                   "fieldConfig": {
                     "defaults": {
                       "links": []
@@ -1407,10 +1359,7 @@ spec:
                   "bars": false,
                   "dashLength": 10,
                   "dashes": false,
-                  "datasource": {
-                    "type": "prometheus",
-                    "uid": "000000001"
-                  },
+                  "datasource": {},
                   "fieldConfig": {
                     "defaults": {
                       "links": []
@@ -1496,10 +1445,7 @@ spec:
                   "bars": true,
                   "dashLength": 10,
                   "dashes": false,
-                  "datasource": {
-                    "type": "prometheus",
-                    "uid": "000000001"
-                  },
+                  "datasource": {},
                   "fieldConfig": {
                     "defaults": {
                       "links": []
@@ -1977,10 +1923,7 @@ spec:
                   "bars": true,
                   "dashLength": 10,
                   "dashes": false,
-                  "datasource": {
-                    "type": "prometheus",
-                    "uid": "000000001"
-                  },
+                  "datasource": {},
                   "fieldConfig": {
                     "defaults": {
                       "links": []
@@ -2066,10 +2009,7 @@ spec:
                   "bars": false,
                   "dashLength": 10,
                   "dashes": false,
-                  "datasource": {
-                    "type": "prometheus",
-                    "uid": "000000001"
-                  },
+                  "datasource": {},
                   "fieldConfig": {
                     "defaults": {
                       "links": []
@@ -2153,10 +2093,7 @@ spec:
                   "bars": false,
                   "dashLength": 10,
                   "dashes": false,
-                  "datasource": {
-                    "type": "prometheus",
-                    "uid": "000000001"
-                  },
+                  "datasource": {},
                   "fieldConfig": {
                     "defaults": {
                       "links": []
@@ -2243,10 +2180,7 @@ spec:
                   "bars": false,
                   "dashLength": 10,
                   "dashes": false,
-                  "datasource": {
-                    "type": "prometheus",
-                    "uid": "000000001"
-                  },
+                  "datasource": {},
                   "fieldConfig": {
                     "defaults": {
                       "links": []
@@ -2351,10 +2285,7 @@ spec:
                   "bars": false,
                   "dashLength": 10,
                   "dashes": false,
-                  "datasource": {
-                    "type": "prometheus",
-                    "uid": "000000001"
-                  },
+                  "datasource": {},
                   "fieldConfig": {
                     "defaults": {
                       "links": []
@@ -2464,10 +2395,7 @@ spec:
                   "bars": false,
                   "dashLength": 10,
                   "dashes": false,
-                  "datasource": {
-                    "type": "prometheus",
-                    "uid": "000000001"
-                  },
+                  "datasource": {},
                   "fieldConfig": {
                     "defaults": {
                       "links": []
@@ -2565,10 +2493,7 @@ spec:
                   "bars": false,
                   "dashLength": 10,
                   "dashes": false,
-                  "datasource": {
-                    "type": "prometheus",
-                    "uid": "000000001"
-                  },
+                  "datasource": {},
                   "fieldConfig": {
                     "defaults": {
                       "links": []
@@ -2678,10 +2603,7 @@ spec:
                   "bars": false,
                   "dashLength": 10,
                   "dashes": false,
-                  "datasource": {
-                    "type": "prometheus",
-                    "uid": "000000001"
-                  },
+                  "datasource": {},
                   "fieldConfig": {
                     "defaults": {
                       "links": []
@@ -2787,10 +2709,7 @@ spec:
                   "bars": false,
                   "dashLength": 10,
                   "dashes": false,
-                  "datasource": {
-                    "type": "prometheus",
-                    "uid": "000000001"
-                  },
+                  "datasource": {},
                   "fieldConfig": {
                     "defaults": {
                       "links": []
@@ -2899,10 +2818,7 @@ spec:
                   "bars": false,
                   "dashLength": 10,
                   "dashes": false,
-                  "datasource": {
-                    "type": "prometheus",
-                    "uid": "000000001"
-                  },
+                  "datasource": {},
                   "fieldConfig": {
                     "defaults": {
                       "links": []
@@ -2992,10 +2908,7 @@ spec:
                   "bars": false,
                   "dashLength": 10,
                   "dashes": false,
-                  "datasource": {
-                    "type": "prometheus",
-                    "uid": "000000001"
-                  },
+                  "datasource": {},
                   "fieldConfig": {
                     "defaults": {
                       "links": []
@@ -3085,10 +2998,7 @@ spec:
                   "bars": false,
                   "dashLength": 10,
                   "dashes": false,
-                  "datasource": {
-                    "type": "prometheus",
-                    "uid": "000000001"
-                  },
+                  "datasource": {},
                   "fieldConfig": {
                     "defaults": {
                       "links": []
@@ -3178,10 +3088,7 @@ spec:
                   "bars": false,
                   "dashLength": 10,
                   "dashes": false,
-                  "datasource": {
-                    "type": "prometheus",
-                    "uid": "000000001"
-                  },
+                  "datasource": {},
                   "fieldConfig": {
                     "defaults": {
                       "links": []
@@ -3275,10 +3182,7 @@ spec:
                   "bars": false,
                   "dashLength": 10,
                   "dashes": false,
-                  "datasource": {
-                    "type": "prometheus",
-                    "uid": "000000001"
-                  },
+                  "datasource": {},
                   "fieldConfig": {
                     "defaults": {
                       "links": []
@@ -3372,10 +3276,7 @@ spec:
                   "bars": false,
                   "dashLength": 10,
                   "dashes": false,
-                  "datasource": {
-                    "type": "prometheus",
-                    "uid": "000000001"
-                  },
+                  "datasource": {},
                   "fieldConfig": {
                     "defaults": {
                       "links": []
@@ -4536,350 +4437,350 @@ spec:
                       "tooltip": {
                         "shared": true,
                         "sort": 2,
-                        "value_type": "individual"
-                      },
-                      "type": "graph",
-                      "xaxis": {
-                        "mode": "time",
-                        "show": true,
-                        "values": []
-                      },
-                      "yaxes": [
-                        {
-                          "format": "none",
-                          "logBase": 1,
-                          "show": true
-                        },
-                        {
-                          "format": "short",
-                          "logBase": 1,
-                          "show": true
-                        }
-                      ],
-                      "yaxis": {
-                        "align": false
-                      }
-                    }
-                  ],
-                  "title": "Callbacks & Hooks",
-                  "type": "row"
+                "value_type": "individual"
+              },
+              "type": "graph",
+              "xaxis": {
+                "mode": "time",
+                "show": true,
+                "values": []
+              },
+              "yaxes": [
+                {
+                  "format": "none",
+                  "logBase": 1,
+                  "show": true
                 },
                 {
-                  "collapsed": true,
-                  "gridPos": {
-                    "h": 1,
-                    "w": 24,
-                    "x": 0,
-                    "y": 165
-                  },
-                  "id": 51,
-                  "panels": [
-                    {
-                      "aliasColors": {},
-                      "bars": false,
-                      "dashLength": 10,
-                      "dashes": false,
-                      "datasource": {
-                        "type": "prometheus",
-                        "uid": "000000001"
-                      },
-                      "fill": 1,
-                      "fillGradient": 0,
-                      "gridPos": {
-                        "h": 7,
-                        "w": 24,
-                        "x": 0,
-                        "y": 25
-                      },
-                      "hiddenSeries": false,
-                      "id": 52,
-                      "legend": {
-                        "alignAsTable": true,
-                        "avg": true,
-                        "current": true,
-                        "hideEmpty": true,
-                        "hideZero": true,
-                        "max": true,
-                        "min": false,
-                        "rightSide": true,
-                        "show": true,
-                        "sort": "avg",
-                        "sortDesc": true,
-                        "total": false,
-                        "values": true
-                      },
-                      "lines": true,
-                      "linewidth": 1,
-                      "links": [],
-                      "nullPointMode": "null",
-                      "options": {
-                        "dataLinks": []
-                      },
-                      "percentage": false,
-                      "pointradius": 5,
-                      "points": false,
-                      "renderer": "flot",
-                      "seriesOverrides": [],
-                      "spaceLength": 10,
-                      "stack": false,
-                      "steppedLine": false,
-                      "targets": [
-                        {
-                          "expr": "sum(rocketchat_rest_api) by (entrypoint) * sum(increase(rocketchat_rest_api_count{}[5m])) by (entrypoint)",
-                          "format": "time_series",
-                          "intervalFactor": 1,
-                          "legendFormat": "{{entrypoint}}",
-                          "refId": "A"
-                        }
-                      ],
-                      "thresholds": [],
-                      "timeRegions": [],
-                      "title": "REST API Total Times",
-                      "tooltip": {
-                        "shared": true,
-                        "sort": 2,
-                        "value_type": "individual"
-                      },
-                      "type": "graph",
-                      "xaxis": {
-                        "mode": "time",
-                        "show": true,
-                        "values": []
-                      },
-                      "yaxes": [
-                        {
-                          "format": "ms",
-                          "logBase": 1,
-                          "show": true
-                        },
-                        {
-                          "format": "short",
-                          "logBase": 1,
-                          "show": true
-                        }
-                      ],
-                      "yaxis": {
-                        "align": false
-                      }
-                    },
-                    {
-                      "aliasColors": {},
-                      "bars": false,
-                      "dashLength": 10,
-                      "dashes": false,
-                      "datasource": {
-                        "type": "prometheus",
-                        "uid": "000000001"
-                      },
-                      "fill": 1,
-                      "fillGradient": 0,
-                      "gridPos": {
-                        "h": 8,
-                        "w": 12,
-                        "x": 0,
-                        "y": 32
-                      },
-                      "hiddenSeries": false,
-                      "id": 18,
-                      "legend": {
-                        "alignAsTable": true,
-                        "avg": true,
-                        "current": true,
-                        "max": true,
-                        "min": false,
-                        "rightSide": false,
-                        "show": true,
-                        "sort": "max",
-                        "sortDesc": true,
-                        "total": false,
-                        "values": true
-                      },
-                      "lines": true,
-                      "linewidth": 1,
-                      "links": [],
-                      "nullPointMode": "null",
-                      "options": {
-                        "dataLinks": []
-                      },
-                      "percentage": false,
-                      "pointradius": 5,
-                      "points": false,
-                      "renderer": "flot",
-                      "seriesOverrides": [],
-                      "spaceLength": 10,
-                      "stack": false,
-                      "steppedLine": false,
-                      "targets": [
-                        {
-                          "expr": "sum(irate(rocketchat_rest_api{}[5m])) by (entrypoint)",
-                          "format": "time_series",
-                          "intervalFactor": 1,
-                          "legendFormat": "{{entrypoint}}",
-                          "refId": "A"
-                        }
-                      ],
-                      "thresholds": [],
-                      "timeRegions": [],
-                      "title": "REST API Times",
-                      "tooltip": {
-                        "shared": true,
-                        "sort": 2,
-                        "value_type": "individual"
-                      },
-                      "type": "graph",
-                      "xaxis": {
-                        "mode": "time",
-                        "show": true,
-                        "values": []
-                      },
-                      "yaxes": [
-                        {
-                          "format": "s",
-                          "logBase": 1,
-                          "show": true
-                        },
-                        {
-                          "format": "short",
-                          "logBase": 1,
-                          "show": true
-                        }
-                      ],
-                      "yaxis": {
-                        "align": false
-                      }
-                    },
-                    {
-                      "aliasColors": {},
-                      "bars": false,
-                      "dashLength": 10,
-                      "dashes": false,
-                      "datasource": {
-                        "type": "prometheus",
-                        "uid": "000000001"
-                      },
-                      "fill": 1,
-                      "fillGradient": 0,
-                      "gridPos": {
-                        "h": 8,
-                        "w": 12,
-                        "x": 12,
-                        "y": 32
-                      },
-                      "hiddenSeries": false,
-                      "id": 19,
-                      "legend": {
-                        "alignAsTable": true,
-                        "avg": true,
-                        "current": true,
-                        "max": true,
-                        "min": false,
-                        "rightSide": false,
-                        "show": true,
-                        "sort": "avg",
-                        "sortDesc": true,
-                        "total": false,
-                        "values": true
-                      },
-                      "lines": true,
-                      "linewidth": 1,
-                      "links": [],
-                      "nullPointMode": "null",
-                      "options": {
-                        "dataLinks": []
-                      },
-                      "percentage": false,
-                      "pointradius": 5,
-                      "points": false,
-                      "renderer": "flot",
-                      "seriesOverrides": [],
-                      "spaceLength": 10,
-                      "stack": false,
-                      "steppedLine": false,
-                      "targets": [
-                        {
-                          "expr": "sum(increase(rocketchat_rest_api_count{}[5m])) by (entrypoint)",
-                          "format": "time_series",
-                          "intervalFactor": 1,
-                          "legendFormat": "{{entrypoint}}",
-                          "refId": "A"
-                        }
-                      ],
-                      "thresholds": [],
-                      "timeRegions": [],
-                      "title": "REST API Calls / Minute",
-                      "tooltip": {
-                        "shared": true,
-                        "sort": 2,
-                        "value_type": "individual"
-                      },
-                      "type": "graph",
-                      "xaxis": {
-                        "mode": "time",
-                        "show": true,
-                        "values": []
-                      },
-                      "yaxes": [
-                        {
-                          "format": "short",
-                          "logBase": 1,
-                          "show": true
-                        },
-                        {
-                          "format": "short",
-                          "logBase": 1,
-                          "show": true
-                        }
-                      ],
-                      "yaxis": {
-                        "align": false
-                      }
-                    }
-                  ],
-                  "title": "REST API",
-                  "type": "row"
+                  "format": "short",
+                  "logBase": 1,
+                  "show": true
                 }
               ],
-              "refresh": "1m",
-              "schemaVersion": 34,
-              "style": "dark",
-              "tags": [],
-              "templating": {
-                "list": []
-              },
-              "time": {
-                "from": "now-3h",
-                "to": "now"
-              },
-              "timepicker": {
-                "refresh_intervals": [
-                  "5s",
-                  "10s",
-                  "30s",
-                  "1m",
-                  "5m",
-                  "15m",
-                  "30m",
-                  "1h",
-                  "2h",
-                  "1d"
-                ],
-                "time_options": [
-                  "5m",
-                  "15m",
-                  "1h",
-                  "6h",
-                  "12h",
-                  "24h",
-                  "2d",
-                  "7d",
-                  "30d"
-                ]
-              },
-              "timezone": "",
-              "title": "Rocket.Chat Metrics",
-              "uid": "Ee8-FY7ml",
-              "version": 2,
-              "weekStart": ""
+              "yaxis": {
+                "align": false
+              }
             }
+          ],
+          "title": "Callbacks & Hooks",
+          "type": "row"
+        },
+        {
+          "collapsed": true,
+          "gridPos": {
+            "h": 1,
+            "w": 24,
+            "x": 0,
+            "y": 165
+          },
+          "id": 51,
+          "panels": [
+            {
+              "aliasColors": {},
+              "bars": false,
+              "dashLength": 10,
+              "dashes": false,
+              "datasource": {
+                "type": "prometheus",
+                "uid": "000000001"
+              },
+              "fill": 1,
+              "fillGradient": 0,
+              "gridPos": {
+                "h": 7,
+                "w": 24,
+                "x": 0,
+                "y": 25
+              },
+              "hiddenSeries": false,
+              "id": 52,
+              "legend": {
+                "alignAsTable": true,
+                "avg": true,
+                "current": true,
+                "hideEmpty": true,
+                "hideZero": true,
+                "max": true,
+                "min": false,
+                "rightSide": true,
+                "show": true,
+                "sort": "avg",
+                "sortDesc": true,
+                "total": false,
+                "values": true
+              },
+              "lines": true,
+              "linewidth": 1,
+              "links": [],
+              "nullPointMode": "null",
+              "options": {
+                "dataLinks": []
+              },
+              "percentage": false,
+              "pointradius": 5,
+              "points": false,
+              "renderer": "flot",
+              "seriesOverrides": [],
+              "spaceLength": 10,
+              "stack": false,
+              "steppedLine": false,
+              "targets": [
+                {
+                  "expr": "sum(rocketchat_rest_api) by (entrypoint) * sum(increase(rocketchat_rest_api_count{}[5m])) by (entrypoint)",
+                  "format": "time_series",
+                  "intervalFactor": 1,
+                  "legendFormat": "{{entrypoint}}",
+                  "refId": "A"
+                }
+              ],
+              "thresholds": [],
+              "timeRegions": [],
+              "title": "REST API Total Times",
+              "tooltip": {
+                "shared": true,
+                "sort": 2,
+                "value_type": "individual"
+              },
+              "type": "graph",
+              "xaxis": {
+                "mode": "time",
+                "show": true,
+                "values": []
+              },
+              "yaxes": [
+                {
+                  "format": "ms",
+                  "logBase": 1,
+                  "show": true
+                },
+                {
+                  "format": "short",
+                  "logBase": 1,
+                  "show": true
+                }
+              ],
+              "yaxis": {
+                "align": false
+              }
+            },
+            {
+              "aliasColors": {},
+              "bars": false,
+              "dashLength": 10,
+              "dashes": false,
+              "datasource": {
+                "type": "prometheus",
+                "uid": "000000001"
+              },
+              "fill": 1,
+              "fillGradient": 0,
+              "gridPos": {
+                "h": 8,
+                "w": 12,
+                "x": 0,
+                "y": 32
+              },
+              "hiddenSeries": false,
+              "id": 18,
+              "legend": {
+                "alignAsTable": true,
+                "avg": true,
+                "current": true,
+                "max": true,
+                "min": false,
+                "rightSide": false,
+                "show": true,
+                "sort": "max",
+                "sortDesc": true,
+                "total": false,
+                "values": true
+              },
+              "lines": true,
+              "linewidth": 1,
+              "links": [],
+              "nullPointMode": "null",
+              "options": {
+                "dataLinks": []
+              },
+              "percentage": false,
+              "pointradius": 5,
+              "points": false,
+              "renderer": "flot",
+              "seriesOverrides": [],
+              "spaceLength": 10,
+              "stack": false,
+              "steppedLine": false,
+              "targets": [
+                {
+                  "expr": "sum(irate(rocketchat_rest_api{}[5m])) by (entrypoint)",
+                  "format": "time_series",
+                  "intervalFactor": 1,
+                  "legendFormat": "{{entrypoint}}",
+                  "refId": "A"
+                }
+              ],
+              "thresholds": [],
+              "timeRegions": [],
+              "title": "REST API Times",
+              "tooltip": {
+                "shared": true,
+                "sort": 2,
+                "value_type": "individual"
+              },
+              "type": "graph",
+              "xaxis": {
+                "mode": "time",
+                "show": true,
+                "values": []
+              },
+              "yaxes": [
+                {
+                  "format": "s",
+                  "logBase": 1,
+                  "show": true
+                },
+                {
+                  "format": "short",
+                  "logBase": 1,
+                  "show": true
+                }
+              ],
+              "yaxis": {
+                "align": false
+              }
+            },
+            {
+              "aliasColors": {},
+              "bars": false,
+              "dashLength": 10,
+              "dashes": false,
+              "datasource": {
+                "type": "prometheus",
+                "uid": "000000001"
+              },
+              "fill": 1,
+              "fillGradient": 0,
+              "gridPos": {
+                "h": 8,
+                "w": 12,
+                "x": 12,
+                "y": 32
+              },
+              "hiddenSeries": false,
+              "id": 19,
+              "legend": {
+                "alignAsTable": true,
+                "avg": true,
+                "current": true,
+                "max": true,
+                "min": false,
+                "rightSide": false,
+                "show": true,
+                "sort": "avg",
+                "sortDesc": true,
+                "total": false,
+                "values": true
+              },
+              "lines": true,
+              "linewidth": 1,
+              "links": [],
+              "nullPointMode": "null",
+              "options": {
+                "dataLinks": []
+              },
+              "percentage": false,
+              "pointradius": 5,
+              "points": false,
+              "renderer": "flot",
+              "seriesOverrides": [],
+              "spaceLength": 10,
+              "stack": false,
+              "steppedLine": false,
+              "targets": [
+                {
+                  "expr": "sum(increase(rocketchat_rest_api_count{}[5m])) by (entrypoint)",
+                  "format": "time_series",
+                  "intervalFactor": 1,
+                  "legendFormat": "{{entrypoint}}",
+                  "refId": "A"
+                }
+              ],
+              "thresholds": [],
+              "timeRegions": [],
+              "title": "REST API Calls / Minute",
+              "tooltip": {
+                "shared": true,
+                "sort": 2,
+                "value_type": "individual"
+              },
+              "type": "graph",
+              "xaxis": {
+                "mode": "time",
+                "show": true,
+                "values": []
+              },
+              "yaxes": [
+                {
+                  "format": "short",
+                  "logBase": 1,
+                  "show": true
+                },
+                {
+                  "format": "short",
+                  "logBase": 1,
+                  "show": true
+                }
+              ],
+              "yaxis": {
+                "align": false
+              }
+            }
+          ],
+          "title": "REST API",
+          "type": "row"
+        }
+      ],
+      "refresh": "1m",
+      "schemaVersion": 34,
+      "style": "dark",
+      "tags": [],
+      "templating": {
+        "list": []
+      },
+      "time": {
+        "from": "now-3h",
+        "to": "now"
+      },
+      "timepicker": {
+        "refresh_intervals": [
+          "5s",
+          "10s",
+          "30s",
+          "1m",
+          "5m",
+          "15m",
+          "30m",
+          "1h",
+          "2h",
+          "1d"
+        ],
+        "time_options": [
+          "5m",
+          "15m",
+          "1h",
+          "6h",
+          "12h",
+          "24h",
+          "2d",
+          "7d",
+          "30d"
+        ]
+      },
+      "timezone": "",
+      "title": "Rocket.Chat Metrics",
+      "uid": "Ee8-FY7ml",
+      "version": 2,
+      "weekStart": ""
+    }
 
   useHelmInstall: true
