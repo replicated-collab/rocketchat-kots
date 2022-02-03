@@ -57,8 +57,7 @@ spec:
               "editable": true,
               "fiscalYearStartMonth": 0,
               "graphTooltip": 0,
-              "id": 21,
-              "iteration": 1643922595784,
+              "id": 2,
               "links": [],
               "liveNow": false,
               "panels": [
@@ -142,7 +141,7 @@ spec:
                   "pluginVersion": "8.3.4",
                   "targets": [
                     {
-                      "expr": "max(rocketchat_users_online{})",
+                      "expr": "max(rocketchat_users_online)",
                       "format": "time_series",
                       "intervalFactor": 1,
                       "refId": "A"
@@ -215,7 +214,7 @@ spec:
                   "pluginVersion": "8.3.4",
                   "targets": [
                     {
-                      "expr": "max(rocketchat_users_away{})",
+                      "expr": "max(rocketchat_users_away)",
                       "format": "time_series",
                       "intervalFactor": 1,
                       "refId": "A"
@@ -289,7 +288,7 @@ spec:
                   "pluginVersion": "8.3.4",
                   "targets": [
                     {
-                      "expr": "sum(rocketchat_ddp_connected_users{})",
+                      "expr": "sum(rocketchat_ddp_connected_users)",
                       "format": "time_series",
                       "intervalFactor": 1,
                       "legendFormat": "",
@@ -364,7 +363,7 @@ spec:
                   "pluginVersion": "8.3.4",
                   "targets": [
                     {
-                      "expr": "max(rocketchat_users_total{})",
+                      "expr": "max(rocketchat_users_total)",
                       "format": "time_series",
                       "intervalFactor": 1,
                       "refId": "A"
@@ -438,7 +437,7 @@ spec:
                   "pluginVersion": "8.3.4",
                   "targets": [
                     {
-                      "expr": "max(rocketchat_rooms_total{})",
+                      "expr": "max(rocketchat_rooms_total)",
                       "format": "time_series",
                       "intervalFactor": 1,
                       "refId": "A"
@@ -512,7 +511,7 @@ spec:
                   "pluginVersion": "8.3.4",
                   "targets": [
                     {
-                      "expr": "max(rocketchat_messages_total{})",
+                      "expr": "max(rocketchat_messages_total)",
                       "format": "time_series",
                       "intervalFactor": 1,
                       "refId": "A"
@@ -585,7 +584,7 @@ spec:
                   "pluginVersion": "8.3.4",
                   "targets": [
                     {
-                      "expr": "max(rocketchat_users_total{})",
+                      "expr": "max(rocketchat_users_total)",
                       "format": "time_series",
                       "intervalFactor": 1,
                       "refId": "A"
@@ -658,7 +657,7 @@ spec:
                   "pluginVersion": "8.3.4",
                   "targets": [
                     {
-                      "expr": "max(rocketchat_rooms_total{})",
+                      "expr": "max(rocketchat_rooms_total)",
                       "format": "time_series",
                       "intervalFactor": 1,
                       "refId": "A"
@@ -731,7 +730,7 @@ spec:
                   "pluginVersion": "8.3.4",
                   "targets": [
                     {
-                      "expr": "max(rocketchat_messages_total{})",
+                      "expr": "max(rocketchat_messages_total)",
                       "format": "time_series",
                       "intervalFactor": 1,
                       "refId": "A"
@@ -896,7 +895,7 @@ spec:
                   "steppedLine": false,
                   "targets": [
                     {
-                      "expr": "rocketchat_metrics_size{}",
+                      "expr": "rocketchat_metrics_size",
                       "format": "time_series",
                       "intervalFactor": 2,
                       "legendFormat": "{{instance}}",
@@ -998,7 +997,7 @@ spec:
                   "steppedLine": false,
                   "targets": [
                     {
-                      "expr": "nodejs_active_handles_total{}",
+                      "expr": "nodejs_active_handles_total",
                       "format": "time_series",
                       "intervalFactor": 2,
                       "legendFormat": "{{instance}}",
@@ -1087,7 +1086,7 @@ spec:
                   "steppedLine": false,
                   "targets": [
                     {
-                      "expr": "nodejs_active_requests_total{}",
+                      "expr": "nodejs_active_requests_total",
                       "format": "time_series",
                       "intervalFactor": 2,
                       "legendFormat": "{{instance}}",
@@ -1176,7 +1175,7 @@ spec:
                   "steppedLine": false,
                   "targets": [
                     {
-                      "expr": "nodejs_eventloop_lag_seconds{}",
+                      "expr": "nodejs_eventloop_lag_seconds",
                       "format": "time_series",
                       "intervalFactor": 2,
                       "legendFormat": "{{instance}}",
@@ -1265,7 +1264,7 @@ spec:
                   "steppedLine": false,
                   "targets": [
                     {
-                      "expr": "sum by (space) (nodejs_heap_size_used_bytes{})",
+                      "expr": "sum by (space) (nodejs_heap_size_used_bytes)",
                       "format": "time_series",
                       "intervalFactor": 2,
                       "legendFormat": "{{space}}",
@@ -1353,7 +1352,7 @@ spec:
                   "steppedLine": false,
                   "targets": [
                     {
-                      "expr": "nodejs_heap_size_used_bytes{}",
+                      "expr": "nodejs_heap_size_used_bytes",
                       "format": "time_series",
                       "hide": false,
                       "intervalFactor": 2,
@@ -2099,7 +2098,7 @@ spec:
                   "steppedLine": false,
                   "targets": [
                     {
-                      "expr": "max(rocketchat_messages_total{})",
+                      "expr": "max(rocketchat_messages_total)",
                       "format": "time_series",
                       "intervalFactor": 10,
                       "legendFormat": "{{instance}}",
@@ -2285,7 +2284,7 @@ spec:
                   "steppedLine": false,
                   "targets": [
                     {
-                      "expr": "avg(rocketchat_users_online{})",
+                      "expr": "avg(rocketchat_users_online)",
                       "format": "time_series",
                       "hide": false,
                       "intervalFactor": 1,
@@ -2293,7 +2292,7 @@ spec:
                       "refId": "A"
                     },
                     {
-                      "expr": "avg(rocketchat_users_away{})",
+                      "expr": "avg(rocketchat_users_away)",
                       "format": "time_series",
                       "hide": false,
                       "intervalFactor": 1,
@@ -2393,7 +2392,7 @@ spec:
                   "steppedLine": false,
                   "targets": [
                     {
-                      "expr": "sum(rocketchat_ddp_connected_users{})",
+                      "expr": "sum(rocketchat_ddp_connected_users)",
                       "format": "time_series",
                       "hide": false,
                       "intervalFactor": 1,
@@ -2401,7 +2400,7 @@ spec:
                       "refId": "A"
                     },
                     {
-                      "expr": "sum(rocketchat_ddp_sessions_count{})",
+                      "expr": "sum(rocketchat_ddp_sessions_count)",
                       "format": "time_series",
                       "hide": false,
                       "intervalFactor": 1,
@@ -2409,7 +2408,7 @@ spec:
                       "refId": "B"
                     },
                     {
-                      "expr": "sum(rocketchat_ddp_sessions_auth{})",
+                      "expr": "sum(rocketchat_ddp_sessions_auth)",
                       "format": "time_series",
                       "intervalFactor": 1,
                       "legendFormat": "Authenticated Sessions ",
@@ -2506,7 +2505,7 @@ spec:
                   "steppedLine": false,
                   "targets": [
                     {
-                      "expr": "rocketchat_ddp_connected_users{}",
+                      "expr": "rocketchat_ddp_connected_users",
                       "format": "time_series",
                       "hide": false,
                       "interval": "",
@@ -2607,7 +2606,7 @@ spec:
                   "steppedLine": false,
                   "targets": [
                     {
-                      "expr": "rocketchat_apps_installed{}",
+                      "expr": "rocketchat_apps_installed",
                       "format": "time_series",
                       "hide": false,
                       "interval": "",
@@ -2616,13 +2615,13 @@ spec:
                       "refId": "A"
                     },
                     {
-                      "expr": "rocketchat_apps_enabled{}",
+                      "expr": "rocketchat_apps_enabled",
                       "interval": "",
                       "legendFormat": "{{instance}} - enabled",
                       "refId": "B"
                     },
                     {
-                      "expr": "rocketchat_apps_failed{}",
+                      "expr": "rocketchat_apps_failed",
                       "interval": "",
                       "legendFormat": "{{instance}} - failed",
                       "refId": "C"
@@ -2938,7 +2937,7 @@ spec:
                   "steppedLine": false,
                   "targets": [
                     {
-                      "expr": "rocketchat_oplog_queue{}",
+                      "expr": "rocketchat_oplog_queue",
                       "format": "time_series",
                       "hide": false,
                       "intervalFactor": 1,
@@ -3031,7 +3030,7 @@ spec:
                   "steppedLine": false,
                   "targets": [
                     {
-                      "expr": "rocketchat_push_queue{}",
+                      "expr": "rocketchat_push_queue",
                       "format": "time_series",
                       "hide": false,
                       "intervalFactor": 1,
@@ -3124,7 +3123,7 @@ spec:
                   "steppedLine": false,
                   "targets": [
                     {
-                      "expr": "sum(rocketchat_meteor_facts{}) by (pkg, fact)",
+                      "expr": "sum(rocketchat_meteor_facts) by (pkg, fact)",
                       "format": "time_series",
                       "hide": false,
                       "intervalFactor": 1,
@@ -3220,7 +3219,7 @@ spec:
                   "steppedLine": false,
                   "targets": [
                     {
-                      "expr": "max(rocketchat_users_total{})",
+                      "expr": "max(rocketchat_users_total)",
                       "format": "time_series",
                       "intervalFactor": 1,
                       "legendFormat": "Users",
@@ -3317,7 +3316,7 @@ spec:
                   "steppedLine": false,
                   "targets": [
                     {
-                      "expr": "max(rocketchat_rooms_total{})",
+                      "expr": "max(rocketchat_rooms_total)",
                       "format": "time_series",
                       "intervalFactor": 1,
                       "legendFormat": "Rooms",
@@ -3514,7 +3513,7 @@ spec:
                       "steppedLine": false,
                       "targets": [
                         {
-                          "expr": "sum(rocketchat_meteor_methods{}) by (method) * sum(increase(rocketchat_meteor_methods_count{}[5m])) by (method)",
+                          "expr": "sum(rocketchat_meteor_methods) by (method) * sum(increase(rocketchat_meteor_methods_count{}[5m])) by (method)",
                           "format": "time_series",
                           "intervalFactor": 1,
                           "legendFormat": "{{method}}",
@@ -3600,7 +3599,7 @@ spec:
                       "steppedLine": false,
                       "targets": [
                         {
-                          "expr": "sum(rocketchat_meteor_methods{}) by (method)",
+                          "expr": "sum(rocketchat_meteor_methods) by (method)",
                           "format": "time_series",
                           "intervalFactor": 1,
                           "legendFormat": "{{method}}",
@@ -3788,7 +3787,7 @@ spec:
                       "steppedLine": false,
                       "targets": [
                         {
-                          "expr": "sum(rocketchat_meteor_subscriptions{}) by (subscription) * sum(increase(rocketchat_meteor_subscriptions_count{}[5m])) by (subscription)",
+                          "expr": "sum(rocketchat_meteor_subscriptions) by (subscription) * sum(increase(rocketchat_meteor_subscriptions_count{}[5m])) by (subscription)",
                           "format": "time_series",
                           "intervalFactor": 1,
                           "legendFormat": "{{subscription}}",
@@ -3874,7 +3873,7 @@ spec:
                       "steppedLine": false,
                       "targets": [
                         {
-                          "expr": "sum(rocketchat_meteor_subscriptions{}) by (subscription)",
+                          "expr": "sum(rocketchat_meteor_subscriptions) by (subscription)",
                           "format": "time_series",
                           "intervalFactor": 1,
                           "legendFormat": "{{subscription}}",
@@ -4062,7 +4061,7 @@ spec:
                       "steppedLine": false,
                       "targets": [
                         {
-                          "expr": "sum(rocketchat_callbacks{}) by (callback) * sum(increase(rocketchat_callbacks_count{}[5m])) by (callback)",
+                          "expr": "sum(rocketchat_callbacks) by (callback) * sum(increase(rocketchat_callbacks_count{}[5m])) by (callback)",
                           "format": "time_series",
                           "intervalFactor": 1,
                           "legendFormat": "{{callback}}",
@@ -4242,7 +4241,7 @@ spec:
                           "refId": "A"
                         },
                         {
-                          "expr": "sum(rocketchat_callbacks_count{}) by (hook)",
+                          "expr": "sum(rocketchat_callbacks_count) by (hook)",
                           "format": "time_series",
                           "hide": true,
                           "intervalFactor": 1,
@@ -4331,7 +4330,7 @@ spec:
                       "steppedLine": false,
                       "targets": [
                         {
-                          "expr": "sum(rocketchat_hooks{}) by (hook) * sum(increase(rocketchat_hooks_count{}[5m])) by (hook)",
+                          "expr": "sum(rocketchat_hooks) by (hook) * sum(increase(rocketchat_hooks_count{}[5m])) by (hook)",
                           "format": "time_series",
                           "intervalFactor": 1,
                           "legendFormat": "{{hook}}",
@@ -4511,7 +4510,7 @@ spec:
                           "refId": "A"
                         },
                         {
-                          "expr": "sum(rocketchat_callbacks_count{}) by (hook)",
+                          "expr": "sum(rocketchat_callbacks_count) by (hook)",
                           "format": "time_series",
                           "hide": true,
                           "intervalFactor": 1,
@@ -4614,7 +4613,7 @@ spec:
                       "steppedLine": false,
                       "targets": [
                         {
-                          "expr": "sum(rocketchat_rest_api{}) by (entrypoint) * sum(increase(rocketchat_rest_api_count{}[5m])) by (entrypoint)",
+                          "expr": "sum(rocketchat_rest_api) by (entrypoint) * sum(increase(rocketchat_rest_api_count{}[5m])) by (entrypoint)",
                           "format": "time_series",
                           "intervalFactor": 1,
                           "legendFormat": "{{entrypoint}}",
@@ -4833,36 +4832,7 @@ spec:
               "style": "dark",
               "tags": [],
               "templating": {
-                "list": [
-                  {
-                    "current": {
-                      "selected": false,
-                      "text": "open",
-                      "value": "open"
-                    },
-                    "datasource": {
-                      "type": "prometheus",
-                      "uid": "000000001"
-                    },
-                    "definition": "",
-                    "hide": 0,
-                    "includeAll": false,
-                    "multi": false,
-                    "name": "deployment",
-                    "options": [],
-                    "query": {
-                      "query": "label_values(nodejs_active_handles_total, "prom-use1-wkspc-deployment-Variable-Query"
-                    },
-                    "refresh": 1,
-                    "regex": "",
-                    "skipUrlSync": false,
-                    "sort": 0,
-                    "tagValuesQuery": "",
-                    "tagsQuery": "",
-                    "type": "query",
-                    "useTags": false
-                  }
-                ]
+                "list": []
               },
               "time": {
                 "from": "now-3h",
@@ -4896,7 +4866,7 @@ spec:
               "timezone": "",
               "title": "Rocket.Chat Metrics",
               "uid": "Ee8-FY7ml",
-              "version": 15,
+              "version": 2,
               "weekStart": ""
             }
 
