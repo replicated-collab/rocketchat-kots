@@ -9,6 +9,8 @@ spec:
     name: grafana
     chartVersion: 6.21.2
   values:
+    admin:
+      existingSecret: grafana-admin
     datasources: 
      datasources.yaml:
        apiVersion: 1
