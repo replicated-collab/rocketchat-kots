@@ -47,11 +47,13 @@ spec:
 
         - name: mongo_root_password
           when: '{{repl ConfigOptionEquals "mongo_type" "embedded_mongodb"}}'
+          default: "thisissapassword"
           type: password
           title: MongoDB Root Password
           required: true
         - name: mongo_rocketchat_password
           when: '{{repl ConfigOptionEquals "mongo_type" "embedded_mongodb"}}'
+          default: "thisissapassword"
           type: password
           title: MongoDB RocketChat Password
           required: true
