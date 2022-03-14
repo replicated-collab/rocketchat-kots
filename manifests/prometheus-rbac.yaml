@@ -77,10 +77,10 @@ subjects:
 - kind: ServiceAccount
   name: rocketchat-prometheus
   namespace: '{{repl Namespace}}'
----
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: rocketchat-prometheus
-  annotations:
-    kots.io/exclude: '{{repl ConfigOptionEquals "prometheus_type" "external_prometheus"}}'
+# ---
+# apiVersion: v1
+# kind: ServiceAccount
+# metadata:
+#   name: rocketchat-prometheus
+#   annotations:
+#     kots.io/exclude: '{{repl ConfigOptionEquals "prometheus_type" "external_prometheus"}}'
