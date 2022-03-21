@@ -19,6 +19,12 @@ spec:
           help_text: Include a Secret object containing Certificate and it's Private Key
           type: bool
           default: "1"
+        - name: node_port
+          title: Node port
+          when: '{{repl and (ConfigOptionEquals "use_ingress" "0") }}'
+          help_text: Specify a Node Port for the service to be exposed, when not using Ingress
+          type: text
+          default: 3000
     - name: certs
       title: TLS Configuration
       when: '{{repl and (ConfigOptionEquals "use_tls" "1") (ConfigOptionEquals "use_ingress" "1")}}'

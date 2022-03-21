@@ -55,5 +55,11 @@ spec:
             - secretName: kotsadm-tls
               hosts:
                 - "repl{{ LicenseFieldValue `license_url`}}" 
+    - when: 'repl{{ ConfigOptionEquals "use_ingress" "0" }}'
+      values: 
+        ingress: 
+          enabled: false
+        service: 
+          nodePort: "repl{{ ConfigOption `node_port`}}"
 
   useHelmInstall: true
