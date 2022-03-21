@@ -60,6 +60,7 @@ spec:
         ingress: 
           enabled: false
         service: 
+          type: NodePort
           nodePort: "repl{{ ConfigOption `node_port`}}"
 
   useHelmInstall: true
