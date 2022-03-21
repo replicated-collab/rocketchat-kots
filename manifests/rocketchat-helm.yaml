@@ -37,7 +37,7 @@ spec:
       values: 
         ingress: 
           enabled: true
-    - when: '{{repl and (ConfigOptionEquals "use_tls" "1") (not IsKurl) }}'
+    - when: '{{repl and (ConfigOptionEquals "use_ingress" "1") (ConfigOptionEquals "use_tls" "1") (not IsKurl)}}'
       values: 
         ingress: 
           enabled: true
@@ -47,7 +47,7 @@ spec:
                 - "repl{{ LicenseFieldValue `license_url`}}"
     # kURL setups have a kotsadm-tls secret, cf.; 
     # https://kots.io/vendor/packaging/using-tls-certs/
-    - when: '{{repl and (ConfigOptionEquals "use_tls" "1") (IsKurl) }}'
+    - when: '{{repl and (ConfigOptionEquals "use_ingress" "1") (ConfigOptionEquals "use_tls" "1") (IsKurl) }}'
       values: 
         ingress: 
           enabled: true
