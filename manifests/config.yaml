@@ -24,7 +24,7 @@ spec:
           when: '{{repl and (ConfigOptionEquals "use_ingress" "0") }}'
           help_text: Specify a Node Port for the service to be exposed, when not using Ingress
           type: text
-          default: "3000"
+          default: "30000"
     - name: certs
       title: TLS Configuration
       when: '{{repl and (ConfigOptionEquals "use_tls" "1") (ConfigOptionEquals "use_ingress" "1")}}'
