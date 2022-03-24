@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: rocketchat-prometheus-node-exporter
+  labels:
+    component: node-exporter
+  annotations:
+    kots.io/exclude: '{{repl and (ConfigOptionEquals "prometheus_type" "external_prometheus") (not IsKurl)}}'
+spec:
+  selector:
+    matchLabels:
+      component: node-exporter
+  template:
+    metadata:
+      name: rocketchat-prometheus-node-exporter
+      labels:
+        component: node-exporter
+    spec:
+      tolerations:
+        - operator: "Exists" # this will tolerate everything, as we want to run the agents on all nodes, always
+      containers:
+      - image:  prom/node-exporter:latest
+        name: prometheus-node-exporter
+        ports:
+        - name: prom-node-exp
+          #^ must be an IANA_SVC_NAME (at most 15 characters, ..)
+          containerPort: 9100
+          hostPort: 9100
+      hostNetwork: true
+      hostPID: true
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    prometheus.io/scrape: 'true'
+    kots.io/exclude: '{{repl and (ConfigOptionEquals "prometheus_type" "external_prometheus") (not IsKurl)}}'
+  name: rocketchat-prometheus-node-exporter
+  labels:
+    component: node-exporter
+spec:
+  clusterIP: None
+  ports:
+    - name: rocketchat-prometheus-node-exporter
+      port: 9100
+      protocol: TCP
+  selector:
+    component: node-exporter
+  type: ClusterIP
