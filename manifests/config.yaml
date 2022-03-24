@@ -27,7 +27,7 @@ spec:
           default: "30000"
     - name: certs
       title: TLS Configuration
-      when: '{{repl and (ConfigOptionEquals "use_tls" "1") (ConfigOptionEquals "use_ingress" "1")}}'
+      when: '{{repl and (ConfigOptionEquals "use_tls" "1") (ConfigOptionEquals "use_ingress" "1") (not IsKurl)}}'
       items:
       - name: tls_certificate_file
         title: Certificate
