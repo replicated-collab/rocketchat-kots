@@ -13,7 +13,8 @@ spec:
     - '{{repl if ConfigOptionNotEquals "prometheus_type" "external_prometheus"}}service/rocketchat-prometheus{{repl end}}'
     - service/rocketchat-rocketchat
     - '{{repl if ConfigOptionNotEquals "deploy_grafana" "0"}}deployment/grafana{{repl end}}'
-    - '{{repl if ConfigOptionNotEquals "use_ingress" "0"}}ingress/rocketchat-rocketchat{{repl end}}'
+    # For some unbeknownst reason, the following line does not operate
+    #- '{{repl if ConfigOptionNotEquals "use_ingress" "0"}}ingress/rocketchat-rocketchat{{repl end}}'
     - '{{repl if ConfigOptionNotEquals "mongo_type" "external_mongodb"}}statefulset/rocketchat-mongodb{{repl end}}'
     - '{{repl if ConfigOptionNotEquals "prometheus_type" "external_prometheus"}}statefulset/rocketchat-prometheus{{repl end}}'
     - deployment/rocketchat-rocketchat
