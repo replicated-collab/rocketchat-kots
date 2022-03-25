@@ -13,7 +13,7 @@ spec:
     # cf. prometheus-mongodb-exporter's README.md
     existingSecret:
       name: "rocketchat-rocketchat"
-      key: "mongodb-uri"
+      key: "mongo-uri"
     podAnnotations: 
       prometheus.io/scrape: "true"
       prometheus.io/port: "metrics"
