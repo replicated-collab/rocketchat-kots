@@ -9,7 +9,13 @@ spec:
     - rocketchat/rocket.chat:latest
   statusInformers:
     - '{{repl if ConfigOptionNotEquals "mongo_type" "external_mongodb"}}service/rocketchat-mongodb-headless{{repl end}}'
+    - '{{repl if ConfigOptionNotEquals "deploy_grafana" "0"}}service/grafana{{repl end}}'
+    - '{{repl if ConfigOptionNotEquals "prometheus_type" "external_prometheus"}}service/rocketchat-prometheus{{repl end}}'
     - service/rocketchat-rocketchat
+    - '{{repl if ConfigOptionNotEquals "deploy_grafana" "0"}}deployment/grafana{{repl end}}'
+    - '{{repl if ConfigOptionNotEquals "use_ingress" "0"}}ingress/rocketchat-rocketchat{{repl end}}'
+    - '{{repl if ConfigOptionNotEquals "mongo_type" "external_mongodb"}}statefulset/rocketchat-mongodb{{repl end}}'
+    - '{{repl if ConfigOptionNotEquals "prometheus_type" "external_prometheus"}}statefulset/rocketchat-prometheus{{repl end}}'
     - deployment/rocketchat-rocketchat
   graphs:
     - title: Number of users online right now
