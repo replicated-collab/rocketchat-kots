@@ -13,6 +13,11 @@ spec:
           help_text: Include an Ingress object
           type: bool
           default: "1"
+          # There's no good reason to disable Ingress, so 
+          # it is possible that this option will be soon
+          # removed from here, or, perhaps, kept for 
+          # internal usage. 
+          hidden: true
         - name: use_tls
           when: '{{repl and (ConfigOptionEquals "use_ingress" "1") (not IsKurl) }}' # kURL handles this
           title: Use TLS?
