@@ -1,0 +1,21 @@
+apiVersion: kots.io/v1beta1
+kind: HelmChart
+metadata:
+  name: prometheus-mongodb-exporter
+  annotations:
+    kots.io/exclude: '{{repl and (ConfigOptionEquals "prometheus_type" "external_prometheus") (not IsKurl)}}'
+spec:
+  chart:
+    name: prometheus-mongodb-exporter
+    chartVersion: 2.9.0
+  values:
+    # Not using Prometheus Operator
+    # cf. prometheus-mongodb-exporter's README.md
+    existingSecret:
+      name: "rocketchat-rocketchat"
+      key: "mongodb-uri"
+    podAnnotations: 
+      prometheus.io/scrape: "true"
+      prometheus.io/port: "metrics"
+            
+  useHelmInstall: true
