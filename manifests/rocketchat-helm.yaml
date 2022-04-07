@@ -33,6 +33,10 @@ spec:
             password: "repl{{ ConfigOption `mongo_rocketchat_password`}}"
             database:  rocketchat
             rootPassword: "repl{{ ConfigOption `mongo_root_password`}}"
+    - when: '{{repl ConfigOptionEquals "use_microservices" "1"}}'
+      values: 
+        microservices: 
+          enabled: true
     - when: '{{repl ConfigOptionEquals "use_ingress" "1"}}'
       values: 
         ingress: 

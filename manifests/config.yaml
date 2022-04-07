@@ -8,6 +8,11 @@ spec:
       title: RocketChat Settings
       description: Configuration for RocketChat
       items:
+        - name: use_microservices
+          title: Enable micro-services? 
+          help_text: Splits Rocket.Chat auxiliary services into different containers, thus improving scalability
+          type: bool
+          default: "1"
         - name: use_ingress
           title: Use Ingress?
           help_text: Include an Ingress object
