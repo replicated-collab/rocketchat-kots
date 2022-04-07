@@ -37,6 +37,11 @@ spec:
       values: 
         microservices: 
           enabled: true
+        # Workarround for a strange behaviour, when µservices are in use
+        # chat deployment crashes due to *something* already up on 9458
+        # TODO: investigate this issue
+        prometheusScraping: 
+          port: 9459
     - when: '{{repl ConfigOptionEquals "use_ingress" "1"}}'
       values: 
         ingress: 
