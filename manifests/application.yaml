@@ -4,7 +4,7 @@ metadata:
   name: "rocketchat"
   labels:
     app.kubernetes.io/name: "rocketchat"
-    app.kubernetes.io/version: "4.6.1"
+    app.kubernetes.io/version: "4.7.0"
 spec:
   selector:
     matchLabels:
