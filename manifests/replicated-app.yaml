@@ -13,11 +13,22 @@ spec:
     - '{{repl if ConfigOptionNotEquals "prometheus_type" "external_prometheus"}}service/rocketchat-prometheus{{repl end}}'
     - service/rocketchat-rocketchat
     - '{{repl if ConfigOptionNotEquals "deploy_grafana" "0"}}deployment/grafana{{repl end}}'
-    # For some unbeknownst reason, the following line does not operate
-    # i.e. KOTS panel reports that ingress is unavailable, even though it's clearly operational
-    #- '{{repl if ConfigOptionNotEquals "use_ingress" "0"}}ingress/rocketchat-rocketchat{{repl end}}'
+    - '{{repl if ConfigOptionNotEquals "use_ingress" "0"}}ingress/rocketchat-rocketchat{{repl end}}'
     - '{{repl if ConfigOptionNotEquals "mongo_type" "external_mongodb"}}statefulset/rocketchat-mongodb{{repl end}}'
     - '{{repl if ConfigOptionNotEquals "prometheus_type" "external_prometheus"}}statefulset/rocketchat-prometheus{{repl end}}'
+    - '{{repl if ConfigOptionNotEquals "use_microservices" "0"}}deployment/rocketchat-account{{repl end}}'
+    - '{{repl if ConfigOptionNotEquals "use_microservices" "0"}}deployment/rocketchat-authorization{{repl end}}'
+    - '{{repl if ConfigOptionNotEquals "use_microservices" "0"}}deployment/rocketchat-ddp-streamer{{repl end}}'
+    - '{{repl if ConfigOptionNotEquals "use_microservices" "0"}}deployment/rocketchat-presence{{repl end}}'
+    - '{{repl if ConfigOptionNotEquals "use_microservices" "0"}}deployment/rocketchat-stream-hub{{repl end}}'
+    - '{{repl if ConfigOptionNotEquals "use_microservices" "0"}}statefulset/rocketchat-nats{{repl end}}'
+    - '{{repl if ConfigOptionNotEquals "use_microservices" "0"}}deployment/rocketchat-nats-box{{repl end}}'
+    - '{{repl if ConfigOptionNotEquals "use_microservices" "0"}}service/rocketchat-ddp-streamer{{repl end}}'
+    - '{{repl if ConfigOptionNotEquals "use_microservices" "0"}}service/rocketchat-mongodb-headless{{repl end}}'
+    - '{{repl if ConfigOptionNotEquals "use_microservices" "0"}}service/rocketchat-nats{{repl end}}'
+    - '{{repl if ConfigOptionNotEquals "use_microservices" "0"}}service/rocketchat-prometheus{{repl end}}'
+    - '{{repl if ConfigOptionNotEquals "use_microservices" "0"}}service/rocketchat-prometheus-node-exporter{{repl end}}'
+
     - deployment/rocketchat-rocketchat
   graphs:
     - title: Number of users online right now
