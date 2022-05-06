@@ -1,7 +1,7 @@
 apiVersion: kurl.sh/v1beta1
 kind: Installer
 metadata:
-  name: 'myapp'
+  name: 'rocketchat'
 spec:
   kubernetes:
     version: latest
@@ -16,7 +16,7 @@ spec:
     namespace: "openebs"
     isLocalPVEnabled: true
     localPVStorageClassName: default
-  contour:
+  traefik :
     version: latest
   registry:
     version: latest
