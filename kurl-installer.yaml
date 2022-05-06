@@ -16,7 +16,7 @@ spec:
     namespace: "openebs"
     isLocalPVEnabled: true
     localPVStorageClassName: default
-  traefik :
+  contour :
     version: latest
   registry:
     version: latest
