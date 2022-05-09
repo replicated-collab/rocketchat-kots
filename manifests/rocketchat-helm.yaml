@@ -41,6 +41,8 @@ spec:
         # chat deployment crashes due to *something* already up on 9458
         # TODO: investigate this issue
         prometheusScraping: 
+          # This needs to be duplicated here, for whatever the reason... 
+          enabled: true
           port: 9459
     - when: '{{repl ConfigOptionEquals "use_ingress" "1"}}'
       values: 
