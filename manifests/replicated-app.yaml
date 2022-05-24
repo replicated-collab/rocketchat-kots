@@ -13,7 +13,8 @@ spec:
     - '{{repl if ConfigOptionNotEquals "prometheus_type" "external_prometheus"}}service/rocketchat-prometheus{{repl end}}'
     - service/rocketchat-rocketchat
     - '{{repl if ConfigOptionNotEquals "deploy_grafana" "0"}}deployment/grafana{{repl end}}'
-    - '{{repl if ConfigOptionNotEquals "use_ingress" "0"}}ingress/rocketchat-rocketchat{{repl end}}'
+    - '{{repl if and (ConfigOptionNotEquals "use_ingress" "0") (not IsKurl)}}ingress/rocketchat-rocketchat{{repl end}}'
+    - '{{repl if and (ConfigOptionNotEquals "use_ingress" "0") (IsKurl)}}httpproxy/rocketchat-rocketchat{{repl end}}'
     - '{{repl if ConfigOptionNotEquals "mongo_type" "external_mongodb"}}statefulset/rocketchat-mongodb{{repl end}}'
     - '{{repl if ConfigOptionNotEquals "prometheus_type" "external_prometheus"}}statefulset/rocketchat-prometheus{{repl end}}'
     - '{{repl if ConfigOptionNotEquals "use_microservices" "0"}}deployment/rocketchat-account{{repl end}}'
