@@ -11,9 +11,11 @@ spec:
     mongodb:
       auth:
         username: rocketchat
-        password: "repl{{ ConfigOption `mongo_rocketchat_password`}}"
+        # Although this solves the problem for chars with special characters, the 
+        # correct place to solve this seems to be the Helm Charts repo. 
+        password: "{{repl ConfigOption `mongo_rocketchat_password` | UrlEncode}}"
         database:  rocketchat
-        rootPassword: "repl{{ ConfigOption `mongo_root_password`}}"
+        rootPassword: "{{repl ConfigOption `mongo_root_password` | UrlEncode}}"
     license: "repl{{ LicenseFieldValue `rocketchat_enterprise_license`}}"
     registrationToken: "repl{{ LicenseFieldValue `rocketchat_registration_token`}}"
     prometheusScraping:
