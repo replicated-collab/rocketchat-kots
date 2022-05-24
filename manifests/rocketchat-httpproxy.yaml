@@ -7,6 +7,8 @@ metadata:
 spec:
   virtualhost:
     fqdn: "repl{{ LicenseFieldValue `license_url`}}"
+    tls: 
+      secretName: kotsadm-tls
   routes:
     - services:
         - name: rocketchat-rocketchat
@@ -16,10 +18,10 @@ spec:
       enableWebsockets: true
       services:
         - name: rocketchat-ddp-streamer
-          port: 80
+          port: 3000
     - conditions: 
       - prefix: /websock
       enableWebsockets: true
       services:
         - name: rocketchat-ddp-streamer
-          port: 80
+          port: 3000
