@@ -1,0 +1,25 @@
+apiVersion: projectcontour.io/v1
+kind: HTTPProxy
+metadata:
+  name: rocketchat-ingressroute
+  annotations:
+    kots.io/when: '{{repl and (ConfigOptionEquals "use_ingress" "1") (IsKurl)}}'
+spec:
+  virtualhost:
+    fqdn: "repl{{ LicenseFieldValue `license_url`}}"
+  routes:
+    - services:
+        - name: rocketchat-rocketchat
+          port: 80
+    - conditions: 
+      - prefix: /sockjs
+      enableWebsockets: true
+      services:
+        - name: rocketchat-ddp-streamer
+          port: 80
+    - conditions: 
+      - prefix: /websock
+      enableWebsockets: true
+      services:
+        - name: rocketchat-ddp-streamer
+          port: 80
