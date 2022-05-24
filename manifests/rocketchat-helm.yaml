@@ -63,7 +63,12 @@ spec:
     - when: '{{repl and (ConfigOptionEquals "use_ingress" "1") (ConfigOptionEquals "use_tls" "1") (IsKurl) }}'
       values: 
         ingress: 
-          enabled: true
+          # Countour requires an IngressRoute to work with websockets, thus
+          # kURL deployments won't use the Helm Ingress YAML. Perhaps, that's 
+          # another issue that should be solved on Helm. But, for now, we will 
+          # workarround it. 
+          # cf. https://community.replicated.com/t/websockets-with-replicated-embedded-kubernetes/338
+          enabled: false
           tls: 
             - secretName: kotsadm-tls
               hosts:
