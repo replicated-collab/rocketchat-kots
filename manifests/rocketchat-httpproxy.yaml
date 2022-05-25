@@ -1,3 +1,18 @@
+# Q: Why does this exist? 
+# R: Countour can't, for some incomprehensible reason, can't act normally 
+# and just support Websockets like Træfik (and pretty much everybody else) 
+# does . Instead of a normal Ingress, you have to create this HTTPProxy CRD 
+# (previously known as IngressRoute). 
+# Sources: 
+# - https://community.replicated.com/t/websockets-with-replicated-embedded-kubernetes/338
+# - https://projectcontour.io/docs/v1.20.1/config/fundamentals/
+# --
+# Q: What if a non-kURL install has Countour? 
+# R: Well... What to say? We will deal with it when the time comes. Ideally, 
+# we should've fixed on our Helm charts, but it may unveil new issues. So, 
+# it will be done after we fix the most troublesome issues, like kURL being 
+# unable to deal with websockets. 
+
 apiVersion: projectcontour.io/v1
 kind: HTTPProxy
 metadata:
