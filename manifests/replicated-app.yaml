@@ -12,19 +12,19 @@ spec:
     - deployment/rocketchat-rocketchat
     - '{{repl if and (ConfigOptionEquals "use_ingress" "1") (not IsKurl)}}ingress/rocketchat-rocketchat{{repl end}}'
     - '{{repl if and (ConfigOptionEquals "use_ingress" "1") (IsKurl)}}httpproxy/rocketchat-rocketchat{{repl end}}'
-    {{repl if ConfigOptionNotEquals "mongo_type" "external_mongodb"}}
+{{repl if ConfigOptionNotEquals "mongo_type" "external_mongodb"}}
     - 'service/rocketchat-mongodb-headless'
     - 'statefulset/rocketchat-mongodb'
-    {{repl end}}
-    {{repl if ConfigOptionEquals "deploy_grafana" "1"}}
+{{repl end}}
+{{repl if ConfigOptionEquals "deploy_grafana" "1"}}
     - 'service/grafana'
     - 'deployment/grafana'
-    {{repl end}}  
-    {{repl if ConfigOptionNotEquals "prometheus_type" "external_prometheus"}}
+{{repl end}}  
+{{repl if ConfigOptionNotEquals "prometheus_type" "external_prometheus"}}
     - 'statefulset/rocketchat-prometheus'
     - 'service/rocketchat-prometheus'
-    {{repl end}}
-    {{repl if ConfigOptionEquals "use_microservices" "1"}}
+{{repl end}}
+{{repl if ConfigOptionEquals "use_microservices" "1"}}
     - 'deployment/rocketchat-account'
     - 'deployment/rocketchat-authorization'
     - 'deployment/rocketchat-ddp-streamer'
@@ -37,7 +37,7 @@ spec:
     - 'service/rocketchat-nats'
     - 'service/rocketchat-prometheus'
     - 'service/rocketchat-prometheus-node-exporter'
-    {{repl end}}
+{{repl end}}
    
   graphs:
     - title: Number of users online right now
