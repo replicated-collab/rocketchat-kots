@@ -1,7 +1,7 @@
 # Q: Why does this exist? 
-# R: Countour can't, for some incomprehensible reason, can't act normally 
-# and just support Websockets like Træfik (and pretty much everybody else) 
-# does . Instead of a normal Ingress, you have to create this HTTPProxy CRD 
+# R: Countour can't, for some incomprehensible reason, act normally and just 
+# support Websockets like Træfik (and pretty much everybody else) does. 
+# Instead of a normal Ingress, you have to create this HTTPProxy CRD 
 # (previously known as IngressRoute). 
 # Sources: 
 # - https://community.replicated.com/t/websockets-with-replicated-embedded-kubernetes/338
