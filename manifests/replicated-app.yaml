@@ -8,29 +8,37 @@ spec:
   additionalImages:
     - rocketchat/rocket.chat:latest
   statusInformers:
-    - '{{repl if ConfigOptionNotEquals "mongo_type" "external_mongodb"}}service/rocketchat-mongodb-headless{{repl end}}'
-    - '{{repl if ConfigOptionNotEquals "deploy_grafana" "0"}}service/grafana{{repl end}}'
-    - '{{repl if ConfigOptionNotEquals "prometheus_type" "external_prometheus"}}service/rocketchat-prometheus{{repl end}}'
     - service/rocketchat-rocketchat
-    - '{{repl if ConfigOptionNotEquals "deploy_grafana" "0"}}deployment/grafana{{repl end}}'
-    - '{{repl if and (ConfigOptionNotEquals "use_ingress" "0") (not IsKurl)}}ingress/rocketchat-rocketchat{{repl end}}'
-    - '{{repl if and (ConfigOptionNotEquals "use_ingress" "0") (IsKurl)}}httpproxy/rocketchat-rocketchat{{repl end}}'
-    - '{{repl if ConfigOptionNotEquals "mongo_type" "external_mongodb"}}statefulset/rocketchat-mongodb{{repl end}}'
-    - '{{repl if ConfigOptionNotEquals "prometheus_type" "external_prometheus"}}statefulset/rocketchat-prometheus{{repl end}}'
-    - '{{repl if ConfigOptionNotEquals "use_microservices" "0"}}deployment/rocketchat-account{{repl end}}'
-    - '{{repl if ConfigOptionNotEquals "use_microservices" "0"}}deployment/rocketchat-authorization{{repl end}}'
-    - '{{repl if ConfigOptionNotEquals "use_microservices" "0"}}deployment/rocketchat-ddp-streamer{{repl end}}'
-    - '{{repl if ConfigOptionNotEquals "use_microservices" "0"}}deployment/rocketchat-presence{{repl end}}'
-    - '{{repl if ConfigOptionNotEquals "use_microservices" "0"}}deployment/rocketchat-stream-hub{{repl end}}'
-    - '{{repl if ConfigOptionNotEquals "use_microservices" "0"}}statefulset/rocketchat-nats{{repl end}}'
-    - '{{repl if ConfigOptionNotEquals "use_microservices" "0"}}deployment/rocketchat-nats-box{{repl end}}'
-    - '{{repl if ConfigOptionNotEquals "use_microservices" "0"}}service/rocketchat-ddp-streamer{{repl end}}'
-    - '{{repl if ConfigOptionNotEquals "use_microservices" "0"}}service/rocketchat-mongodb-headless{{repl end}}'
-    - '{{repl if ConfigOptionNotEquals "use_microservices" "0"}}service/rocketchat-nats{{repl end}}'
-    - '{{repl if ConfigOptionNotEquals "use_microservices" "0"}}service/rocketchat-prometheus{{repl end}}'
-    - '{{repl if ConfigOptionNotEquals "use_microservices" "0"}}service/rocketchat-prometheus-node-exporter{{repl end}}'
-
     - deployment/rocketchat-rocketchat
+    - '{{repl if and (ConfigOptionEquals "use_ingress" "1") (not IsKurl)}}ingress/rocketchat-rocketchat{{repl end}}'
+    - '{{repl if and (ConfigOptionEquals "use_ingress" "1") (IsKurl)}}httpproxy/rocketchat-rocketchat{{repl end}}'
+    {{repl if ConfigOptionNotEquals "mongo_type" "external_mongodb"}}
+    - 'service/rocketchat-mongodb-headless'
+    - 'statefulset/rocketchat-mongodb'
+    {{repl end}}
+    {{repl if ConfigOptionEquals "deploy_grafana" "1"}}
+    - 'service/grafana'
+    - 'deployment/grafana'
+    {{repl end}}  
+    {{repl if ConfigOptionNotEquals "prometheus_type" "external_prometheus"}}
+    - 'statefulset/rocketchat-prometheus'
+    - 'service/rocketchat-prometheus'
+    {{repl end}}
+    {{repl if ConfigOptionEquals "use_microservices" "1"}}
+    - 'deployment/rocketchat-account'
+    - 'deployment/rocketchat-authorization'
+    - 'deployment/rocketchat-ddp-streamer'
+    - 'deployment/rocketchat-presence'
+    - 'deployment/rocketchat-stream-hub'
+    - 'statefulset/rocketchat-nats'
+    - 'deployment/rocketchat-nats-box'
+    - 'service/rocketchat-ddp-streamer'
+    - 'service/rocketchat-mongodb-headless'
+    - 'service/rocketchat-nats'
+    - 'service/rocketchat-prometheus'
+    - 'service/rocketchat-prometheus-node-exporter'
+    {{repl end}}
+   
   graphs:
     - title: Number of users online right now
       query: max(rocketchat_users_online)
