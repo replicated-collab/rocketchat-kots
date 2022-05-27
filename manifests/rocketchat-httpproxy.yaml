@@ -13,12 +13,31 @@
 # it will be done after we fix the most troublesome issues, like kURL being 
 # unable to deal with websockets. 
 
+### Monolith version: 
 apiVersion: projectcontour.io/v1
 kind: HTTPProxy
 metadata:
   name: rocketchat-ingressroute
   annotations:
-    kots.io/when: '{{repl and (ConfigOptionEquals "use_ingress" "1") (IsKurl)}}'
+    kots.io/when: '{{repl and (ConfigOptionEquals "use_ingress" "1") (IsKurl) (not LicenseFieldValue `microservices`)}}'
+spec:
+  virtualhost:
+    fqdn: "repl{{ LicenseFieldValue `license_url`}}"
+    tls: 
+      secretName: kotsadm-tls
+  routes:
+    - services:
+        - name: rocketchat-rocketchat
+          port: 80
+      enableWebsockets: true
+
+### Micro-services version: 
+apiVersion: projectcontour.io/v1
+kind: HTTPProxy
+metadata:
+  name: rocketchat-ingressroute
+  annotations:
+    kots.io/when: '{{repl and (ConfigOptionEquals "use_ingress" "1") (IsKurl) (LicenseFieldValue `microservices`)}}'
 spec:
   virtualhost:
     fqdn: "repl{{ LicenseFieldValue `license_url`}}"
