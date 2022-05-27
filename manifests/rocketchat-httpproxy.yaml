@@ -19,7 +19,7 @@ kind: HTTPProxy
 metadata:
   name: rocketchat-ingressroute
   annotations:
-    kots.io/when: '{{repl and (ConfigOptionEquals "use_ingress" "1") (IsKurl) (not (LicenseFieldValue `microservices`))}}'
+    kots.io/when: '{{repl and (ConfigOptionEquals "use_ingress" "1") (IsKurl) (not (LicenseFieldValue `microservices` | ParseBool))}}'
 spec:
   virtualhost:
     fqdn: "repl{{ LicenseFieldValue `license_url`}}"
@@ -38,7 +38,7 @@ kind: HTTPProxy
 metadata:
   name: rocketchat-ingressroute
   annotations:
-    kots.io/when: '{{repl and (ConfigOptionEquals "use_ingress" "1") (IsKurl) (LicenseFieldValue `microservices`)}}'
+    kots.io/when: '{{repl and (ConfigOptionEquals "use_ingress" "1") (IsKurl) (LicenseFieldValue `microservices` | ParseBool)}}'
 spec:
   virtualhost:
     fqdn: "repl{{ LicenseFieldValue `license_url`}}"
