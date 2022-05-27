@@ -35,17 +35,10 @@ spec:
             password: "repl{{ ConfigOption `mongo_rocketchat_password`}}"
             database:  rocketchat
             rootPassword: "repl{{ ConfigOption `mongo_root_password`}}"
-    - when: '{{repl ConfigOptionEquals "use_microservices" "1"}}'
+    - when: '{{repl LicenseFieldValue `microservices`}}'
       values: 
         microservices: 
           enabled: true
-        # Workarround for a strange behaviour, when µservices are in use
-        # chat deployment crashes due to *something* already up on 9458
-        # TODO: investigate this issue
-        prometheusScraping: 
-          # This needs to be duplicated here, for whatever the reason... 
-          enabled: true
-          port: 9459
     - when: '{{repl ConfigOptionEquals "use_ingress" "1"}}'
       values: 
         ingress: 
