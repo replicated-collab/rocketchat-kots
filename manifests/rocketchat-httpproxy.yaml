@@ -31,6 +31,7 @@ spec:
           port: 80
       enableWebsockets: true
 
+--
 ### Micro-services version: 
 apiVersion: projectcontour.io/v1
 kind: HTTPProxy
