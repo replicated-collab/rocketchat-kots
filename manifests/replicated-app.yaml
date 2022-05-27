@@ -25,18 +25,18 @@ spec:
     - '{{repl if ConfigOptionNotEquals "prometheus_type" "external_prometheus"}}service/rocketchat-prometheus{{repl end}}'
 
 
-    - '{{repl if ConfigOptionEquals "use_microservices" "1"}}deployment/rocketchat-account{{repl end}}'
-    - '{{repl if ConfigOptionEquals "use_microservices" "1"}}deployment/rocketchat-authorization{{repl end}}'
-    - '{{repl if ConfigOptionEquals "use_microservices" "1"}}deployment/rocketchat-ddp-streamer{{repl end}}'
-    - '{{repl if ConfigOptionEquals "use_microservices" "1"}}deployment/rocketchat-presence{{repl end}}'
-    - '{{repl if ConfigOptionEquals "use_microservices" "1"}}deployment/rocketchat-stream-hub{{repl end}}'
-    - '{{repl if ConfigOptionEquals "use_microservices" "1"}}statefulset/rocketchat-nats{{repl end}}'
-    - '{{repl if ConfigOptionEquals "use_microservices" "1"}}deployment/rocketchat-nats-box{{repl end}}'
-    - '{{repl if ConfigOptionEquals "use_microservices" "1"}}service/rocketchat-ddp-streamer{{repl end}}'
-    - '{{repl if ConfigOptionEquals "use_microservices" "1"}}service/rocketchat-mongodb-headless{{repl end}}'
-    - '{{repl if ConfigOptionEquals "use_microservices" "1"}}service/rocketchat-nats{{repl end}}'
-    - '{{repl if ConfigOptionEquals "use_microservices" "1"}}service/rocketchat-prometheus{{repl end}}'
-    - '{{repl if ConfigOptionEquals "use_microservices" "1"}}service/rocketchat-prometheus-node-exporter{{repl end}}'
+    - '{{repl if LicenseFieldValue `microservices`}}deployment/rocketchat-account{{repl end}}'
+    - '{{repl if LicenseFieldValue `microservices`}}deployment/rocketchat-authorization{{repl end}}'
+    - '{{repl if LicenseFieldValue `microservices`}}deployment/rocketchat-ddp-streamer{{repl end}}'
+    - '{{repl if LicenseFieldValue `microservices`}}deployment/rocketchat-presence{{repl end}}'
+    - '{{repl if LicenseFieldValue `microservices`}}deployment/rocketchat-stream-hub{{repl end}}'
+    - '{{repl if LicenseFieldValue `microservices`}}statefulset/rocketchat-nats{{repl end}}'
+    - '{{repl if LicenseFieldValue `microservices`}}deployment/rocketchat-nats-box{{repl end}}'
+    - '{{repl if LicenseFieldValue `microservices`}}service/rocketchat-ddp-streamer{{repl end}}'
+    - '{{repl if LicenseFieldValue `microservices`}}service/rocketchat-mongodb-headless{{repl end}}'
+    - '{{repl if LicenseFieldValue `microservices`}}service/rocketchat-nats{{repl end}}'
+    - '{{repl if LicenseFieldValue `microservices`}}service/rocketchat-prometheus{{repl end}}'
+    - '{{repl if LicenseFieldValue `microservices`}}service/rocketchat-prometheus-node-exporter{{repl end}}'
 
    
   graphs:
