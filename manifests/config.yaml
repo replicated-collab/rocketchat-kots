@@ -63,16 +63,18 @@ spec:
 
         - name: mongo_root_password
           when: '{{repl ConfigOptionEquals "mongo_type" "embedded_mongodb"}}'
-          default: "thisissapassword"
+          value: "{{repl RandomString 20}}"
           type: password
           title: MongoDB Root Password
           required: true
+          hidden: true
         - name: mongo_rocketchat_password
           when: '{{repl ConfigOptionEquals "mongo_type" "embedded_mongodb"}}'
-          default: "thisissapassword"
+          value: "{{repl RandomString 20}}"
           type: password
           title: MongoDB RocketChat Password
           required: true
+          hidden: true
         - name: mongo_external_url
           when: '{{repl ConfigOptionEquals "mongo_type" "external_mongodb"}}'
           type: password
