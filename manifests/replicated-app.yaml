@@ -17,8 +17,8 @@ spec:
     - '{{repl if ConfigOptionNotEquals "mongo_type" "external_mongodb"}}statefulset/rocketchat-mongodb{{repl end}}'
 
 
-    - '{{repl if ConfigOptionEquals "deploy_grafana" "1"}}service/grafana{{repl end}}  '
-    - '{{repl if ConfigOptionEquals "deploy_grafana" "1"}}deployment/grafana{{repl end}}  '
+    - '{{repl if ConfigOptionEquals "deploy_grafana" "1"}}service/grafana{{repl end}}'
+    - '{{repl if ConfigOptionEquals "deploy_grafana" "1"}}deployment/grafana{{repl end}}'
 
 
     - '{{repl if ConfigOptionNotEquals "prometheus_type" "external_prometheus"}}statefulset/rocketchat-prometheus{{repl end}}'
