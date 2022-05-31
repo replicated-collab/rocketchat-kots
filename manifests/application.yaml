@@ -4,14 +4,14 @@ metadata:
   name: "rocketchat"
   labels:
     app.kubernetes.io/name: "rocketchat"
-    app.kubernetes.io/version: "4.7.2"
+    app.kubernetes.io/version: "4.7.4"
 spec:
   selector:
     matchLabels:
      app.kubernetes.io/name: "rocketchat"
   componentKinds: []
   descriptor:
-    version: "4.7.2"
+    version: "4.7.4"
     description: "The open-source communication platform"
     icons:
       - src: "https://dashboard.snapcraft.io/site_media/appmedia/2018/12/icon-256_sDZsivC.png"
