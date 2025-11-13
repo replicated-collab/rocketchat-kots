@@ -1,0 +1,63 @@
+name: Trigger Case Summary on Close
+
+on:
+  issues:
+    types: [closed]
+
+jobs:
+  trigger-summary:
+    name: Trigger Summary Generation in ce-automation
+    runs-on: ubuntu-latest
+    # Only process inbound escalations
+    if: contains(github.event.issue.labels.*.name, 'kind::inbound-escalation')
+    steps:
+      - name: Prepare payload
+        id: prepare
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issue = context.payload.issue;
+            const issueUrl = issue.html_url;
+            const issueNumber = issue.number;
+            const repo = context.repo.repo;
+            const org = context.repo.owner;
+
+            console.log('Processing closed issue:', {
+              org,
+              repo,
+              issueNumber,
+              issueUrl
+            });
+
+            core.setOutput('issue_url', issueUrl);
+            core.setOutput('issue_number', issueNumber);
+            core.setOutput('repo_name', repo);
+            core.setOutput('org_name', org);
+
+      - name: Trigger ce-automation summary workflow
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.CE_AUTOMATION_DISPATCH_TOKEN }}
+          script: |
+            const targetOwner = 'replicatedhq';
+            const targetRepo = 'ce-automation';
+            const workflowFileName = 'case-summary-on-close.yml';
+
+            const inputs = {
+              issue_url: '${{ steps.prepare.outputs.issue_url }}',
+              issue_number: '${{ steps.prepare.outputs.issue_number }}',
+              repo_name: '${{ steps.prepare.outputs.repo_name }}',
+              org_name: '${{ steps.prepare.outputs.org_name }}'
+            };
+
+            console.log('Triggering summary generation with inputs:', inputs);
+
+            await github.rest.actions.createWorkflowDispatch({
+              owner: targetOwner,
+              repo: targetRepo,
+              workflow_id: workflowFileName,
+              ref: 'main',
+              inputs: inputs
+            });
+
+            console.log('Successfully triggered summary generation workflow');
