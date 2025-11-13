@@ -1,0 +1,60 @@
+---
+  name: "Close stale issues"
+  on:
+    workflow_dispatch:
+    schedule:
+      - cron: "0 3 * * *"
+  
+  jobs:
+    stale:
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/stale@v9
+          with:
+            repo-token: ${{ secrets.GITHUB_TOKEN }}
+            operations-per-run: 150
+            days-before-stale: 4
+            days-before-close: 2
+            stale-issue-message: "We noticed you haven’t updated us in a few days. In order to troubleshoot this issue further, we need some additional information. Please review the last request and let us know if you need assistance collecting the requested data. In order to help ensure we can address ongoing issues effectively, we will archive this issue if we don’t hear from you in the next 2 days."
+            close-issue-message: "We haven’t heard back and are optimistic that indicates this issue is resolved. As such, we will close this case today to increase visibility of active issues. If you are still experiencing this issue, please let us know by commenting with the additional information requested above and pressing the re-open button. If you experience a similar issue or see this reoccur, please open a new support case and reference this one for historical data."
+            stale-issue-label: "status::inactive"
+            close-issue-label: "status::closed"
+            close-issue-reason: "completed"
+            any-of-labels: "status::pending,status::inactive,status::stale"
+            only-labels: "kind::inbound-escalation"
+            debug-only: false
+  
+    confirmation:
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/stale@v9
+          with:
+            repo-token: ${{ secrets.GITHUB_TOKEN }}
+            operations-per-run: 150
+            days-before-stale: 2
+            days-before-close: 0
+            close-issue-message: "We haven’t heard back and are optimistic that indicates this issue is resolved. As such, we will close this case today to increase visibility of active issues. If you are still experiencing this issue, please let us know by commenting with the additional information requested above and pressing the re-open button. If you experience a similar issue or see this reoccur, please open a new support case and reference this one for historical data."
+            stale-issue-label: "status::inactive"
+            close-issue-label: "status::closed"
+            close-issue-reason: "completed"
+            any-of-labels: "status::awaiting-confirmation"
+            only-labels: "kind::inbound-escalation"
+            debug-only: false
+  
+    stale-enhancements:
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/stale@v9
+          with:
+            repo-token: ${{ secrets.GITHUB_TOKEN }}
+            operations-per-run: 150
+            days-before-stale: 0
+            days-before-close: 2
+            stale-issue-message: "This enhancement (or a workaround/alternative solution) has been delivered by our team and we are waiting for your feedback. We will archive this enhancement tracking issue as accepted if we don’t hear from you in 2 days."
+            close-issue-message: "We haven’t heard back and are optimistic that indicates a solution has been delivered and is working as expected. As such, we will close this case today to increase visibility of active issues. If you are unable to validate this enhancement, please let us know by commenting and pressing the re-open button."
+            stale-issue-label: "enhancements::inactive"
+            close-issue-label: "enhancements::done"
+            close-issue-reason: "completed"
+            any-of-labels: "kind::feature-request,kind::bug"
+            only-labels: "enhancements::awaiting-confirmation"
+            debug-only: false
