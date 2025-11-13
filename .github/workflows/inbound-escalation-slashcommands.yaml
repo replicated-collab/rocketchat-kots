@@ -1,0 +1,467 @@
+name: Inbound Escalation Slash Commands
+
+on:
+  issues:
+    types: [opened, edited, labeled, unlabeled, closed, reopened]
+  issue_comment:
+    types: [created, edited]
+
+jobs:
+  call:
+    runs-on: ubuntu-latest
+    if: github.event.issue.state == 'open' && github.event_name == 'issue_comment' && contains(github.event.comment.body, '/call')
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Require replicatedhq member
+        id: member
+        uses: ./.github/actions/require-replicatedhq-member
+      - name: Add support-call label from /call command
+        if: steps.member.outcome == 'success'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const body = context.payload.comment.body || '';
+            const match = body.match(/\/call\s+(\d+)/i);
+            if (!match) {
+              core.info('No valid /call NNN command found, skipping');
+              return;
+            }
+            const minutes = parseInt(match[1], 10);
+            if (Number.isNaN(minutes)) {
+              core.info('Parsed minutes is NaN, skipping');
+              return;
+            }
+            const now = new Date();
+            const yyyy = now.getUTCFullYear();
+            const mm = String(now.getUTCMonth() + 1).padStart(2, '0');
+            const dd = String(now.getUTCDate()).padStart(2, '0');
+            const dateStr = `${yyyy}-${mm}-${dd}`;
+            const label = `support-call::${dateStr}::${minutes}`;
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.issue.number,
+              labels: [label]
+            });
+
+  pending:
+    runs-on: ubuntu-latest
+    if: github.event.issue.state == 'open' && github.event_name == 'issue_comment' && contains(github.event.comment.body, '/pending')
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Require replicatedhq member
+        id: member
+        uses: ./.github/actions/require-replicatedhq-member
+      - name: "Set status::pending and remove other status:: labels"
+        if: steps.member.outcome == 'success'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            // Get current labels on the issue
+            const { data: existing } = await github.rest.issues.listLabelsOnIssue({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.issue.number,
+              per_page: 100
+            });
+
+            // Remove any status::* except status::pending
+            const toRemove = existing
+              .map(l => l.name)
+              .filter(name => name.startsWith('status::') && name !== 'status::pending');
+
+            for (const name of toRemove) {
+              try {
+                await github.rest.issues.removeLabel({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: context.payload.issue.number,
+                  name
+                });
+              } catch (e) {
+                core.info(`Skipping removal of label ${name}: ${e.message}`);
+              }
+            }
+
+            // Ensure status::pending is applied
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.issue.number,
+              labels: ['status::pending']
+            });
+
+  confirmation:
+    runs-on: ubuntu-latest
+    if: github.event.issue.state == 'open' && github.event_name == 'issue_comment' && contains(github.event.comment.body, '/confirmation')
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Require replicatedhq member
+        id: member
+        uses: ./.github/actions/require-replicatedhq-member
+      - name: "Set status::awaiting-confirmation and remove other status:: labels"
+        if: steps.member.outcome == 'success'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            // Get current labels on the issue
+            const { data: existing } = await github.rest.issues.listLabelsOnIssue({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.issue.number,
+              per_page: 100
+            });
+
+            // Remove any status::* except status::awaiting-confirmation
+            const toRemove = existing
+              .map(l => l.name)
+              .filter(name => name.startsWith('status::') && name !== 'status::awaiting-confirmation');
+
+            for (const name of toRemove) {
+              try {
+                await github.rest.issues.removeLabel({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: context.payload.issue.number,
+                  name
+                });
+              } catch (e) {
+                core.info(`Skipping removal of label ${name}: ${e.message}`);
+              }
+            }
+
+            // Ensure status::awaiting-confirmation is applied
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.issue.number,
+              labels: ['status::awaiting-confirmation']
+            });
+
+  close:
+    runs-on: ubuntu-latest
+    if: github.event.issue.state == 'open' && github.event_name == 'issue_comment' && contains(github.event.comment.body, '/close')
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Require replicatedhq member
+        id: member
+        uses: ./.github/actions/require-replicatedhq-member
+      - name: "Set status::closed, remove other status:: labels, and close issue"
+        if: steps.member.outcome == 'success'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            // Get current labels on the issue
+            const { data: existing } = await github.rest.issues.listLabelsOnIssue({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.issue.number,
+              per_page: 100
+            });
+
+            // Remove any status::* except status::closed
+            const toRemove = existing
+              .map(l => l.name)
+              .filter(name => name.startsWith('status::') && name !== 'status::closed');
+
+            for (const name of toRemove) {
+              try {
+                await github.rest.issues.removeLabel({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: context.payload.issue.number,
+                  name
+                });
+              } catch (e) {
+                core.info(`Skipping removal of label ${name}: ${e.message}`);
+              }
+            }
+
+            // Ensure status::closed is applied
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.issue.number,
+              labels: ['status::closed']
+            });
+
+            // Close the issue
+            await github.rest.issues.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.issue.number,
+              state: 'closed'
+            });
+
+  open:
+    runs-on: ubuntu-latest
+    if: github.event.issue.state == 'open' && github.event_name == 'issue_comment' && contains(github.event.comment.body, '/open')
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Require replicatedhq member
+        id: member
+        uses: ./.github/actions/require-replicatedhq-member
+      - name: "Set status::open and remove other status:: labels"
+        if: steps.member.outcome == 'success'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            // Get current labels on the issue
+            const { data: existing } = await github.rest.issues.listLabelsOnIssue({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.issue.number,
+              per_page: 100
+            });
+
+            // Remove any status::* except status::open
+            const toRemove = existing
+              .map(l => l.name)
+              .filter(name => name.startsWith('status::') && name !== 'status::open');
+
+            for (const name of toRemove) {
+              try {
+                await github.rest.issues.removeLabel({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: context.payload.issue.number,
+                  name
+                });
+              } catch (e) {
+                core.info(`Skipping removal of label ${name}: ${e.message}`);
+              }
+            }
+
+            // Ensure status::open is applied
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.issue.number,
+              labels: ['status::open']
+            });
+  sling_issue_comments_to_shortcut:
+    name: Sling issue comments to shortcut
+    runs-on: ubuntu-latest
+    if: github.event_name == 'issue_comment' && contains(github.event.comment.body, '/publish-internal')
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Require replicatedhq member
+        id: member
+        uses: ./.github/actions/require-replicatedhq-member
+      - name: Check membership and maybe sling comment
+        uses: actions/github-script@v7
+        if: >
+          (steps.member.outcome == 'success') &&
+          (
+            contains(join(github.event.issue.labels.*.name, ' '), 'sc::')
+          ) && (
+            contains(join(github.event.issue.labels.*.name, ' '), 'kind::bug') ||
+            contains(join(github.event.issue.labels.*.name, ' '), 'kind::feature-request')
+          ) && (
+            ! contains(github.event.comment.user.login, 'replicated-collab-bot')
+          )
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const slashCommandToAlwaysPublish = `/publish-internal`;
+            const repo = context.payload.repository.name;
+            const comment = context.payload.comment.body;
+            const commentAuthor = context.payload.comment.user.login;
+            const commentUrl = context.payload.comment.html_url;
+            const strippedComment = comment.replace('/publish-internal', '').slice(0, 1000);
+            const scLabel = context.payload.issue.labels.filter(label => label.name.indexOf("sc::") === 0);
+            if (!scLabel.length) {
+              core.info('No sc:: label found; skipping');
+              return;
+            }
+            const shortcutID = scLabel[0].name.split("::")[1];
+            const alwaysPublish = comment.indexOf(slashCommandToAlwaysPublish) !== -1;
+            let membership = { status: 0 };
+            let userOrVendor = `vendor`;
+            console.log('checking repo membership');
+            try {
+              membership = await github.rest.orgs.checkPublicMembershipForUser({
+                org: "replicatedhq",
+                username: context.payload.comment.user.login,
+              });
+            } catch (e) {
+              core.info(`Member not found status: ${e.status}`);
+            }
+            if (membership.status === 204) {
+              userOrVendor = `replicatedhq user`;
+              if (!alwaysPublish) {
+                core.info(`Commenter is a public member of replicatedhq and comment did not contain ${slashCommandToAlwaysPublish}. NOT slinging comment`);
+                return;
+              }
+            }
+            console.log(`Slinging comment to linked Shortcut story ${shortcutID}`);
+            const shortcutCommentBody = `The linked GitHub issue in ${repo} has [a new comment from the ${userOrVendor} **@${commentAuthor}**](${commentUrl}):\n\n* * *\n\n${strippedComment}${strippedComment.length === 1000 ? "..." : ""}\n`;
+            const params = { shortcutID, shortcutCommentBody };
+            console.log(shortcutID, shortcutCommentBody);
+            const https = require('https');
+            const data = JSON.stringify(params);
+            const post_options = {
+              host: 'hooks.zapier.com',
+              port: '443',
+              path: '/hooks/catch/9310915/be4mspj/',
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Content-Length': Buffer.byteLength(data)
+              }
+            };
+            const post_req = https.request(post_options, function(res) {
+              res.setEncoding('utf8');
+              res.on('data', function (chunk) {
+                console.log('Response: ' + chunk);
+              });
+            });
+            post_req.write(data);
+            post_req.end();
+
+  awaiting_confirmation:
+    runs-on: ubuntu-latest
+    if: github.event.issue.state == 'open' && github.event_name == 'issue_comment' && contains(github.event.comment.body, '/awaiting-confirmation') && (contains(join(github.event.issue.labels.*.name, ' '), 'kind::bug') || contains(join(github.event.issue.labels.*.name, ' '), 'kind::feature-request'))
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Require replicatedhq member
+        id: member
+        uses: ./.github/actions/require-replicatedhq-member
+        with:
+          allow-collab-bot: 'true'
+        continue-on-error: true
+      - name: "Set enhancements::awaiting-confirmation; remove conflicting enhancement-state labels"
+        if: steps.member.outcome == 'success'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            // Remove any enhancements::* except enhancements::awaiting-confirmation
+            const { data: existing } = await github.rest.issues.listLabelsOnIssue({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.issue.number,
+              per_page: 100
+            });
+            const toRemove = existing
+              .map(l => l.name)
+              .filter(name => name.startsWith('enhancements::') && name !== 'enhancements::awaiting-confirmation');
+            for (const name of toRemove) {
+              try {
+                await github.rest.issues.removeLabel({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: context.payload.issue.number,
+                  name
+                });
+              } catch (e) {
+                core.info(`Skipping removal of label ${name}: ${e.message}`);
+              }
+            }
+            // Ensure enhancements::awaiting-confirmation is applied
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.issue.number,
+              labels: ['enhancements::awaiting-confirmation'],
+            });
+
+  tracked:
+    runs-on: ubuntu-latest
+    if: github.event.issue.state == 'open' && github.event_name == 'issue_comment' && contains(github.event.comment.body, '/tracked') && (contains(join(github.event.issue.labels.*.name, ' '), 'kind::bug') || contains(join(github.event.issue.labels.*.name, ' '), 'kind::feature-request'))
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Require replicatedhq member
+        id: member
+        uses: ./.github/actions/require-replicatedhq-member
+        with:
+          allow-collab-bot: 'true'
+        continue-on-error: true
+      - name: "Set enhancements::tracked; remove conflicting enhancement-state labels"
+        if: steps.member.outcome == 'success'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            // Remove any enhancements::* except enhancements::tracked
+            const { data: existing } = await github.rest.issues.listLabelsOnIssue({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.issue.number,
+              per_page: 100
+            });
+            const toRemove = existing
+              .map(l => l.name)
+              .filter(name => name.startsWith('enhancements::') && name !== 'enhancements::tracked');
+            for (const name of toRemove) {
+              try {
+                await github.rest.issues.removeLabel({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: context.payload.issue.number,
+                  name
+                });
+              } catch (e) {
+                core.info(`Skipping removal of label ${name}: ${e.message}`);
+              }
+            }
+            // Ensure enhancements::tracked is applied
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.issue.number,
+              labels: ['enhancements::tracked'],
+            });
+
+  scheduled:
+    runs-on: ubuntu-latest
+    if: github.event.issue.state == 'open' && github.event_name == 'issue_comment' && contains(github.event.comment.body, '/scheduled') && (contains(join(github.event.issue.labels.*.name, ' '), 'kind::bug') || contains(join(github.event.issue.labels.*.name, ' '), 'kind::feature-request'))
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Require replicatedhq member
+        id: member
+        uses: ./.github/actions/require-replicatedhq-member
+        with:
+          allow-collab-bot: 'true'
+        continue-on-error: true
+      - name: "Set enhancements::scheduled; remove conflicting enhancement-state labels"
+        if: steps.member.outcome == 'success'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            // Remove any enhancements::* except enhancements::scheduled
+            const { data: existing } = await github.rest.issues.listLabelsOnIssue({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.issue.number,
+              per_page: 100
+            });
+            const toRemove = existing
+              .map(l => l.name)
+              .filter(name => name.startsWith('enhancements::') && name !== 'enhancements::scheduled');
+            for (const name of toRemove) {
+              try {
+                await github.rest.issues.removeLabel({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: context.payload.issue.number,
+                  name
+                });
+              } catch (e) {
+                core.info(`Skipping removal of label ${name}: ${e.message}`);
+              }
+            }
+            // Ensure enhancements::scheduled is applied
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.issue.number,
+              labels: ['enhancements::scheduled'],
+            });
