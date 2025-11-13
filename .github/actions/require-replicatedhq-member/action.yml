@@ -1,0 +1,49 @@
+name: Require replicatedhq membership
+description: Fails the step if the commenter is not a public member of replicatedhq
+inputs:
+  allow-collab-bot:
+    description: Allow replicated-collab-bot to bypass membership requirement
+    required: false
+    default: 'false'
+runs:
+  using: composite
+  steps:
+    - name: Check membership
+      uses: actions/github-script@v7
+      env:
+        ALLOW_COLLAB_BOT: ${{ inputs.allow-collab-bot }}
+      with:
+        script: |
+          const allowCollabBot = ((process.env.ALLOW_COLLAB_BOT || core.getInput('allow-collab-bot') || '')).toLowerCase() === 'true';
+          const username = context.payload.comment && context.payload.comment.user && context.payload.comment.user.login
+            ? context.payload.comment.user.login
+            : '';
+          core.info(`require-replicatedhq-member: username=${username} type=${context.payload.comment && context.payload.comment.user && context.payload.comment.user.type ? context.payload.comment.user.type : 'unknown'} allowCollabBot=${allowCollabBot}`);
+          const uname = (username || '').toLowerCase();
+          const isCollabBot =
+            /^replicated-collab-bot(?:\[bot\])?$/.test(uname) || // replicated-collab-bot or replicated-collab-bot[bot]
+            /^replicated-collab-bot-app(?:\[bot\])?$/.test(uname); // possible GitHub App variant
+          core.info(`require-replicatedhq-member: normalizedUsername=${uname} isCollabBot=${isCollabBot}`);
+          if (isCollabBot) {
+            if (allowCollabBot) {
+              core.info('require-replicatedhq-member: Allowing replicated-collab-bot to bypass membership requirement (input-guarded)');
+              return;
+            } else {
+              core.info('require-replicatedhq-member: collab bot detected, allowCollabBot=false; proceeding to membership check');
+            }
+          }
+          try {
+            const res = await github.rest.orgs.checkPublicMembershipForUser({
+              org: 'replicatedhq',
+              username,
+            });
+            core.info(`require-replicatedhq-member: membership API status=${res.status}`);
+            if (res.status !== 204) {
+              core.info('require-replicatedhq-member: user is not a public member');
+              core.setFailed('not-member');
+            }
+          } catch (e) {
+            core.info(`require-replicatedhq-member: membership API error status=${e && e.status ? e.status : 'unknown'} message=${e && e.message ? e.message : 'unknown'}`);
+            core.setFailed('not-member');
+          }
+
