@@ -1,0 +1,115 @@
+name: Trigger External GitHub Issue Analysis
+
+on:
+  issues:
+    types: [opened]
+  issue_comment:
+    types: [created]
+
+jobs:
+  trigger-analysis:
+    name: Trigger Analysis in ce-automation Repository
+    runs-on: ubuntu-latest
+    if: contains(github.event.issue.labels.*.name, 'kind::inbound-escalation')
+    steps:
+      - name: Check triggers and prepare payload
+        id: prepare
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const eventName = context.eventName;
+            const action = context.payload.action;
+
+            console.log('Event details:', { eventName, action });
+
+            // Support URL patterns (matching original workflow)
+            const supportUrlPatterns = [
+              /https:\/\/github\.com\/user-attachments\/files\/\d+\/[^\s\)\]\>]+/gi,
+              /https:\/\/[^\/\s]*\.replicated\.com\/troubleshoot\/[^\s\)\]\>]+/gi,
+              /https?:\/\/[^\s\)\]\>]+\.(?:tar\.gz|tgz|zip|bundle|tar|gz)\b/gi,
+              /https?:\/\/[^\s\)\]\>]+\/(?:support|bundle|download|troubleshoot)\/[^\s\)\]\>]+/gi
+            ];
+
+            let shouldTrigger = false;
+            let detectedUrls = [];
+            let isReviewCommand = false;
+
+            if (eventName === 'issues' && action === 'opened') {
+              // Check for Bundle URL in issue body
+              const body = context.payload.issue.body || '';
+              const bundleUrlMatch = body.match(/Bundle URL:\s*(https?:\/\/[^\s\)\]\>]+)/i);
+
+              if (bundleUrlMatch) {
+                shouldTrigger = true;
+                detectedUrls = [bundleUrlMatch[1]];
+                console.log('Found Bundle URL in new issue:', bundleUrlMatch[1]);
+              }
+            } else if (eventName === 'issue_comment' && action === 'created') {
+              const comment = context.payload.comment.body || '';
+              console.log('Comment body:', comment);
+
+              // Check for /review command
+              if (comment.trim().toLowerCase().includes('/review')) {
+                shouldTrigger = true;
+                isReviewCommand = true;
+                console.log('Found /review command, shouldTrigger=', shouldTrigger);
+              } else {
+                // Check for support URLs in comment
+                for (const pattern of supportUrlPatterns) {
+                  const matches = comment.match(pattern);
+                  if (matches) {
+                    detectedUrls.push(...matches);
+                  }
+                }
+
+                if (detectedUrls.length > 0) {
+                  shouldTrigger = true;
+                  console.log('Found support URLs in comment:', detectedUrls);
+                }
+              }
+            }
+
+            const issueUrl = context.payload.issue.html_url;
+
+            console.log('Final values:', { shouldTrigger, isReviewCommand, detectedUrls, issueUrl });
+
+            core.setOutput('should_trigger', shouldTrigger);
+            core.setOutput('issue_url', issueUrl);
+            core.setOutput('detected_urls', JSON.stringify(detectedUrls));
+            core.setOutput('is_review_command', isReviewCommand);
+
+            if (!shouldTrigger) {
+              console.log('No Bundle URL, support URLs, or /review command detected, skipping trigger');
+            } else {
+              console.log('Trigger conditions met, proceeding to dispatch');
+            }
+
+      - name: Trigger ce-automation analysis workflow
+        if: steps.prepare.outputs.should_trigger == 'true' && env.CE_AUTOMATION_DISPATCH_TOKEN != ''
+        env:
+          CE_AUTOMATION_DISPATCH_TOKEN: ${{ secrets.CE_AUTOMATION_DISPATCH_TOKEN }}
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.CE_AUTOMATION_DISPATCH_TOKEN }}
+          script: |
+            const targetOwner = 'replicatedhq';
+            const targetRepo = 'ce-automation';
+            const workflowFileName = 'gh-issue-analysis.yml';
+
+            const inputs = {
+              issue_url: '${{ steps.prepare.outputs.issue_url }}',
+              urls: '${{ steps.prepare.outputs.detected_urls }}',
+              is_review_command: '${{ steps.prepare.outputs.is_review_command }}'
+            };
+
+            console.log('Triggering workflow dispatch with inputs:', inputs);
+
+            await github.rest.actions.createWorkflowDispatch({
+              owner: targetOwner,
+              repo: targetRepo,
+              workflow_id: workflowFileName,
+              ref: 'main',
+              inputs: inputs
+            });
+
+            console.log('Successfully triggered analysis workflow in ce-automation via workflow dispatch');
