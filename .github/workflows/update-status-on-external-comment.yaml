@@ -7,7 +7,7 @@ on:
 jobs:
   update-status:
     runs-on: ubuntu-latest
-    if: github.event.issue.state == 'open' && github.event_name == 'issue_comment' && github.event.issue.pull_request == null
+    if: github.event_name == 'issue_comment' && github.event.issue.pull_request == null
     permissions:
       contents: read
       issues: write
@@ -24,12 +24,32 @@ jobs:
         with:
           script: |
             const commenter = context.payload.comment.user.login;
+            const isClosed = context.payload.issue.state === 'closed';
+            
             // Avoid bot loops
             if (commenter === 'replicated-collab-bot') {
               core.info('Commenter is replicated-collab-bot; skipping status update');
               return;
             }
-            // Check if issue has status::pending or status::awaiting-confirmation label
+            
+            // If issue is closed, reopen it first
+            if (isClosed) {
+              core.info('Commenter is external and issue is closed; reopening issue');
+              try {
+                await github.rest.issues.update({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: context.payload.issue.number,
+                  state: 'open',
+                });
+                core.info('Issue reopened successfully');
+              } catch (e) {
+                core.info(`Failed to reopen issue: ${e.message}`);
+                return;
+              }
+            }
+            
+            // Remove all status::* labels
             let labelsToRemove = [];
             try {
               const labels = await github.paginate(
@@ -41,37 +61,34 @@ jobs:
                   per_page: 100,
                 }
               );
-              const labelNames = labels.map(l => l.name);
-              if (labelNames.includes('status::pending')) {
-                labelsToRemove.push('status::pending');
-              }
-              if (labelNames.includes('status::awaiting-confirmation')) {
-                labelsToRemove.push('status::awaiting-confirmation');
-              }
+              labelsToRemove = labels
+                .map(l => l.name)
+                .filter(name => name.startsWith('status::'));
             } catch (e) {
               core.info(`Failed to list labels: ${e.message}`);
               return;
             }
+            
             if (labelsToRemove.length === 0) {
-              core.info('Issue does not have status::pending or status::awaiting-confirmation label; skipping status update');
-              return;
-            }
-            core.info(`Commenter is external and issue has ${labelsToRemove.join(', ')}; updating status`);
-            // Remove status::pending and/or status::awaiting-confirmation and add status::open
-            for (const labelName of labelsToRemove) {
-              try {
-                await github.rest.issues.removeLabel({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  issue_number: context.payload.issue.number,
-                  name: labelName,
-                });
-                core.info(`Removed ${labelName} label`);
-              } catch (e) {
-                core.info(`Failed to remove ${labelName} label: ${e.message}`);
-                return;
+              core.info('Issue does not have status:: labels to clear');
+            } else {
+              core.info(`Removing status labels: ${labelsToRemove.join(', ')}`);
+              for (const labelName of labelsToRemove) {
+                try {
+                  await github.rest.issues.removeLabel({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    issue_number: context.payload.issue.number,
+                    name: labelName,
+                  });
+                  core.info(`Removed ${labelName} label`);
+                } catch (e) {
+                  core.info(`Skipping removal of label ${labelName}: ${e.message}`);
+                }
               }
             }
+            
+            // Add status::open label
             try {
               await github.rest.issues.addLabels({
                 owner: context.repo.owner,
