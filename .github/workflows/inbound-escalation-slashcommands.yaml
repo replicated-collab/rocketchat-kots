@@ -251,13 +251,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Require replicatedhq member
+      - name: Require replicatedhq member (non-blocking)
         id: member
         uses: ./.github/actions/require-replicatedhq-member
+        continue-on-error: true
       - name: Check membership and maybe sling comment
         uses: actions/github-script@v7
         if: >
-          (steps.member.outcome == 'success') &&
           (
             contains(join(github.event.issue.labels.*.name, ' '), 'sc::')
           ) && (
@@ -282,23 +282,12 @@ jobs:
             }
             const shortcutID = scLabel[0].name.split("::")[1];
             const alwaysPublish = comment.indexOf(slashCommandToAlwaysPublish) !== -1;
-            let membership = { status: 0 };
-            let userOrVendor = `vendor`;
-            console.log('checking repo membership');
-            try {
-              membership = await github.rest.orgs.checkPublicMembershipForUser({
-                org: "replicatedhq",
-                username: context.payload.comment.user.login,
-              });
-            } catch (e) {
-              core.info(`Member not found status: ${e.status}`);
-            }
-            if (membership.status === 204) {
-              userOrVendor = `replicatedhq user`;
-              if (!alwaysPublish) {
-                core.info(`Commenter is a public member of replicatedhq and comment did not contain ${slashCommandToAlwaysPublish}. NOT slinging comment`);
-                return;
-              }
+            const memberOutcome = `${{ steps.member.outcome }}`;
+            const isReplicatedMember = memberOutcome === 'success';
+            const userOrVendor = isReplicatedMember ? `replicatedhq user` : `vendor`;
+            if (isReplicatedMember && !alwaysPublish) {
+              core.info(`Commenter is a public member of replicatedhq and comment did not contain ${slashCommandToAlwaysPublish}. NOT slinging comment`);
+              return;
             }
             console.log(`Slinging comment to linked Shortcut story ${shortcutID}`);
             const shortcutCommentBody = `The linked GitHub issue in ${repo} has [a new comment from the ${userOrVendor} **@${commentAuthor}**](${commentUrl}):\n\n* * *\n\n${strippedComment}${strippedComment.length === 1000 ? "..." : ""}\n`;
