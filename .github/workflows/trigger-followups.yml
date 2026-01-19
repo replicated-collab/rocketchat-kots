@@ -1,0 +1,184 @@
+name: Trigger Followups (Case Summary + Relabeler)
+
+on:
+  issues:
+    types: [closed]
+  workflow_dispatch:
+    inputs:
+      issue_numbers:
+        description: "Comma-separated list of issue/PR numbers to process (e.g. 12,34,56)"
+        required: true
+        type: string
+
+jobs:
+  followups:
+    name: Dispatch followups in ce-automation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Prepare inbound escalation issues (with product labels)
+        id: prepare
+        uses: actions/github-script@v7
+        env:
+          RAW_ISSUE_NUMBERS: ${{ github.event.inputs.issue_numbers || '' }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const rawIssueNumbers = String(process.env.RAW_ISSUE_NUMBERS || '').trim();
+            const includeProductLabels = true;
+
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+
+            let numbers = [];
+
+            if (rawIssueNumbers) {
+              numbers = rawIssueNumbers
+                .split(/[\s,]+/g)
+                .map((s) => s.trim())
+                .filter(Boolean)
+                .map((s) => Number(s))
+                .filter((n) => Number.isInteger(n) && n > 0);
+            } else if (context.payload?.issue?.number) {
+              numbers = [Number(context.payload.issue.number)];
+            }
+
+            if (numbers.length === 0) {
+              core.setOutput('issues_json', '[]');
+              console.log('No issue numbers provided/resolved; returning empty list.');
+              return;
+            }
+
+            const issues = [];
+            for (const issue_number of numbers) {
+              let data;
+              try {
+                ({ data } = await github.rest.issues.get({ owner, repo, issue_number }));
+              } catch (error) {
+                const message = error?.message || 'unknown error';
+                const status = error?.status ? ` status=${error.status}` : '';
+                console.log(`Skipping #${issue_number}: failed to fetch issue (${message}${status})`);
+                continue;
+              }
+              const labels = (data.labels || [])
+                .map((l) => (typeof l === 'string' ? l : l.name))
+                .filter(Boolean);
+
+              if (!labels.includes('kind::inbound-escalation')) {
+                console.log(`Skipping #${issue_number}: missing kind::inbound-escalation label`);
+                continue;
+              }
+
+              const entry = {
+                issue_number,
+                issue_url: data.html_url
+              };
+
+              if (includeProductLabels) {
+                entry.product_labels = labels.filter((n) => n.startsWith('product::'));
+              }
+
+              issues.push(entry);
+            }
+
+            core.setOutput('issues_json', JSON.stringify(issues));
+            console.log(`Resolved ${issues.length} inbound escalation issue(s).`);
+
+      - name: Dispatch ce-automation followups
+        if: steps.prepare.outputs.issues_json != '[]'
+        uses: actions/github-script@v7
+        env:
+          ISSUES_JSON: ${{ steps.prepare.outputs.issues_json }}
+        with:
+          github-token: ${{ secrets.CE_AUTOMATION_DISPATCH_TOKEN }}
+          script: |
+            const targetOwner = 'replicatedhq';
+            const targetRepo = 'ce-automation';
+            const repo_name = context.repo.repo;
+            const org_name = context.repo.owner;
+
+            const issues = JSON.parse(String(process.env.ISSUES_JSON || '[]'));
+            if (!Array.isArray(issues) || issues.length === 0) {
+              console.log('No inbound escalation issues resolved; nothing to dispatch.');
+              return;
+            }
+
+            let anyDispatch = false;
+            let fullySuccessful = 0;
+            let partiallySuccessful = 0;
+            let failedAll = 0;
+
+            for (const { issue_number, issue_url, product_labels } of issues) {
+              const baseInputs = {
+                issue_url,
+                issue_number: String(issue_number),
+                repo_name,
+                org_name
+              };
+
+              let caseSummaryOk = false;
+              let relabelerOk = false;
+              try {
+                // 1) Case summary
+                await github.rest.actions.createWorkflowDispatch({
+                  owner: targetOwner,
+                  repo: targetRepo,
+                  workflow_id: 'case-summary-on-close.yml',
+                  ref: 'main',
+                  inputs: baseInputs
+                });
+                caseSummaryOk = true;
+              } catch (error) {
+                const message = error?.message || 'unknown error';
+                const status = error?.status ? ` status=${error.status}` : '';
+                console.log(`Case summary dispatch failed for #${issue_number} (${message}${status})`);
+              }
+
+              try {
+                // 2) Relabeler (needs current_labels)
+                await github.rest.actions.createWorkflowDispatch({
+                  owner: targetOwner,
+                  repo: targetRepo,
+                  workflow_id: 'issue-relabeler-on-close.yml',
+                  ref: 'main',
+                  inputs: {
+                    ...baseInputs,
+                    current_labels: JSON.stringify(product_labels || [])
+                  }
+                });
+                relabelerOk = true;
+              } catch (error) {
+                const message = error?.message || 'unknown error';
+                const status = error?.status ? ` status=${error.status}` : '';
+                console.log(`Relabeler dispatch failed for #${issue_number} (${message}${status})`);
+              }
+
+              const summaryStatus = caseSummaryOk && relabelerOk
+                ? 'case-summary+relabeler'
+                : caseSummaryOk
+                  ? 'case-summary-only'
+                  : relabelerOk
+                    ? 'relabeler-only'
+                    : 'none';
+              console.log(`Dispatched followups for #${issue_number} (${summaryStatus})`);
+              if (summaryStatus === 'case-summary+relabeler') {
+                fullySuccessful += 1;
+                anyDispatch = true;
+              } else if (summaryStatus === 'case-summary-only' || summaryStatus === 'relabeler-only') {
+                partiallySuccessful += 1;
+                anyDispatch = true;
+              } else {
+                failedAll += 1;
+              }
+            }
+
+            if (!anyDispatch) {
+              console.log(`No followups dispatched successfully (${issues.length} issues processed).`);
+              return;
+            }
+            console.log(
+              `Dispatch results: ${fullySuccessful} fully, ` +
+              `${partiallySuccessful} partial, ${failedAll} failed ` +
+              `(${issues.length} issues total).`
+            );
+
+
