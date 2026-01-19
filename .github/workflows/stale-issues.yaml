@@ -8,8 +8,11 @@
   jobs:
     stale:
       runs-on: ubuntu-latest
+      outputs:
+        issue_numbers: ${{ steps.extract_stale.outputs.issue_numbers }}
       steps:
-        - uses: actions/stale@v9
+        - id: stale
+          uses: actions/stale@v10
           with:
             repo-token: ${{ secrets.GITHUB_TOKEN }}
             operations-per-run: 150
@@ -23,11 +26,40 @@
             any-of-labels: "status::pending,status::inactive,status::stale"
             only-labels: "kind::inbound-escalation"
             debug-only: false
+
+        - name: Extract closed issue numbers (stale)
+          id: extract_stale
+          uses: actions/github-script@v7
+          env:
+            CLOSED_ISSUES_PRS_JSON: ${{ steps.stale.outputs.closed-issues-prs }}
+          with:
+            script: |
+              // actions/stale outputs JSON that contains repoToken, so GitHub may block it as a job output.
+              // Extract only issue numbers here and pass ONLY the number list to downstream jobs.
+              const raw = String(process.env.CLOSED_ISSUES_PRS_JSON || '').trim();
+              if (!raw) {
+                core.setOutput('issue_numbers', '');
+                return;
+              }
+
+              const arr = JSON.parse(raw);
+              if (!Array.isArray(arr)) {
+                throw new Error('closed-issues-prs JSON is not an array');
+              }
+
+              const nums = arr
+                .map((x) => x?.number)
+                .filter((n) => Number.isInteger(n) && n > 0);
+
+              core.setOutput('issue_numbers', nums.join(','));
   
     confirmation:
       runs-on: ubuntu-latest
+      outputs:
+        issue_numbers: ${{ steps.extract_confirmation.outputs.issue_numbers }}
       steps:
-        - uses: actions/stale@v9
+        - id: stale
+          uses: actions/stale@v10
           with:
             repo-token: ${{ secrets.GITHUB_TOKEN }}
             operations-per-run: 150
@@ -40,11 +72,100 @@
             any-of-labels: "status::awaiting-confirmation"
             only-labels: "kind::inbound-escalation"
             debug-only: false
+
+        - name: Extract closed issue numbers (confirmation)
+          id: extract_confirmation
+          uses: actions/github-script@v7
+          env:
+            CLOSED_ISSUES_PRS_JSON: ${{ steps.stale.outputs.closed-issues-prs }}
+          with:
+            script: |
+              // actions/stale outputs JSON that contains repoToken, so GitHub may block it as a job output.
+              // Extract only issue numbers here and pass ONLY the number list to downstream jobs.
+              const raw = String(process.env.CLOSED_ISSUES_PRS_JSON || '').trim();
+              if (!raw) {
+                core.setOutput('issue_numbers', '');
+                return;
+              }
+
+              const arr = JSON.parse(raw);
+              if (!Array.isArray(arr)) {
+                throw new Error('closed-issues-prs JSON is not an array');
+              }
+
+              const nums = arr
+                .map((x) => x?.number)
+                .filter((n) => Number.isInteger(n) && n > 0);
+
+              core.setOutput('issue_numbers', nums.join(','));
+
+    dispatch-followups:
+      runs-on: ubuntu-latest
+      needs:
+        - stale
+        - confirmation
+      if: always() && (needs.stale.outputs.issue_numbers != '' || needs.confirmation.outputs.issue_numbers != '')
+      steps:
+        - name: Dispatch follow-up workflows for closed issues (combined)
+          uses: actions/github-script@v7
+          env:
+            STALE_ISSUE_NUMBERS: ${{ needs.stale.outputs.issue_numbers }}
+            CONFIRM_ISSUE_NUMBERS: ${{ needs.confirmation.outputs.issue_numbers }}
+            DISPATCH_REF: ${{ github.ref }}
+          with:
+            github-token: ${{ secrets.GITHUB_TOKEN }}
+            script: |
+              function parseIssueNumbersCsv(raw) {
+                const s = String(raw || '').trim();
+                if (!s) return [];
+                return s
+                  .split(/[\s,]+/g)
+                  .map((x) => x.trim())
+                  .filter(Boolean)
+                  .map((x) => Number(x))
+                  .filter((n) => Number.isInteger(n) && n > 0);
+              }
+
+              const staleNums = parseIssueNumbersCsv(process.env.STALE_ISSUE_NUMBERS);
+              const confirmNums = parseIssueNumbersCsv(process.env.CONFIRM_ISSUE_NUMBERS);
+              const combined = Array.from(new Set([...staleNums, ...confirmNums]));
+              if (combined.length === 0) {
+                console.log('No issue numbers found across stale+confirmation; nothing to dispatch.');
+                return;
+              }
+
+              const issue_numbers = combined.join(',');
+              const owner = context.repo.owner;
+              const repo = context.repo.repo;
+              const ref = String(process.env.DISPATCH_REF || '').trim() || context.ref;
+
+              const workflows = [
+                { workflow_id: 'trigger-followups.yml' }
+              ];
+
+              console.log('Dispatching follow-up workflows for closed issues/PRs:', issue_numbers);
+
+              for (const w of workflows) {
+                try {
+                  await github.rest.actions.createWorkflowDispatch({
+                    owner,
+                    repo,
+                    workflow_id: w.workflow_id,
+                    ref,
+                    inputs: { issue_numbers }
+                  });
+                  console.log(`Dispatched ${w.workflow_id}`);
+                } catch (error) {
+                  const message = error?.message || 'unknown error';
+                  const status = error?.status ? ` status=${error.status}` : '';
+                  console.log(`Failed to dispatch ${w.workflow_id} (${message}${status})`);
+                }
+              }
   
     stale-enhancements:
       runs-on: ubuntu-latest
       steps:
-        - uses: actions/stale@v9
+        - uses: actions/stale@v10
           with:
             repo-token: ${{ secrets.GITHUB_TOKEN }}
             operations-per-run: 150
