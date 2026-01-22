@@ -247,7 +247,7 @@ jobs:
   sling_issue_comments_to_shortcut:
     name: Sling issue comments to shortcut
     runs-on: ubuntu-latest
-    if: github.event_name == 'issue_comment' && contains(github.event.comment.body, '/publish-internal')
+    if: github.event_name == 'issue_comment' && contains(join(github.event.issue.labels.*.name, ' '), 'sc::') && ! contains(github.event.comment.user.login, 'replicated-collab-bot')
     steps:
       - name: Checkout
         uses: actions/checkout@v4
