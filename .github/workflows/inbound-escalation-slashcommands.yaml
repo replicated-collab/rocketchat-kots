@@ -12,13 +12,13 @@ jobs:
     if: github.event.issue.state == 'open' && github.event_name == 'issue_comment' && contains(github.event.comment.body, '/call')
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: Require replicatedhq member
         id: member
         uses: ./.github/actions/require-replicatedhq-member
       - name: Add support-call label from /call command
         if: steps.member.outcome == 'success'
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             const body = context.payload.comment.body || '';
@@ -50,13 +50,13 @@ jobs:
     if: github.event.issue.state == 'open' && github.event_name == 'issue_comment' && contains(github.event.comment.body, '/pending')
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: Require replicatedhq member
         id: member
         uses: ./.github/actions/require-replicatedhq-member
       - name: "Set status::pending and remove other status:: labels"
         if: steps.member.outcome == 'success'
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             // Get current labels on the issue
@@ -98,13 +98,13 @@ jobs:
     if: github.event.issue.state == 'open' && github.event_name == 'issue_comment' && contains(github.event.comment.body, '/confirmation')
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: Require replicatedhq member
         id: member
         uses: ./.github/actions/require-replicatedhq-member
       - name: "Set status::awaiting-confirmation and remove other status:: labels"
         if: steps.member.outcome == 'success'
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             // Get current labels on the issue
@@ -146,13 +146,13 @@ jobs:
     if: github.event.issue.state == 'open' && github.event_name == 'issue_comment' && contains(github.event.comment.body, '/close')
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: Require replicatedhq member
         id: member
         uses: ./.github/actions/require-replicatedhq-member
       - name: "Set status::closed, remove other status:: labels, and close issue"
         if: steps.member.outcome == 'success'
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             // Get current labels on the issue
@@ -202,13 +202,13 @@ jobs:
     if: github.event.issue.state == 'open' && github.event_name == 'issue_comment' && contains(github.event.comment.body, '/open')
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: Require replicatedhq member
         id: member
         uses: ./.github/actions/require-replicatedhq-member
       - name: "Set status::open and remove other status:: labels"
         if: steps.member.outcome == 'success'
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             // Get current labels on the issue
@@ -250,13 +250,13 @@ jobs:
     if: github.event_name == 'issue_comment' && contains(join(github.event.issue.labels.*.name, ' '), 'sc::') && ! contains(github.event.comment.user.login, 'replicated-collab-bot')
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: Require replicatedhq member (non-blocking)
         id: member
         uses: ./.github/actions/require-replicatedhq-member
         continue-on-error: true
       - name: Check membership and maybe sling comment
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         if: >
           (
             contains(join(github.event.issue.labels.*.name, ' '), 'sc::')
@@ -319,7 +319,7 @@ jobs:
     if: github.event.issue.state == 'open' && github.event_name == 'issue_comment' && contains(github.event.comment.body, '/awaiting-confirmation') && (contains(join(github.event.issue.labels.*.name, ' '), 'kind::bug') || contains(join(github.event.issue.labels.*.name, ' '), 'kind::feature-request'))
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: Require replicatedhq member
         id: member
         uses: ./.github/actions/require-replicatedhq-member
@@ -328,7 +328,7 @@ jobs:
         continue-on-error: true
       - name: "Set enhancements::awaiting-confirmation; remove conflicting enhancement-state labels"
         if: steps.member.outcome == 'success'
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             // Remove any enhancements::* except enhancements::awaiting-confirmation
@@ -366,7 +366,7 @@ jobs:
     if: github.event.issue.state == 'open' && github.event_name == 'issue_comment' && contains(github.event.comment.body, '/tracked') && (contains(join(github.event.issue.labels.*.name, ' '), 'kind::bug') || contains(join(github.event.issue.labels.*.name, ' '), 'kind::feature-request'))
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: Require replicatedhq member
         id: member
         uses: ./.github/actions/require-replicatedhq-member
@@ -375,7 +375,7 @@ jobs:
         continue-on-error: true
       - name: "Set enhancements::tracked; remove conflicting enhancement-state labels"
         if: steps.member.outcome == 'success'
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             // Remove any enhancements::* except enhancements::tracked
@@ -413,7 +413,7 @@ jobs:
     if: github.event.issue.state == 'open' && github.event_name == 'issue_comment' && contains(github.event.comment.body, '/scheduled') && (contains(join(github.event.issue.labels.*.name, ' '), 'kind::bug') || contains(join(github.event.issue.labels.*.name, ' '), 'kind::feature-request'))
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: Require replicatedhq member
         id: member
         uses: ./.github/actions/require-replicatedhq-member
@@ -422,7 +422,7 @@ jobs:
         continue-on-error: true
       - name: "Set enhancements::scheduled; remove conflicting enhancement-state labels"
         if: steps.member.outcome == 'success'
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             // Remove any enhancements::* except enhancements::scheduled
