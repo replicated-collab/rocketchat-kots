@@ -29,7 +29,7 @@
 
         - name: Extract closed issue numbers (stale)
           id: extract_stale
-          uses: actions/github-script@v7
+          uses: actions/github-script@v8
           env:
             CLOSED_ISSUES_PRS_JSON: ${{ steps.stale.outputs.closed-issues-prs }}
           with:
@@ -75,7 +75,7 @@
 
         - name: Extract closed issue numbers (confirmation)
           id: extract_confirmation
-          uses: actions/github-script@v7
+          uses: actions/github-script@v8
           env:
             CLOSED_ISSUES_PRS_JSON: ${{ steps.stale.outputs.closed-issues-prs }}
           with:
@@ -107,7 +107,7 @@
       if: always() && (needs.stale.outputs.issue_numbers != '' || needs.confirmation.outputs.issue_numbers != '')
       steps:
         - name: Dispatch follow-up workflows for closed issues (combined)
-          uses: actions/github-script@v7
+          uses: actions/github-script@v8
           env:
             STALE_ISSUE_NUMBERS: ${{ needs.stale.outputs.issue_numbers }}
             CONFIRM_ISSUE_NUMBERS: ${{ needs.confirmation.outputs.issue_numbers }}
