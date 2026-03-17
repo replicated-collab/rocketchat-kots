@@ -9,7 +9,7 @@ runs:
   using: composite
   steps:
     - name: Check membership
-      uses: actions/github-script@v7
+      uses: actions/github-script@v8
       env:
         ALLOW_COLLAB_BOT: ${{ inputs.allow-collab-bot }}
       with:
