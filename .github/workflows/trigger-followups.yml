@@ -17,7 +17,7 @@ jobs:
     steps:
       - name: Prepare inbound escalation issues (with product labels)
         id: prepare
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         env:
           RAW_ISSUE_NUMBERS: ${{ github.event.inputs.issue_numbers || '' }}
         with:
@@ -85,7 +85,7 @@ jobs:
 
       - name: Dispatch ce-automation followups
         if: steps.prepare.outputs.issues_json != '[]'
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         env:
           ISSUES_JSON: ${{ steps.prepare.outputs.issues_json }}
         with:
