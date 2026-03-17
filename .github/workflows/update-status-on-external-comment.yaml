@@ -13,14 +13,14 @@ jobs:
       issues: write
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: Require replicatedhq member
         id: member
         uses: ./.github/actions/require-replicatedhq-member
         continue-on-error: true
       - name: Update status when commenter is outside replicatedhq
         if: steps.member.outcome == 'failure'
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             const commenter = context.payload.comment.user.login;
