@@ -14,7 +14,7 @@ jobs:
     steps:
       - name: Check triggers and prepare payload
         id: prepare
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             const eventName = context.eventName;
@@ -88,7 +88,7 @@ jobs:
         if: steps.prepare.outputs.should_trigger == 'true' && env.CE_AUTOMATION_DISPATCH_TOKEN != ''
         env:
           CE_AUTOMATION_DISPATCH_TOKEN: ${{ secrets.CE_AUTOMATION_DISPATCH_TOKEN }}
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           github-token: ${{ secrets.CE_AUTOMATION_DISPATCH_TOKEN }}
           script: |
