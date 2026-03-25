@@ -84,9 +84,10 @@ jobs:
             console.log(`Resolved ${issues.length} inbound escalation issue(s).`);
 
       - name: Dispatch ce-automation followups
-        if: steps.prepare.outputs.issues_json != '[]'
+        if: steps.prepare.outputs.issues_json != '[]' && env.CE_AUTOMATION_DISPATCH_TOKEN != ''
         uses: actions/github-script@v8
         env:
+          CE_AUTOMATION_DISPATCH_TOKEN: ${{ secrets.CE_AUTOMATION_DISPATCH_TOKEN }}
           ISSUES_JSON: ${{ steps.prepare.outputs.issues_json }}
         with:
           github-token: ${{ secrets.CE_AUTOMATION_DISPATCH_TOKEN }}
